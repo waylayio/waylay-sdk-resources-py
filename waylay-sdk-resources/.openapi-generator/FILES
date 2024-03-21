@@ -1,0 +1,12 @@
+pyproject.toml
+src/waylay/services/resources/api/__init__.py
+src/waylay/services/resources/api/batch_operations_api.py
+src/waylay/services/resources/api/metadata_events_api.py
+src/waylay/services/resources/api/py.typed
+src/waylay/services/resources/api/resource_api.py
+src/waylay/services/resources/api/resource_constraint_api.py
+src/waylay/services/resources/api/resource_type_api.py
+src/waylay/services/resources/api/version_api.py
+src/waylay/services/resources/service/__init__.py
+src/waylay/services/resources/service/py.typed
+src/waylay/services/resources/service/service.py

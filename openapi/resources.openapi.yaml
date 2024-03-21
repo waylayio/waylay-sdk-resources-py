@@ -1,0 +1,2700 @@
+openapi: 3.0.3
+info:
+  title: Waylay Resources
+  version: 8.1.0
+  description: "This service manages \n[Waylay Resources](/#/features/resources/?id=resource)\
+    \ and related entities.\n\nA _Waylay Resource_ models a real-world device or abstract\
+    \ entity of your IoT solution,\nand provides a context when processing data in\
+    \ the Rule Engine.\n\nYou'll interact with the _Waylay Resources_ API to create\
+    \ this _Digital Twin_ model, \na process that's also called _resource provisioning_."
+externalDocs:
+  url: https://docs.waylay.io/#/features/resources/
+  description: Waylay Documentation
+tags:
+- name: Resource
+  description: "A [Waylay Resource](/#/features/resources/?id=resource) models a real-world\
+    \ or abstract entity of your IoT solution.\n\nOften, a _Resource_ will correspond\
+    \ with a source of [Waylay Events](/#/features/data_ingestion/),\nsuch as a sensor\
+    \ or device. But it can also represent a place\nor collection of such things,\
+    \ or a result computed \nby the [Rule Engine](/#/features/rules/).\n\nWhen processing\
+    \ events in the [Rule Engine](/#/features/rules/),\nthe _Resource_ metadata is\
+    \ available to configure your rule logic."
+  externalDocs:
+    url: https://docs.waylay.io/#/features/resources/?id=resource
+    description: Waylay Documentation
+- name: Resource Type
+  description: "A [Resource Type](/#/features/resources/?id=resource-type) provides\
+    \ the following\nfeatures for any _Resource_ that is assigned via its `resourceTypeId`\
+    \ attribute:\n- The _Resource_ inherits all attributes from the _Resource Type_,\
+    \ unless\n  shadowed by a own attribute that with the same name.\n- For any linked\
+    \ _template_ of the _Resource Type_, a corresponding _Task_\n  is started for\
+    \ that _Resource_.\n- The attributes of the _Resource_ must validate against any\
+    \ _Resource Constraint_\n  referenced by the _Resource Type_."
+  externalDocs:
+    url: https://docs.waylay.io/#/features/resources/?id=resource-type
+    description: Waylay Documentation
+- name: Resource Constraint
+  description: 'A [Resource Constraint](/#/features/resources/?id=resource-constraint)
+    describes what attributes a _Resource_
+
+    can or must have. By linking _Resource Constraint_ to a _Resource Type_,
+
+    al _Resources_ of that type must comply with the constraint.'
+  externalDocs:
+    url: https://docs.waylay.io/#/features/resources/?id=resource-constraints
+    description: Waylay Documentation
+- name: Metadata Events
+- name: Batch Operations
+  description: "Batch operations on multiple _Resources_ or _ResourceTypes_. Batch\
+    \ operations are executed asynchronously. \nCreating a batch operation will return\
+    \ an url which you can use the retrieve the status and the results of the operation"
+  externalDocs:
+    description: Waylay Documentation
+    url: https://docs.waylay.io/#/api/resources/?id=bulk-interface
+- name: Version
+paths:
+  /resources/v1/:
+    get:
+      summary: Get Version
+      operationId: get_version
+      tags:
+      - Version
+      description: Gets the status and version of the service.
+      responses:
+        '200':
+          $ref: '#/components/responses/VersionResponse'
+      security: &id001
+      - waylayApiKeySecret: []
+  /resources/v1/resources:
+    post:
+      summary: Create Resource
+      operationId: create_resource
+      description: Creates a new _Resource_.
+      tags:
+      - Resource
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=create-resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceEntity'
+      responses:
+        '201':
+          description: Resource Created
+          headers:
+            Location:
+              description: URI where the created _Resource_ can be fetched
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCreationResponse'
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+        '409':
+          description: Resource Already Exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 409
+                error: Existing resource entry with id d3d823f5-f214-4de8-7c0-f2c8c4db5ee1
+      security: *id001
+    get:
+      summary: Query Resources
+      operationId: list_resources
+      description: Lists _Resources_ that satisfy the given filters.
+      tags:
+      - Resource
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=query-resources
+      parameters:
+      - $ref: '#/components/parameters/PagingSkip'
+      - $ref: '#/components/parameters/PagingLimit'
+      - $ref: '#/components/parameters/Field'
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/Filter'
+      - $ref: '#/components/parameters/Query'
+      - name: tag
+        in: query
+        explode: true
+        schema:
+          $ref: '#/components/schemas/Tags'
+      - name: id
+        in: query
+        explode: true
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceId'
+      - name: provider
+        in: query
+        schema:
+          $ref: '#/components/schemas/Provider'
+      - name: customer
+        in: query
+        schema:
+          $ref: '#/components/schemas/Customer'
+      - name: resourceTypeId
+        in: query
+        schema:
+          $ref: '#/components/schemas/ResourceTypeId'
+      - name: lat
+        in: query
+        schema:
+          $ref: '#/components/schemas/Latitude'
+      - name: lon
+        in: query
+        schema:
+          $ref: '#/components/schemas/Longitude'
+      - name: distance
+        in: query
+        schema:
+          $ref: '#/components/schemas/Distance'
+      - name: toplevelOnly
+        description: If true, search only for _Resources_ without parent.
+        in: query
+        schema:
+          type: boolean
+        example: true
+      responses:
+        '200':
+          description: Resource Listing
+          headers:
+            X-Count:
+              description: Total number of resources matching the query of which this
+                is one page of results.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceListing'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HALResourceListing'
+            text/csv:
+              schema:
+                type: string
+                description: 'A CSV formatted string containing the fields specified
+                  in `field` or `fields` (required).
+
+                  One line per resource.'
+              example: 'id,name,customer
+
+                23940908,my-device,
+
+                /abc/axx,your-device,Things Corp'
+        '400':
+          description: Error Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: Expecting a fields parameter when the Accept header is set
+                  to text/csv
+      security: *id001
+  /resources/v1/resources/{resourceId}:
+    get:
+      summary: Get Resource
+      operationId: get_resource
+      description: Retrieves a representation of the _Resource_.
+      tags:
+      - Resource
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=retrieve-resource
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      - $ref: '#/components/parameters/Denormalized'
+      - $ref: '#/components/parameters/Field'
+      - $ref: '#/components/parameters/Fields'
+      responses:
+        '200':
+          description: Resource Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceWithIdEntity'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HALResourceEntity'
+        '404':
+          $ref: '#/components/responses/ResourceNotFoundResponse'
+      security: *id001
+    put:
+      summary: Update Resource
+      operationId: replace_resource
+      description: Replaces a _Resource_ with a new representation.
+      tags:
+      - Resource
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=update-resource
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceEntity'
+      responses:
+        '200':
+          description: Resource Replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceWithIdEntity'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HALResourceEntity'
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+      security: *id001
+    patch:
+      summary: Create Or Update Resource Partially
+      operationId: patch_resource
+      description: 'Updates some attributes of an existing _Resource_, or creates
+        a new one.
+
+
+        When updating an existing _Resource_ you can remove keys by setting their
+        value to `null` in the body'
+      tags:
+      - Resource
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=partial-resource-update
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchResourceEntity'
+      responses:
+        '200':
+          description: Resource Created Or Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceWithIdEntity'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HALResourceEntity'
+        '400':
+          $ref: '#/components/responses/ValidationErrorResponse'
+      security: *id001
+    delete:
+      summary: Remove Resource
+      operationId: delete_resource
+      description: Removes an existing _Resource_.
+      tags:
+      - Resource
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=delete-resource
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '204':
+          description: Resource Removed
+        '400':
+          description: Resource Still Referenced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: Resource is still parent of or referenced by 2 resource(s)
+        '404':
+          $ref: '#/components/responses/ResourceNotFoundResponse'
+      security: *id001
+  /resources/v1/resources/{resourceId}/changes:
+    get:
+      tags:
+      - Resource
+      operationId: listChanges_resource
+      summary: List Resource Changes
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=retrieve-resource-change-log
+      description: Lists the change history of a _Resource_.
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      - $ref: '#/components/parameters/PagingSkip'
+      - $ref: '#/components/parameters/PagingLimit'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResourceChangesResponse'
+        '404':
+          $ref: '#/components/responses/ResourceNotFoundResponse'
+      security: *id001
+  /resources/v1/resources/{resourceId}/children:
+    get:
+      tags:
+      - Resource
+      operationId: listChildren
+      summary: List Resource Children
+      description: Lists the children of a _Resource_, these are the _Resources_ that
+        have the given _Resource_ referenced with the `parentId` attribute.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=retrieve-resources-children
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      - $ref: '#/components/parameters/Denormalized'
+      - $ref: '#/components/parameters/Field'
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/PagingSkip'
+      - $ref: '#/components/parameters/PagingLimit'
+      responses:
+        '200':
+          description: Child Resources
+          headers:
+            X-Count:
+              description: Total number of children
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceListing'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HALResourceListing'
+        '404':
+          $ref: '#/components/responses/ResourceNotFoundResponse'
+      security: *id001
+  /resources/v1/resources/{resourceId}/referrers:
+    get:
+      x-visibility: beta
+      tags:
+      - Resource
+      operationId: listReferrers
+      summary: List Referring Resources
+      description: 'List the _Resources_ that reference the given _Resource_.
+
+
+        #### visibility
+
+        This definition has visibility status `beta`.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      - $ref: '#/components/parameters/Field'
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/PagingSkip'
+      - $ref: '#/components/parameters/PagingLimit'
+      responses:
+        '200':
+          description: Referring Resources
+          headers:
+            X-Count:
+              description: Total number of referring Resources
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceListing'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HALResourceListing'
+        '404':
+          $ref: '#/components/responses/ResourceNotFoundResponse'
+      security: *id001
+  /resources/v1/resourcetypes:
+    post:
+      tags:
+      - Resource Type
+      operationId: create_resourcetype
+      summary: Create Resource Type
+      description: Create a new _Resource Type_.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=create-resource-type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceTypeWithConstraints'
+      responses:
+        '201':
+          description: Resource Type Created
+          headers:
+            Location:
+              description: URI where the created _Resource Type_ can be fetched
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeCreationResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: constraints are incompatible to each other
+        '409':
+          description: Resource Type Already Exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 409
+                error: Existing ResourceType entry with id 17b8b6ea-0573-4381-8088-8692f7938165
+      security: *id001
+    get:
+      tags:
+      - Resource Type
+      summary: List Resource Types
+      operationId: list_resourcetype
+      description: List _Resource Types_.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=query-resource-type
+      parameters:
+      - $ref: '#/components/parameters/PagingSkip'
+      - $ref: '#/components/parameters/PagingLimit'
+      - $ref: '#/components/parameters/Field'
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/Filter'
+      - $ref: '#/components/parameters/Query'
+      - name: id
+        in: query
+        explode: true
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceTypeId'
+      - name: template
+        in: query
+        description: Return _Resource Types_ that are associated with the template.
+        schema:
+          title: Template Name
+          type: string
+          example: MonitoringTemplate_3443
+      responses:
+        '200':
+          description: Resource Type Listing
+          headers:
+            X-Count:
+              description: Total number of resourcetypes matching the query of which
+                this is one page of results.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeListing'
+        '400':
+          description: Error Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: 'Bad request: ''filter'' parameter can only be 256 characters'
+      security: *id001
+  /resources/v1/resourcetypes/{resourceTypeId}:
+    get:
+      summary: Get Resource Type
+      operationId: get_resourcetype
+      description: Retrieves a representation of the _Resource Type_.
+      tags:
+      - Resource Type
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=retrieve-resource-type
+      parameters:
+      - $ref: '#/components/parameters/ResourceTypeId'
+      - $ref: '#/components/parameters/Field'
+      - $ref: '#/components/parameters/Fields'
+      responses:
+        '200':
+          description: Resource Type Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeWithIdEntity'
+        '404':
+          $ref: '#/components/responses/ResourceTypeNotFoundResponse'
+      security: *id001
+    put:
+      tags:
+      - Resource Type
+      summary: Update Resource Type
+      operationId: replace_resourcetype
+      description: Replaces a _Resource Types_ with a new representation.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=update-resource-type
+      parameters:
+      - $ref: '#/components/parameters/ResourceTypeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceTypeWithConstraints'
+      responses:
+        '202':
+          description: Resource Type Replacement Initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeWithIdEntity'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Conflicting resourceConstraints:
+                  value:
+                    statusCode: 400
+                    error: constraints are incompatible to each other
+                Conflicts in types of properties:
+                  value:
+                    statusCode: 400
+                    error: Schema conflict, you probably previously inserted this
+                      field as a different type
+        '404':
+          $ref: '#/components/responses/ResourceTypeNotFoundResponse'
+        '409':
+          description: 'Conflict: Another Resource Type Update Ongoing'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 409
+                error: An operation is already busy on 17b8b6ea-0573-4381-8088-8692f7938165
+      security: *id001
+    patch:
+      tags:
+      - Resource Type
+      operationId: patch_resourcetype
+      summary: Create Or Update Resource Type
+      description: 'Add or modify attributes of an existing _Resource Type_.
+
+        Remove attributes by including a `null`-valued property.
+
+        Creates a new _Resource Type_ if it did not exist.'
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=partial-resource-typeupdate
+      parameters:
+      - $ref: '#/components/parameters/ResourceTypeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchResourceTypeEntity'
+      responses:
+        '201':
+          description: Resource Type Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeCreationResponse'
+        '202':
+          description: Resource Type Update Initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeWithIdEntity'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Conflicting constraints:
+                  value:
+                    statusCode: 400
+                    error: constraints are incompatible to each other
+                Conflicts in types of properties:
+                  value:
+                    statusCode: 400
+                    error: Schema conflict, you probably previously inserted this
+                      field as a different type
+        '409':
+          description: 'Conflict: Another Resource Type Update Ongoing'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 409
+                error: An operation is already busy on 17b8b6ea-0573-4381-8088-8692f7938165
+      security: *id001
+    delete:
+      tags:
+      - Resource Type
+      summary: Remove Resource Type
+      operationId: delete_resourcetype
+      description: Removes an existing _Resource Type_.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=delete-resource-type
+      parameters:
+      - $ref: '#/components/parameters/ResourceTypeId'
+      responses:
+        '204':
+          description: Resource Type Removed
+        '400':
+          description: Resource Type Still In Use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: Type in use by 5 resource(s)
+        '404':
+          $ref: '#/components/responses/ResourceTypeNotFoundResponse'
+        '409':
+          description: 'Conflict: Resource Type Update Ongoing'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 409
+                error: An operation is already busy on 17b8b6ea-0573-4381-8088-8692f7938165
+      security: *id001
+  /resources/v1/resourcetypes/{resourceTypeId}/changes:
+    get:
+      tags:
+      - Resource Type
+      operationId: listChanges_resourcetype
+      summary: List Resource Type Changes
+      description: Lists the change history of a _Resource Type_.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=retrieve-resource-type-change-log
+      parameters:
+      - $ref: '#/components/parameters/ResourceTypeId'
+      - $ref: '#/components/parameters/PagingSkip'
+      - $ref: '#/components/parameters/PagingLimit'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResourceTypeChangesResponse'
+        '404':
+          $ref: '#/components/responses/ResourceTypeNotFoundResponse'
+      security: *id001
+  /resources/v1/resourcetypes/{resourceTypeId}/constraints:
+    get:
+      tags:
+      - Resource Type
+      operationId: listConstraints
+      summary: Get Resource Type Constraints
+      description: "Retrieves the resource constraints that are applicable for the\
+        \ _Resource Type_. \n\nThis endpoint supports different representations of\
+        \ the constraints.\n* `application/json`: will give the reserved keywords\
+        \ for metadata expressed as _Resource Constraint_ merged with all user defined\
+        \ _Resource Constraints_ applied on the _Resource Type_.\n* `application/schema+json`:\
+        \ returns the (merged) constraints as a JSON Schema\n* `application/vnd.waylay.paged+json`:\
+        \ returns the constraints as a list of _Resource Constraints_ as defined by\
+        \ the user"
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=retrieve-resource-constraints-for-a-resource-type
+      parameters:
+      - $ref: '#/components/parameters/ResourceTypeId'
+      responses:
+        '200':
+          description: Resource Type Constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
+            application/schema+json:
+              schema:
+                title: JSON Schema
+                description: See https://json-schema.org/draft-07/schema
+                type: object
+              example:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                    maxLength: 255
+                required:
+                - name
+            application/vnd.waylay.paged+json:
+              schema:
+                type: object
+                allOf:
+                - properties:
+                    values:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
+                - $ref: '#/components/schemas/PagingResult'
+        '404':
+          $ref: '#/components/responses/ResourceTypeNotFoundResponse'
+      security: *id001
+  /resources/v1/resourcetypes/{resourceTypeId}/revalidate:
+    post:
+      tags:
+      - Resource Type
+      operationId: revalidate
+      summary: Revalidate Resource Type
+      description: Initiates revalidation of the _Resource Constraints_ of this _Resource
+        Type_ on all its associated _Resources_.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=revalidate-the-constraints-for-a-resource-type
+      parameters:
+      - $ref: '#/components/parameters/ResourceTypeId'
+      responses:
+        '202':
+          description: Revalidation Initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeWithIdEntity'
+        '409':
+          description: 'Conflict: Another Resource Type Update Ongoing'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 409
+                error: An operation is already busy on 17b8b6ea-0573-4381-8088-8692f7938165
+      security: *id001
+  /resources/v1/resourceconstraints:
+    post:
+      tags:
+      - Resource Constraint
+      operationId: create_constraint
+      summary: Create Resource Constraint
+      description: Creates a new _Resource Constraint_ from the given representation.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=add-resource-constraint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Constraint'
+      responses:
+        '201':
+          description: Resource Constraint Created
+          headers:
+            Location:
+              description: URI where the created _Resource Constraint_ can be fetched
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceConstraintCreationResponse'
+        '400':
+          description: Invalid Resource Constraint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: Cannot redefine default keywords
+      security: *id001
+    get:
+      tags:
+      - Resource Constraint
+      operationId: list_constraints
+      summary: List Resource Constraints
+      description: Lists _Resource Constraints_ that fulfill the given criteria.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=list-all-resource-constraints
+      parameters:
+      - $ref: '#/components/parameters/PagingSkip'
+      - $ref: '#/components/parameters/PagingLimit'
+      - $ref: '#/components/parameters/Filter'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResourceConstraintsListResponse'
+      security: *id001
+  /resources/v1/resourceconstraints/{resourceConstraintId}:
+    get:
+      tags:
+      - Resource Constraint
+      operationId: get_constraint
+      summary: Get Resource Constraint
+      description: Gets the definition or _JSON Schema_ representation of a _Resource
+        Constraint_.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=get-resource-constraint
+      parameters:
+      - $ref: '#/components/parameters/ResourceConstraintId'
+      responses:
+        '200':
+          description: Resource Constraint Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
+            application/schema+json:
+              schema:
+                title: JSON Schema
+                description: See https://json-schema.org/draft-07/schema
+                type: object
+              example:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                    maxLength: 255
+                required:
+                - name
+        '404':
+          $ref: '#/components/responses/ResourceConstraintNotFoundResponse'
+      security: *id001
+    put:
+      tags:
+      - Resource Constraint
+      operationId: replace_constraint
+      summary: Update Resource Constraint
+      description: 'Replaces the full definition of a _Resource Constraint_.
+
+        Fails if the _Resource Constraint_ is already applied to a _Resource Type_
+
+        that has _Resources_ assigned to it.'
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=update-resource-constraint
+      parameters:
+      - $ref: '#/components/parameters/ResourceConstraintId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Constraint'
+      responses:
+        '200':
+          description: Resource Constraint Replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
+        '400':
+          description: Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Constraint is used:
+                  value:
+                    statusCode: 400
+                    error: ResourceConstraint 'cfd2b48e-a141-4d2e-8ec8-f09ce4f65ae3'
+                      is in use
+                Incorrectly redefining default keywords:
+                  value:
+                    statusCode: 400
+                    error: Cannot redefine default keywords
+        '404':
+          $ref: '#/components/responses/ResourceConstraintNotFoundResponse'
+      security: *id001
+    delete:
+      tags:
+      - Resource Constraint
+      operationId: delete_constraint
+      summary: Remove Resource Constraint
+      description: 'Removes a _Resource Constraint_.
+
+        Fails if the _Resource Constraint_ is already applied to a _Resource Type_.'
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=delete-resource-constraint
+      parameters:
+      - $ref: '#/components/parameters/ResourceConstraintId'
+      responses:
+        '204':
+          description: Resource Constraint Removed
+        '400':
+          description: Resource Constraint Still In Use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: ResourceConstraint 'cfd2b48e-a141-4d2e-8ec8-f09ce4f65ae3' is
+                  in use
+        '404':
+          $ref: '#/components/responses/ResourceConstraintNotFoundResponse'
+      security: *id001
+  /resources/v1/batch:
+    post:
+      tags:
+      - Batch Operations
+      summary: Bulk Delete
+      operationId: start
+      description: Deletes multiple _Resources_ or _Resource Types_ in one batch.
+      externalDocs:
+        description: Waylay Docs
+        url: https://docs.waylay.io/#/api/resources/?id=bulk-delete-of-resourcesresource-types
+      requestBody:
+        required: true
+        description: Resource Batch Operation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchResourceOperation'
+      responses:
+        '202':
+          $ref: '#/components/responses/BatchStartResponse'
+        '400':
+          description: Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 400
+                error: '/action <- invalid action for resource entity: dlte'
+      security: *id001
+  /resources/v1/batch/{batchId}:
+    get:
+      tags:
+      - Batch Operations
+      operationId: get_batchoperation
+      summary: Get Resource Batch Operation Status
+      description: Get the results of the Resource Batch Operation.
+      parameters:
+      - $ref: '#/components/parameters/BatchId'
+      responses:
+        '200':
+          $ref: '#/components/responses/BatchOperationStatusResponse'
+        '404':
+          $ref: '#/components/responses/BatchNotFoundResponse'
+      security: *id001
+  /resources/v1/events:
+    get:
+      summary: Events
+      operationId: getStream
+      description: Opens a data stream for all Metadata events for this tenant.
+      tags:
+      - Metadata Events
+      parameters:
+      - name: eventFormat
+        in: query
+        schema:
+          type: string
+          enum:
+          - application/cloudevents+json
+        description: "The format of events in the stream. \n\nIf specified this must\
+          \ be `application/cloudevents+json` (make sure to correctly URL encode the\
+          \ `+` as `%2B`)"
+      responses:
+        '200':
+          $ref: '#/components/responses/GetEventStreamResponse'
+      security: *id001
+components:
+  schemas:
+    VersionResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          example: resources-service
+        version:
+          type: string
+          example: 7.3.0
+      required:
+      - name
+      - version
+    ErrorResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: /address <- Property address missing.
+        code:
+          type: string
+          description: Optional error code
+      required:
+      - statusCode
+      - error
+    SchemaValidationError:
+      type: object
+      properties:
+        schemaPath:
+          type: string
+          example: '#'
+        errors:
+          type: object
+          example: {}
+        keyword:
+          type: string
+          example: required
+        msgs:
+          type: array
+          items:
+            type: string
+            example: Property address missing.
+        value:
+          type: object
+          example:
+            id: 714bbf92-5dfc-4c42-9623-1c6e72708126
+            resourceTypeId: bruno
+            name: bruno
+            customer: bruno_customer
+            array:
+            - coucou: true
+              customer: bravo
+            - coucou: false
+        instancePath:
+          type: string
+          example: /address
+    SchemaValidationErrors:
+      type: array
+      description: List of SchemaValidationErrors
+      items:
+        $ref: '#/components/schemas/SchemaValidationError'
+    ResourceCreationResponse:
+      type: object
+      title: Resource Creation Result
+      properties:
+        statusCode:
+          type: number
+          example: 201
+        uri:
+          type: string
+          format: uri
+          example: /resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1
+        entity:
+          $ref: '#/components/schemas/ResourceWithIdEntity'
+      required:
+      - statusCode
+      - uri
+      - entity
+    ResourceTypeCreationResponse:
+      type: object
+      title: Resource Type Creation Result
+      properties:
+        statusCode:
+          type: number
+          example: 201
+        uri:
+          type: string
+          format: uri
+          example: /resources/v1/resourcetypes/17b8b6ea-0573-4381-8088-8692f7938165
+        entity:
+          $ref: '#/components/schemas/ResourceTypeWithIdEntity'
+      required:
+      - statusCode
+      - uri
+      - entity
+    ResourceConstraintCreationResponse:
+      type: object
+      title: Resource Constraint Creation Result
+      properties:
+        statusCode:
+          type: integer
+          example: 201
+        uri:
+          type: string
+          format: uri
+          example: /resources/v1/resourceconstraints/cfd2b48e-a141-4d2e-8ec8-f09ce4f65ae3
+        entity:
+          $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
+      required:
+      - statusCode
+      - uri
+      - entity
+    ResourceId:
+      type: string
+      title: Resource Id
+      description: Primary identifier of a _Resource_
+      anyOf:
+      - type: string
+        title: System Generated Id
+        pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+        description: A _Resource_ id generated by the Waylay System
+      - type: string
+        title: User Provided Id
+        description: A _Resource_ id assigned by the user upon creation
+      example: d3d823f5-f214-4de8-7c0-f2c8c4db5ee1
+    ResourceTypeId:
+      type: string
+      title: Resource Type Id
+      description: Primary identifier of a _Resource Type_
+      anyOf:
+      - type: string
+        title: System Generated Id
+        pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+        description: A Resource Type id generated by the Waylay System
+      - type: string
+        title: User Provided Id
+        description: A _Resource Type_ id assigned by the user upon creation
+      example: 17b8b6ea-0573-4381-8088-8692f7938165
+    ResourceConstraintId:
+      type: string
+      title: Resource Constraint Id
+      description: A unique _Resource Constraint_ id generated by the Waylay System
+      pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+      example: cfd2b48e-a141-4d2e-8ec8-f09ce4f65ae3
+    UserId:
+      type: string
+      title: User Id
+      description: User subject id in the Waylay Accounts database
+      pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+      example: 4b6c0c68-7c5f-4ad8-a138-e5d9d96242ed
+    ResourceReference:
+      type: object
+      title: Resource Reference
+      description: Represents a reference to a _Resource_
+      properties:
+        $ref:
+          type: string
+          title: Resource URI
+          description: A URI for the _Resource_, formatted as `/resources/{resourceId}`
+          pattern: ^/resources/.*
+          example: /resources/04592b9a-e0c2-4e64-8c9a-202e50cd9275
+      additionalProperties:
+        title: Relation Attributes
+        description: Additional attributes that describe the relation with the referenced
+          _Resource_.
+      required:
+      - $ref
+    MetadataEntity:
+      type: object
+      description: Common attributes for _Resource_ or _Resource Type_
+      properties:
+        provider:
+          $ref: '#/components/schemas/Provider'
+        providerId:
+          type: string
+          example: provider_123
+        customer:
+          $ref: '#/components/schemas/Customer'
+        firmware:
+          type: string
+          example: 1.21234
+        location:
+          type: object
+          properties:
+            lat:
+              $ref: '#/components/schemas/Latitude'
+            lon:
+              $ref: '#/components/schemas/Longitude'
+          description: A global location, expressed as a longitude-latitude pair.
+          required:
+          - lat
+          - lon
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceMetric'
+          description: 'A documentation of possible measurements that are to be expected
+            on
+
+            _Waylay Events_ associated with this _Resource_.'
+        sensors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceSensor'
+          description: 'Set of sensors that are applicable for a given _Resource_.
+
+            Please note that there is no explicit action taken by the Waylay platform
+            on this meta key.
+
+            The idea behind this abstraction is to assist integrations where an architect
+            of the digital twin
+
+            can specify which sensors from waylay library are applicable for a given
+            _Resource_ (or _Resource Type_).'
+      additionalProperties:
+        title: User Resource properties
+        description: Other key-value properties provisioned by the user.
+        anyOf:
+        - $ref: '#/components/schemas/ResourceReference'
+        - title: User property value
+          description: Any json-serializable content that is associated with the _Resource_
+    ResourceTypeEntity:
+      title: Resource Type
+      description: Representation of a _Resource Type_
+      allOf:
+      - properties:
+          id:
+            $ref: '#/components/schemas/ResourceTypeId'
+          name:
+            type: string
+            title: Name
+            description: Name for the _Resource Type_
+            example: MyDeviceType
+          templates:
+            type: array
+            title: Managed Task Templates
+            description: "Templates for task that is automatically created whenever\
+              \ a new \n_Resource_ of this _Resource Type_ is created."
+            items:
+              $ref: '#/components/schemas/TaskConfiguration'
+      - $ref: '#/components/schemas/MetadataEntity'
+    PatchResourceTypeEntity:
+      allOf:
+      - $ref: '#/components/schemas/ResourceTypeWithConstraints'
+      - type: object
+        properties:
+          name:
+            nullable: true
+          templates:
+            nullable: true
+          provider:
+            nullable: true
+          providerId:
+            nullable: true
+          customer:
+            nullable: true
+          firmware:
+            nullable: true
+          location:
+            nullable: true
+          metrics:
+            nullable: true
+          sensors:
+            nullable: true
+        additionalProperties:
+          nullable: true
+    ResourceTypeWithConstraints:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ResourceTypeEntity'
+      - properties:
+          $constraints:
+            type: array
+            title: Resource Type Constraints
+            description: 'Validation constraint to be applied to each _Resource_ that
+              has
+
+              its `resourceTypeId` attribute set to the `id` of this _Resource Type_.'
+            items:
+              $ref: '#/components/schemas/ResourceConstraintId'
+    ResourceTypeWithIdEntity:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ResourceTypeEntity'
+      - properties:
+          $bulkOperation:
+            title: Running Operation
+            type: string
+            example: d44b2ce9-fb7e-453e-a8bf-b7fefd933313
+            description: Indicates an asynchronous operation is busy for the _Resource
+              Type_.
+          $constraints:
+            type: array
+            title: Applied Resource Type Constraints
+            description: 'Validation constraint as applied to each _Resource_ that
+              has
+
+              its `resourceTypeId` attribute set to the `id` of this _Resource Type_.'
+            items:
+              $ref: '#/components/schemas/ConstraintStatus'
+        required:
+        - id
+    HALLink:
+      type: object
+      title: HAL link
+      properties:
+        href:
+          type: string
+          format: uri
+          description: (Relative) URL of the entity.
+          example: /resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1
+      required:
+      - href
+    HALIdLink:
+      allOf:
+      - $ref: '#/components/schemas/HALLink'
+      - type: object
+        properties:
+          id:
+            type: string
+            description: Unique identifier of the linked item
+        required:
+        - id
+    HALSelfLinks:
+      type: object
+      properties:
+        _links:
+          type: object
+          description: Links to related objects
+          properties:
+            self:
+              allOf:
+              - $ref: '#/components/schemas/HALLink'
+              - description: Link to the resource
+          additionalProperties:
+            allOf:
+            - $ref: '#/components/schemas/HALIdLink'
+            - description: Link to a referenced resource
+          required:
+          - self
+      required:
+      - _links
+    HALPageLinks:
+      type: object
+      properties:
+        _links:
+          type: object
+          title: Pagination links
+          description: HAL links for pagination
+          properties:
+            self:
+              allOf:
+              - $ref: '#/components/schemas/HALLink'
+              - description: Link to this page of the results
+                example:
+                  href: /resources/v1/resources?skip=300
+            next:
+              allOf:
+              - $ref: '#/components/schemas/HALLink'
+              - description: Link to the next page of the results (if available)
+                example:
+                  href: /resources/v1/resources?skip=400
+            prev:
+              allOf:
+              - $ref: '#/components/schemas/HALLink'
+              - description: Link to the previous page of the results (if available)
+                example:
+                  href: /resources/v1/resources?skip=200
+          required:
+          - self
+    HALResourceTypeEntity:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/HALSelfLinks'
+      - $ref: '#/components/schemas/ResourceTypeEntity'
+    ResourceEntity:
+      type: object
+      title: Resource
+      description: Representation of a Waylay Resource
+      allOf:
+      - properties:
+          id:
+            $ref: '#/components/schemas/ResourceId'
+          resourceTypeId:
+            title: Resource Type
+            allOf:
+            - $ref: '#/components/schemas/ResourceTypeId'
+            description: Id of the linked _Resource Type_
+          parentId:
+            title: Resource Parent
+            allOf:
+            - $ref: '#/components/schemas/ResourceId'
+            description: Id of the parent _Resource_
+            example: 658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
+          name:
+            type: string
+            title: Name
+            description: Name for the _Resource_
+            example: testresource
+          alias:
+            type: string
+            description: Alias for the name of the _Resource_
+            example: testresource-alias
+          lastMessageTimestamp:
+            description: Epoch time of the last contact
+            allOf:
+            - $ref: '#/components/schemas/UnixEpochMillis'
+          owner:
+            type: string
+            description: Owner of the _Resource_
+          tags:
+            $ref: '#/components/schemas/Tags'
+      - $ref: '#/components/schemas/MetadataEntity'
+    ResourceWithIdEntity:
+      allOf:
+      - $ref: '#/components/schemas/ResourceEntity'
+      - type: object
+        required:
+        - id
+    PatchResourceEntity:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ResourceEntity'
+      - properties:
+          resourceTypeId:
+            nullable: true
+          parentId:
+            nullable: true
+          name:
+            nullable: true
+          alias:
+            nullable: true
+          lastMessageTimestamp:
+            nullable: true
+          owner:
+            nullable: true
+          tags:
+            nullable: true
+          provider:
+            nullable: true
+          providerId:
+            nullable: true
+          customer:
+            nullable: true
+          firmware:
+            nullable: true
+          location:
+            nullable: true
+          metrics:
+            nullable: true
+          sensors:
+            nullable: true
+        additionalProperties:
+          nullable: true
+    HALResourceEntity:
+      type: object
+      title: Resource (HAL)
+      description: HAL Representation of a Waylay _Resource_
+      allOf:
+      - $ref: '#/components/schemas/HALSelfLinks'
+      - properties:
+          _links:
+            type: object
+            properties:
+              parent:
+                allOf:
+                - $ref: '#/components/schemas/HALIdLink'
+                - description: Link to the parent resource
+                  example:
+                    href: /resources/v1/resources/658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
+                    id: 658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
+              children:
+                allOf:
+                - $ref: '#/components/schemas/HALLink'
+                - description: Link to fetch the children of the resource
+                  example:
+                    href: /resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1/children
+              resourceType:
+                allOf:
+                - $ref: '#/components/schemas/HALIdLink'
+                - description: Link to the resourceType for the resource
+                  example:
+                    href: /resources/v1/resourcetypes/17b8b6ea-0573-4381-8088-8692f7938165
+                    id: 17b8b6ea-0573-4381-8088-8692f7938165
+          _embedded:
+            type: object
+            properties:
+              resourceType:
+                $ref: '#/components/schemas/HALResourceTypeEntity'
+      - $ref: '#/components/schemas/ResourceWithIdEntity'
+    ResourceChange:
+      type: object
+      properties:
+        time:
+          $ref: '#/components/schemas/ISO8601Timestamp'
+        resourceId:
+          $ref: '#/components/schemas/ResourceId'
+        userId:
+          $ref: '#/components/schemas/UserId'
+        change:
+          type: string
+          enum:
+          - created
+          - updated
+          - deleted
+        resource:
+          $ref: '#/components/schemas/ResourceWithIdEntity'
+      required:
+      - time
+      - resourceId
+      - userId
+      - change
+    ResourceConstraintEntity:
+      type: object
+      allOf:
+      - properties:
+          id:
+            $ref: '#/components/schemas/ResourceConstraintId'
+      - $ref: '#/components/schemas/Constraint'
+    ResourceConstraintWithIdEntity:
+      allOf:
+      - $ref: '#/components/schemas/ResourceConstraintEntity'
+      - type: object
+        required:
+        - id
+    PagingSkip:
+      type: integer
+      title: Skipped Count
+      description: Number of items skipped before this page of results.
+      default: 0
+      example: 1000
+    PagingLimit:
+      type: integer
+      title: Limit Count
+      description: Size of one page of results.
+      example: 10
+      default: 100
+    PagingTotal:
+      type: integer
+      title: Total Count
+      description: Total number of items matching the query of which this is one page
+        of results.
+      example: 2398
+    PagingCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          title: Page Count
+          description: The number of items in this result page.
+          example: 10
+    PagingResult:
+      type: object
+      properties:
+        skip:
+          $ref: '#/components/schemas/PagingSkip'
+        limit:
+          $ref: '#/components/schemas/PagingLimit'
+        total:
+          $ref: '#/components/schemas/PagingTotal'
+      required:
+      - skip
+      - limit
+      - total
+    FieldFilter:
+      title: Field Selector
+      description: Select which fields to render for listed items.
+      type: array
+      items:
+        type: string
+        title: Field name
+    ResourceListing:
+      title: Resource Listing
+      description: A full listing _Resource_ entities
+      type: object
+      allOf:
+      - properties:
+          values:
+            type: array
+            description: _Resource_ entities
+            items:
+              $ref: '#/components/schemas/ResourceWithIdEntity'
+      - $ref: '#/components/schemas/PagingResult'
+      required:
+      - values
+      - skip
+      - limit
+      - total
+    HALResourceListing:
+      title: Resource Listing (HAL)
+      description: Listing of _Resource_ entities in HAL format
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/PagingResult'
+      - $ref: '#/components/schemas/PagingCount'
+      - $ref: '#/components/schemas/HALPageLinks'
+      - properties:
+          _embedded:
+            type: object
+            properties:
+              values:
+                type: array
+                description: _Resource_ entities in HAL format
+                items:
+                  $ref: '#/components/schemas/HALResourceEntity'
+            required:
+            - values
+      required:
+      - count
+      - total
+      - limit
+      - skip
+      - _embedded
+      - _links
+    ResourceTypeListing:
+      title: Resource Type Listing
+      description: A listing of _Resource Type_ entities
+      type: object
+      allOf:
+      - properties:
+          values:
+            type: array
+            items:
+              $ref: '#/components/schemas/ResourceTypeWithIdEntity'
+      - $ref: '#/components/schemas/PagingResult'
+      required:
+      - values
+      - skip
+      - limit
+      - total
+    ResourceTypeChange:
+      type: object
+      properties:
+        time:
+          $ref: '#/components/schemas/ISO8601Timestamp'
+        resourceTypeId:
+          $ref: '#/components/schemas/ResourceTypeId'
+        userId:
+          $ref: '#/components/schemas/UserId'
+        change:
+          type: string
+          enum:
+          - created
+          - updated
+          - deleted
+        resourceType:
+          $ref: '#/components/schemas/ResourceTypeWithIdEntity'
+      required:
+      - time
+      - resourceTypeId
+      - userId
+      - change
+    ResourceSensor:
+      type: object
+      title: Resource Sensor
+      description: Sensor associated with a _Resource_
+      properties:
+        name:
+          type: string
+          description: An alias name for the sensor in the context of this _Resource_.
+        sensor:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The identifying name of the _Waylay Sensor_
+            version:
+              type: string
+              description: The sensor version
+              pattern: \d+\.\d+\.\d+
+            properties:
+              type: object
+              description: Default sensor property configuration.
+          required:
+          - name
+      required:
+      - name
+      - sensor
+      example:
+        name: events
+        sensor:
+          name: GoogleCalendarStreamSensor
+          version: 0.1.5
+          properties:
+            timeout: 15
+    ResourceMetric:
+      type: object
+      title: Resource Metric
+      description: 'Describes a value that is expected to be present in the events
+        sent to Waylay on behalf of this _Resource (Type)_.
+
+        By default, such values will end up in the time series database, where each
+        time series is identified by the
+
+        _resource id_ and the _metric name_.
+
+
+        > Note: The Waylay System does not enforce any of the statements made in a
+        _Resource Metric_ when
+
+        > processing or retrieving data. As long as a user does not explicitly use
+        this metadata to configure
+
+        > behaviour, a _Resource Metric_ is purely a documentation entity.'
+      properties:
+        name:
+          type: string
+          title: Metric name
+          description: 'The key under which values of this metric are present in the
+            root of a Waylay Event.
+
+            Also the _metric_ identifier in the timeseries database for these values
+            when stored.'
+          example: temperature
+        valueType:
+          type: string
+          title: Value type
+          description: Type of the value
+          example: integer
+        valueChoices:
+          type: array
+          items:
+            type: string
+          title: Value Choice
+          description: Enumeration of the possible values for a metric
+        metricType:
+          type: string
+          oneOf:
+          - enum:
+            - rate
+            description: "A number per second (implies that unit ends on \u2018/s\u2019\
+              )"
+          - enum:
+            - count
+            description: A number per a given interval (such as a statsd flushInterval)
+          - enum:
+            - gauge
+            description: Values at each point in time
+          - enum:
+            - counter
+            description: "Keeps increasing over time (but might wrap/reset at some\
+              \ point) i.e. a gauge with the added notion of \u201Ci usually want\
+              \ to derive this to see the rate\u201D"
+          - enum:
+            - timestamp
+            description: "Value represents a unix timestamp. so basically a gauge\
+              \ or counter but we know we can also render the \u201Cage\u201D at each\
+              \ point."
+          example: counter
+          default: gauge
+          description: How measurements should be treated as a time series.
+        unit:
+          type: string
+          description: Physical measurement unit, preferentially SI unit, for the
+            numerical values of this metric
+          example: m^3/s
+        maximum:
+          type: number
+          description: Expected maximum value for this metric.
+          example: 200.01
+        minimum:
+          type: number
+          description: Expected minimum value for this metric.
+          example: -1.0e-06
+      required:
+      - name
+    Tags:
+      type: array
+      items:
+        type: string
+      title: Tags
+      description: Custom classifiers for this _Resource_.
+      example:
+      - Proximus
+      - myTag
+      - locationC
+    Provider:
+      type: string
+      example: LoRA
+    Customer:
+      type: string
+      description: Customer name
+      example: Things Corp
+    Latitude:
+      type: number
+      title: Latitude
+      description: The latitude degrees of a location.
+      example: 51.2
+    Longitude:
+      type: number
+      title: Longitude
+      description: The longitudinal degrees of a location.
+      example: -3.37
+    Distance:
+      type: string
+      title: Distance
+      description: 'Distance from the location specified
+
+        by `lon` and `lat` (with SI unit).'
+      example: 100km
+    UnixEpochMillis:
+      type: integer
+      title: Unix Epoch Milliseconds
+      description: "Timestamp expressed as milliseconds since 00:00:00 UTC on 1 January\
+        \ 1970, \nnot counting leap seconds."
+      example: 1663269720694
+    ISO8601Timestamp:
+      title: ISO8601 timestamp
+      type: string
+      format: date-time
+      example: '2011-09-06T12:03:27.845Z'
+    TaskConfiguration:
+      type: object
+      title: Task configuration
+      description: 'Specification of a template and task creation attributes
+
+        for the task that gets instantiate when a _Resource_ created.'
+      properties:
+        templateName:
+          title: Template Name
+          type: string
+        type:
+          title: Task Type
+          type: string
+          enum:
+          - periodic
+          - onetime
+          - scheduled
+          - reactive
+      additionalProperties:
+        description: Additional task creation attributes
+      required:
+      - templateName
+      example:
+        templateName: CheckThreshold
+        type: reactive
+        resetObservations: false
+        parallel: true
+    ConstraintStatus:
+      type: object
+      title: Constraint status
+      description: Reference to a _Resource Constraint_s and its validation status.
+      properties:
+        status:
+          type: string
+          enum:
+          - applying
+          - ineffect
+          - failed
+          example: failed
+        constraintId:
+          $ref: '#/components/schemas/ResourceConstraintId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintError'
+      required:
+      - constraintId
+      - status
+    ConstraintError:
+      type: object
+      title: Constraint Error
+      description: Validation Error report of a Resource Constraint
+      properties:
+        error:
+          type: string
+          description: User error message
+          example: Property address missing.
+        errorPath:
+          type: string
+          description: Attribute path
+          example: /address
+        resources:
+          type: array
+          description: Ids of the _Resources_ that fail the constraint
+          items:
+            $ref: '#/components/schemas/ResourceId'
+          example:
+          - d3d823f5-f214-4de8-7c0-f2c8c4db5ee1
+          - 36bac1e0-841f-4085-804d-5ad304fef395
+      required:
+      - error
+      - errorPath
+      - resources
+    Constraint:
+      type: object
+      title: Resource Constraint
+      description: Constraint on the attributes of a Resource
+      properties:
+        name:
+          type: string
+          description: Name for the _Resource Constraint_
+          minLength: 1
+          example: Mandatory name
+        description:
+          type: string
+          description: A description for the _Resource Constraint_
+          example: Makes the name attribute mandatory
+        attributes:
+          type: array
+          description: List of attribute descriptions
+          items:
+            $ref: '#/components/schemas/AttributeItem'
+      required:
+      - name
+      - attributes
+    AttributeItem:
+      type: object
+      title: Resource Attribute Constraint
+      description: Constraint on the presence and value of a single named _Resource_
+        attribute.
+      properties:
+        name:
+          type: string
+          description: name of the attribute
+          example: name
+        required:
+          type: boolean
+          description: Indicates if the attribute must be present or is optional
+          example: true
+        type:
+          $ref: '#/components/schemas/ValueConstraint'
+      required:
+      - name
+      - required
+      - type
+    ValueConstraint:
+      type: object
+      title: Attribute Value Constraint
+      description: Constraint on the value of _Resource_ attribute.
+      properties:
+        type:
+          type: string
+          description: Type of the attribute
+      oneOf:
+      - $ref: '#/components/schemas/StringValueConstraint'
+      - $ref: '#/components/schemas/NumericValueConstraint'
+      - $ref: '#/components/schemas/BooleanValueConstraint'
+      - $ref: '#/components/schemas/StringEnumValueConstraint'
+      - $ref: '#/components/schemas/NumericEnumValueConstraint'
+      - $ref: '#/components/schemas/ResourceRefValueConstraint'
+      - $ref: '#/components/schemas/ObjectValueConstraint'
+      - $ref: '#/components/schemas/ArrayValueConstraint'
+      required:
+      - type
+    NumericValueConstraint:
+      type: object
+      title: Numeric Value
+      description: Specifies that a value must be a number.
+      properties:
+        type:
+          enum:
+          - numeric
+        minimum:
+          type: number
+          description: Specifies the minimum value the attribute can have
+          example: -1486.147
+        maximum:
+          type: number
+          description: Specifies the maximum value the attribute can have
+          example: 784596
+    StringValueConstraint:
+      type: object
+      title: String Value
+      description: Specifies that a value must be a string.
+      properties:
+        type:
+          enum:
+          - string
+        minLength:
+          type: integer
+          description: Minimum length a value must have
+          minimum: 0
+          example: 1
+        maxLength:
+          type: integer
+          description: Maximum length a value can have
+          minimum: 0
+          example: 255
+    BooleanValueConstraint:
+      type: object
+      title: Boolean Value
+      description: Specifies that the value must be a boolean
+      properties:
+        type:
+          enum:
+          - boolean
+    NumericEnumValueConstraint:
+      type: object
+      title: Enumerated Numeric Value
+      description: Specifies that a value must be one of the given numbers.
+      properties:
+        type:
+          enum:
+          - enum
+        enumType:
+          type: string
+          enum:
+          - numeric
+        items:
+          type: array
+          minItems: 1
+          items:
+            type: number
+      required:
+      - type
+      - enumType
+      - items
+    StringEnumValueConstraint:
+      type: object
+      title: Enumerated String Value
+      description: Specifies that a value must be one of the given strings.
+      properties:
+        type:
+          enum:
+          - enum
+        enumType:
+          type: string
+          enum:
+          - string
+        items:
+          type: array
+          minItems: 1
+          items:
+            type: string
+      required:
+      - type
+      - enumType
+      - items
+    ResourceRefValueConstraint:
+      type: object
+      title: Resource Reference Value
+      description: 'Specifies that a value is an object having a required ''$ref''
+        attribute
+
+        that references another _Resource_.'
+      properties:
+        type:
+          enum:
+          - resourceRef
+        attributes:
+          type: array
+          description: Additional attributes in the reference object, describing the
+            relation.
+          items:
+            $ref: '#/components/schemas/AttributeItem'
+        resourceTypes:
+          type: array
+          description: The possible _Resource Types_ for the referenced _Resource_.
+          items:
+            $ref: '#/components/schemas/ResourceTypeId'
+        exists:
+          type: boolean
+          description: Flag to indicate if the referenced _Resource_ must exist
+          default: false
+    ObjectValueConstraint:
+      type: object
+      title: Object Value
+      description: Specifies that a value must be an object and which attributes it
+        needs to have
+      properties:
+        type:
+          enum:
+          - object
+        attributes:
+          type: array
+          description: Attributes descriptions
+          items:
+            $ref: '#/components/schemas/AttributeItem'
+      required:
+      - type
+      - attributes
+    ArrayValueConstraint:
+      type: object
+      title: Array Value
+      description: Specifies that a value must be an array and what type of elements
+        it contains
+      properties:
+        type:
+          enum:
+          - array
+        elementType:
+          $ref: '#/components/schemas/ValueConstraint'
+        minLength:
+          type: integer
+          minimum: 0
+        maxLength:
+          type: integer
+          minimum: 0
+        uniqueValues:
+          type: boolean
+          default: false
+          description: If true, all values in the array must be unique.
+        contains:
+          type: array
+          title: Array Must Contain
+          items:
+            oneOf:
+            - type: boolean
+            - type: number
+            - type: string
+          description: 'Only supported if the `elementType` is `boolean`, `numeric`
+            or `string`.
+
+            Specifies values the array attribute must contain.'
+      required:
+      - type
+      - elementType
+    ResourceConstraintListing:
+      title: Resource Constraint Listing
+      description: A listing of _Resource_ constraint entities
+      type: array
+      items:
+        $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
+    BatchId:
+      title: Batch Operation id
+      type: string
+      example: afcea5a1-81df-44f6-bd34-e0b602a2cf3d
+    BatchResourceOperation:
+      title: a batch operation
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Type of entities to remove
+          enum:
+          - resource
+          - resourcetype
+        action:
+          type: string
+          enum:
+          - delete
+        query:
+          type: object
+          properties:
+            ids:
+              type: array
+              minItems: 1
+              items:
+                anyOf:
+                - $ref: '#/components/schemas/ResourceId'
+                - $ref: '#/components/schemas/ResourceTypeId'
+          required:
+          - ids
+      required:
+      - entity
+      - action
+      - query
+    BatchRunningResourceOperation:
+      type: object
+      title: Results of a running Batch Operation
+      properties:
+        id:
+          $ref: '#/components/schemas/BatchId'
+        user:
+          $ref: '#/components/schemas/UserId'
+        queueTime:
+          $ref: '#/components/schemas/ISO8601Timestamp'
+        operation:
+          description: Queued operation summary
+          type: object
+          properties:
+            entity:
+              type: string
+              enum:
+              - resource
+              - resourcetype
+            action:
+              type: string
+              enum:
+              - delete
+            description:
+              type: string
+              example: deleting 2 resources
+          required:
+          - entity
+          - action
+          - description
+      required:
+      - id
+      - user
+      - queueTime
+      - operation
+    SuccessOperationResult:
+      type: object
+      description: "Object containing the successful operation results. \nThe keys\
+        \ will be resource ids or resource type ids."
+      additionalProperties:
+        type: object
+        description: The keys will be resource ids or resource type ids.
+        properties:
+          statusCode:
+            type: integer
+            description: The statusCode of the operation
+        required:
+        - statusCode
+    FailureOperationResult:
+      type: object
+      description: "Object containing the unsuccessful operation results. \nThe keys\
+        \ will be resource ids or resource type ids."
+      additionalProperties:
+        type: object
+        description: The keys will be resource ids or resource type ids.
+        properties:
+          statusCode:
+            type: integer
+            description: The statusCode of the operation
+          error:
+            type: string
+            description: Error description of what went wrong.
+        required:
+        - statusCode
+        - error
+    OperationResultObject:
+      description: Finished Batch Operation results
+      type: object
+      properties:
+        finishedTime:
+          $ref: '#/components/schemas/ISO8601Timestamp'
+        results:
+          type: object
+          description: Operation results
+          properties:
+            success:
+              $ref: '#/components/schemas/SuccessOperationResult'
+            failure:
+              $ref: '#/components/schemas/FailureOperationResult'
+          required:
+          - success
+          - failure
+      required:
+      - finishedTime
+      - results
+    BatchOperationResult:
+      title: Result of a finished Batch Operation
+      allOf:
+      - $ref: '#/components/schemas/BatchRunningResourceOperation'
+      - $ref: '#/components/schemas/OperationResultObject'
+      example:
+        id: afcea5a1-81df-44f6-bd34-e0b602a2cf3d
+        user: 4b6c0c68-7c5f-4ad8-a138-e5d9d96242ed
+        operation:
+          entity: resource
+          action: delete
+          description: deleting 3 resources
+        queueTime: '2020-04-27T09:54:44.051Z'
+        finishedTime: '2020-04-27T09:54:44.129Z'
+        results:
+          success:
+            d3d823f5-f214-4de8-7c0-f2c8c4db5ee1:
+              statusCode: 204
+          failure:
+            82af367c-dffc-48d6-aea2-bfc699047174:
+              statusCode: 404,
+              error: No resource with id 82af367c-dffc-48d6-aea2-bfc699047174
+            e64de65c-e3ef-482d-9eb7-32ca17d1e147:
+              statusCode: 400,
+              error: Resource is still parent of or referenced by 2 resource(s)
+    GenericMetadataEvent:
+      type: object
+      properties:
+        type:
+          type: string
+        objectType:
+          type: string
+        timestamp:
+          $ref: '#/components/schemas/ISO8601Timestamp'
+      required:
+      - type
+      - objectType
+      - timestamp
+    ChangedEvent:
+      title: Update
+      properties:
+        type:
+          type: string
+          enum:
+          - update
+        oldValues:
+          type: object
+          description: old values of all attributes that have changed
+    CreateDeleteEvent:
+      title: Creation or Deletion
+      properties:
+        type:
+          type: string
+          enum:
+          - create
+          - delete
+    DiscoveredEvent:
+      title: Discovered
+      properties:
+        type:
+          type: string
+          enum:
+          - discovered
+        message:
+          type: object
+          description: The broker message that triggered the discovery
+    ResourceMetadataEvent:
+      allOf:
+      - $ref: '#/components/schemas/GenericMetadataEvent'
+      - properties:
+          objectType:
+            enum:
+            - resource
+          resource:
+            $ref: '#/components/schemas/ResourceEntity'
+        required:
+        - resource
+      - oneOf:
+        - $ref: '#/components/schemas/CreateDeleteEvent'
+        - $ref: '#/components/schemas/ChangedEvent'
+        - $ref: '#/components/schemas/DiscoveredEvent'
+    ResourcetypeMetadataEvent:
+      allOf:
+      - $ref: '#/components/schemas/GenericMetadataEvent'
+      - oneOf:
+        - $ref: '#/components/schemas/CreateDeleteEvent'
+        - $ref: '#/components/schemas/ChangedEvent'
+      - properties:
+          objectType:
+            enum:
+            - resourcetype
+          resourcetype:
+            $ref: '#/components/schemas/ResourceTypeEntity'
+        required:
+        - resourcetype
+    MetadataEvent:
+      oneOf:
+      - $ref: '#/components/schemas/ResourceMetadataEvent'
+      - $ref: '#/components/schemas/ResourcetypeMetadataEvent'
+    CloudMetadataEventData:
+      type: object
+      properties:
+        id:
+          example: dd59d2d9-9657-4d36-b045-ef97315f2d20
+        source:
+          type: string
+          enum:
+          - /resources/v1/resources
+          - /resources/v1/resourcetypes
+          example: /resources/v1/resources
+        subject:
+          example: 289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d
+        type:
+          type: string
+          enum:
+          - io.waylay.resources.v1.resourcetype.created
+          - io.waylay.resources.v1.resourcetype.updated
+          - io.waylay.resources.v1.resourcetype.deleted
+          - io.waylay.resources.v1.resource.created
+          - io.waylay.resources.v1.resource.updated
+          - io.waylay.resources.v1.resource.deleted
+          - io.waylay.resources.v1.resource.discovered
+        data:
+          $ref: '#/components/schemas/MetadataEvent'
+        time:
+          $ref: '#/components/schemas/ISO8601Timestamp'
+    CloudMetadataEvent:
+      allOf:
+      - $ref: ./cloudevents.schema.yaml#/definitions/cloudevent_json
+      - $ref: '#/components/schemas/CloudMetadataEventData'
+      - required:
+        - id
+        - source
+        - specversion
+        - type
+        - subject
+        - time
+  parameters:
+    ResourceId:
+      name: resourceId
+      in: path
+      required: true
+      description: _Resource_ id
+      schema:
+        $ref: '#/components/schemas/ResourceId'
+    ResourceTypeId:
+      name: resourceTypeId
+      in: path
+      required: true
+      description: _Resource Type_ id
+      schema:
+        $ref: '#/components/schemas/ResourceTypeId'
+    ResourceConstraintId:
+      name: resourceConstraintId
+      in: path
+      required: true
+      description: _Resource_ Constraint id
+      schema:
+        $ref: '#/components/schemas/ResourceConstraintId'
+    BatchId:
+      name: batchId
+      in: path
+      description: Unique Batch Operation identifier
+      required: true
+      schema:
+        $ref: '#/components/schemas/BatchId'
+    PagingSkip:
+      name: skip
+      in: query
+      description: (Paging) items to skip in the listing
+      schema:
+        $ref: '#/components/schemas/PagingSkip'
+    PagingLimit:
+      name: limit
+      in: query
+      description: (Paging) maximal number of items returned
+      schema:
+        $ref: '#/components/schemas/PagingLimit'
+    Denormalized:
+      name: denormalized
+      in: query
+      description: 'Unless explicitly set to `false`, attributes inherited from a
+
+        linked _Resource Type_ will be included in the representation.'
+      schema:
+        type: boolean
+        default: true
+    Field:
+      name: field
+      in: query
+      description: Select which attributes to render for each matching _Resource_
+        (repeated).
+      explode: true
+      schema:
+        $ref: '#/components/schemas/FieldFilter'
+      example:
+      - id
+      - name
+      - owner
+    Fields:
+      name: fields
+      description: Select which attributes to render for each matching _Resource_
+        (comma-separated).
+      in: query
+      explode: false
+      schema:
+        $ref: '#/components/schemas/FieldFilter'
+      example:
+      - id
+      - name
+      - owner
+    Filter:
+      name: filter
+      in: query
+      description: (Filter) fuzzy search on multiple fields.
+      schema:
+        type: string
+        example: needle
+    Query:
+      name: query
+      in: query
+      description: 'Search string using a query language consisting of
+
+        > `<metadata key>:<operation>(<arguments>)`
+
+
+        Supported operations are
+
+        - `eq`: equals - exact match
+
+        - `in`: in - exact match - arguments are a (comma-separated) list of values
+
+        - `lt`: smaller then
+
+        - `lte`: smaller then or equal
+
+        - `gt`: greater then
+
+        - `gte`: greater then or equal
+
+        - `ref`: references - argument should be uri /resources/<resourceId>
+
+        - `exists`: check if the _Resource_ has the specified metadata key - no argument
+        allowed
+
+        - `like`: wildcard search - argument should contain * and/or ?
+
+
+        For more info see [Waylay Docs](/#/api/resources/?id=metadata-query-language)'
+      schema:
+        type: string
+        example: address.city:in(Ghent,Brussels)
+  responses:
+    DefaultSuccessResponse:
+      description: Successful Response
+      content:
+        application/json:
+          schema:
+            type: object
+    VersionResponse:
+      description: Successful Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VersionResponse'
+    ResourceNotFoundResponse:
+      description: Resource Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 404
+            error: No resource with id d3d823f5-f214-4de8-7c0-f2c8c4db5ee1
+    ResourceTypeNotFoundResponse:
+      description: Resource Type Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 404
+            error: No type with id 17b8b6ea-0573-4381-8088-8692f7938165
+    ResourceConstraintNotFoundResponse:
+      description: Resource Constraint Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 404
+            error: No ResourceConstraint with id 'cfd2b48e-a141-4d2e-8ec8-f09ce4f65ae3`
+    BatchNotFoundResponse:
+      description: Batch Operation Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 404
+            error: Operation with id 'afcea5a1-81df-44f6-bd34-e0b602a2cf3d' not found
+    ValidationErrorResponse:
+      description: Validation Failure
+      content:
+        application/json:
+          schema:
+            title: Validation Failure
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponse'
+            - type: object
+              properties:
+                details:
+                  $ref: '#/components/schemas/SchemaValidationErrors'
+    BatchStartResponse:
+      description: Batch Operation Started
+      content:
+        application/json:
+          schema:
+            title: Batch operation enqueued
+            type: object
+            properties:
+              statusCode:
+                type: integer
+                example: 202
+              uri:
+                type: string
+                description: URI where the batch operation status can be followed
+                format: uri
+                example: /resources/v1/batch/afcea5a1-81df-44f6-bd34-e0b602a2cf3d
+              entity:
+                $ref: '#/components/schemas/BatchRunningResourceOperation'
+            required:
+            - statusCode
+            - uri
+            - entity
+      headers:
+        Location:
+          description: URI where the batch operation status can be followed
+          example: /resources/v1/batch/afcea5a1-81df-44f6-bd34-e0b602a2cf3d
+          schema:
+            type: string
+            format: uri
+    BatchOperationStatusResponse:
+      description: Get Batch Operation
+      content:
+        application/json:
+          schema:
+            title: BatchOperationStatusResponse
+            oneOf:
+            - $ref: '#/components/schemas/BatchOperationResult'
+            - $ref: '#/components/schemas/BatchRunningResourceOperation'
+    GetEventStreamResponse:
+      description: Events Stream
+      content:
+        application/x-ndjson:
+          schema:
+            title: NdJsonResponseStream
+            oneOf:
+            - $ref: '#/components/schemas/MetadataEvent'
+            - $ref: '#/components/schemas/CloudMetadataEvent'
+        text/event-stream:
+          schema:
+            title: SSEventStream
+            oneOf:
+            - $ref: '#/components/schemas/MetadataEvent'
+            - $ref: '#/components/schemas/CloudMetadataEvent'
+    ResourceChangesResponse:
+      description: Resource Changes
+      headers:
+        X-Count:
+          description: Total number of resource changes.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            title: ResourceChangesResponse
+            type: array
+            items:
+              $ref: '#/components/schemas/ResourceChange'
+        application/vnd.waylay.paged+json:
+          schema:
+            title: ResourceChangesPagedResponse
+            type: object
+            allOf:
+            - properties:
+                values:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ResourceChange'
+            - $ref: '#/components/schemas/PagingResult'
+    ResourceTypeChangesResponse:
+      description: Resource Type Changes
+      headers:
+        X-Count:
+          description: Total number of resourcetype changes.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            title: ResourceTypeChangesResponse
+            type: array
+            items:
+              $ref: '#/components/schemas/ResourceTypeChange'
+        application/vnd.waylay.paged+json:
+          schema:
+            title: ResourceTypesChangesPagedResponse
+            type: object
+            allOf:
+            - properties:
+                values:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ResourceTypeChange'
+            - $ref: '#/components/schemas/PagingResult'
+    ResourceConstraintsListResponse:
+      description: Resource Constraints
+      headers:
+        X-Count:
+          description: Total number of resource constraints that fulfill the given
+            criteria of which this is one page of results.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceConstraintListing'
+  securitySchemes:
+    waylayApiKeySecret:
+      type: http
+      description: Waylay apiKey/apiSecret basic authentication. All endpoints support
+        also Waylay JWT Bearer authentication.
+      scheme: basic
+servers:
+- url: https://api.waylay.io
+  description: Waylay enterprise gateway

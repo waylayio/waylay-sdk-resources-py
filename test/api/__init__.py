@@ -1,0 +1,1 @@
+"""Waylay Resources tests."""

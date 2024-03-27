@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | [optional] 
+**type** | [**ChangedEventType**](ChangedEventType.md) |  | [optional] 
 **old_values** | **object** | old values of all attributes that have changed | [optional] 
 
 ## Example

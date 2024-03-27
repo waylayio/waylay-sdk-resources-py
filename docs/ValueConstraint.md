@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **max_length** | **int** |  | [optional] 
 **minimum** | **float** | Specifies the minimum value the attribute can have | [optional] 
 **maximum** | **float** | Specifies the maximum value the attribute can have | [optional] 
-**enum_type** | **str** |  | 
+**enum_type** | [**NumericValueConstraintType**](NumericValueConstraintType.md) |  | 
 **items** | **List[float]** |  | 
 **attributes** | [**List[AttributeItem]**](AttributeItem.md) | Attributes descriptions | 
 **resource_types** | [**List[ResourceTypeId]**](ResourceTypeId.md) | The possible _Resource Types_ for the referenced _Resource_. | [optional] 

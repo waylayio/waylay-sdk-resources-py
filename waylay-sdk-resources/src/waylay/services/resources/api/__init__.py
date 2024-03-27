@@ -8,7 +8,6 @@ from .resource_constraint_api import ResourceConstraintApi
 from .resource_type_api import ResourceTypeApi
 from .version_api import VersionApi
 
-
 __all__ = [
     "BatchOperationsApi",
     "MetadataEventsApi",

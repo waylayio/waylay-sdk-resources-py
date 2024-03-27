@@ -6,7 +6,7 @@ Specifies that a value must be a number.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | [optional] 
+**type** | [**NumericValueConstraintType**](NumericValueConstraintType.md) |  | [optional] 
 **minimum** | **float** | Specifies the minimum value the attribute can have | [optional] 
 **maximum** | **float** | Specifies the maximum value the attribute can have | [optional] 
 

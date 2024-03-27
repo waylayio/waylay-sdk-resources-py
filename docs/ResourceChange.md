@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **time** | **datetime** |  | 
 **resource_id** | [**ResourceId**](ResourceId.md) |  | 
 **user_id** | **str** | User subject id in the Waylay Accounts database | 
-**change** | **str** |  | 
+**change** | [**ResourceChangeChange**](ResourceChangeChange.md) |  | 
 **resource** | [**ResourceWithIdEntity**](ResourceWithIdEntity.md) |  | [optional] 
 
 ## Example

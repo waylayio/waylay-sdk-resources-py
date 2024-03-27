@@ -31,6 +31,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.constraint import Constraint
 from waylay.services.resources.models.resource_constraint_creation_response import ResourceConstraintCreationResponse
 try:
@@ -101,6 +102,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 try:
     # Remove Resource Constraint
     # calls `DELETE /resources/v1/resourceconstraints/{resourceConstraintId}`
@@ -167,6 +169,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
 try:
     # Get Resource Constraint
@@ -235,6 +238,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
 try:
     # List Resource Constraints
@@ -307,6 +311,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.constraint import Constraint
 from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
 try:

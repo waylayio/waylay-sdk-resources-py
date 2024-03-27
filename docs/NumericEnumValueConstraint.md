@@ -6,8 +6,8 @@ Specifies that a value must be one of the given numbers.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**enum_type** | **str** |  | 
+**type** | [**NumericEnumValueConstraintType**](NumericEnumValueConstraintType.md) |  | 
+**enum_type** | [**NumericValueConstraintType**](NumericValueConstraintType.md) |  | 
 **items** | **List[float]** |  | 
 
 ## Example

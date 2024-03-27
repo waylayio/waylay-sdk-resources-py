@@ -6,7 +6,7 @@ Specifies that a value is an object having a required '$ref' attribute that refe
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | [optional] 
+**type** | [**ResourceRefValueConstraintType**](ResourceRefValueConstraintType.md) |  | [optional] 
 **attributes** | [**List[AttributeItem]**](AttributeItem.md) | Additional attributes in the reference object, describing the relation. | [optional] 
 **resource_types** | [**List[ResourceTypeId]**](ResourceTypeId.md) | The possible _Resource Types_ for the referenced _Resource_. | [optional] 
 **exists** | **bool** | Flag to indicate if the referenced _Resource_ must exist | [optional] [default to False]

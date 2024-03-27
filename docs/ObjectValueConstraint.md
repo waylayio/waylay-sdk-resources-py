@@ -6,7 +6,7 @@ Specifies that a value must be an object and which attributes it needs to have
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
+**type** | [**ObjectValueConstraintType**](ObjectValueConstraintType.md) |  | 
 **attributes** | [**List[AttributeItem]**](AttributeItem.md) | Attributes descriptions | 
 
 ## Example

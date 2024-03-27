@@ -10,63 +10,29 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-import pprint
-import re  # noqa: F401
-import json
-from pydantic import ConfigDict, SerializationInfo, model_serializer, StrictStr
-from pydantic_core import from_json
-from typing import Callable, Union
-from typing import cast
-from typing_extensions import (
-    Self,  # >=3.11
-)
+
 from datetime import datetime
-from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr, field_validator
+from typing import Any
+
+from pydantic import (
+    ConfigDict,
+)
+from waylay.sdk.api._models import BaseModel as WaylayBaseModel
+
+from ..models.cloud_metadata_event_data_source import CloudMetadataEventDataSource
+from ..models.cloud_metadata_event_data_type import CloudMetadataEventDataType
 from ..models.metadata_event import MetadataEvent
 
 
-class CloudMetadataEventData(BaseModel):
+class CloudMetadataEventData(WaylayBaseModel):
     """CloudMetadataEventData."""
 
     id: Any | None = None
-    source: StrictStr | None = None
+    source: CloudMetadataEventDataSource | None = None
     subject: Any | None = None
-    type: StrictStr | None = None
+    type: CloudMetadataEventDataType | None = None
     data: MetadataEvent | None = None
     time: datetime | None = None
-
-    @field_validator("source")
-    @classmethod
-    def source_validate_enum(cls, value):
-        """Validate the enum."""
-        if value is None:
-            return value
-        if value not in ("/resources/v1/resources", "/resources/v1/resourcetypes"):
-            raise ValueError(
-                "must be one of enum values ('/resources/v1/resources', '/resources/v1/resourcetypes')"
-            )
-        return value
-
-    @field_validator("type")
-    @classmethod
-    def type_validate_enum(cls, value):
-        """Validate the enum."""
-        if value is None:
-            return value
-        if value not in (
-            "io.waylay.resources.v1.resourcetype.created",
-            "io.waylay.resources.v1.resourcetype.updated",
-            "io.waylay.resources.v1.resourcetype.deleted",
-            "io.waylay.resources.v1.resource.created",
-            "io.waylay.resources.v1.resource.updated",
-            "io.waylay.resources.v1.resource.deleted",
-            "io.waylay.resources.v1.resource.discovered",
-        ):
-            raise ValueError(
-                "must be one of enum values ('io.waylay.resources.v1.resourcetype.created', 'io.waylay.resources.v1.resourcetype.updated', 'io.waylay.resources.v1.resourcetype.deleted', 'io.waylay.resources.v1.resource.created', 'io.waylay.resources.v1.resource.updated', 'io.waylay.resources.v1.resource.deleted', 'io.waylay.resources.v1.resource.discovered')"
-            )
-        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -74,38 +40,3 @@ class CloudMetadataEventData(BaseModel):
         protected_namespaces=(),
         extra="ignore",
     )
-
-    @model_serializer(mode="wrap")
-    def serializer(
-        self, handler: Callable, info: SerializationInfo
-    ) -> Dict[StrictStr, Any]:
-        """The default serializer of the model.
-
-        * Excludes `None` fields that were not set at model initialization.
-        """
-        model_dict = handler(self, info)
-        return {
-            k: v
-            for k, v in model_dict.items()
-            if v is not None or k in self.model_fields_set
-        }
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the CloudMetadataEventData instance to dict."""
-        return self.model_dump(by_alias=True, exclude_unset=True, exclude_none=True)
-
-    def to_json(self) -> str:
-        """Convert the CloudMetadataEventData instance to a JSON-encoded string."""
-        return self.model_dump_json(
-            by_alias=True, exclude_unset=True, exclude_none=True
-        )
-
-    @classmethod
-    def from_dict(cls, obj: dict) -> Self:
-        """Create a CloudMetadataEventData instance from a dict."""
-        return cls.model_validate(obj)
-
-    @classmethod
-    def from_json(cls, json_data: str | bytes | bytearray) -> Self:
-        """Create a CloudMetadataEventData instance from a JSON-encoded string."""
-        return cls.model_validate_json(json_data)

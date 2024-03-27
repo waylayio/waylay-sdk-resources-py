@@ -35,6 +35,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_creation_response import ResourceCreationResponse
 from waylay.services.resources.models.resource_entity import ResourceEntity
 try:
@@ -106,6 +107,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 try:
     # Remove Resource
     # calls `DELETE /resources/v1/resources/{resourceId}`
@@ -173,6 +175,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_with_id_entity import ResourceWithIdEntity
 try:
     # Get Resource
@@ -249,6 +252,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_change import ResourceChange
 try:
     # List Resource Changes
@@ -324,6 +328,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_listing import ResourceListing
 try:
     # List Resource Children
@@ -402,6 +407,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_listing import ResourceListing
 try:
     # List Referring Resources
@@ -478,6 +484,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_id import ResourceId
 from waylay.services.resources.models.resource_listing import ResourceListing
 try:
@@ -572,6 +579,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.patch_resource_entity import PatchResourceEntity
 from waylay.services.resources.models.resource_with_id_entity import ResourceWithIdEntity
 try:
@@ -644,6 +652,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_entity import ResourceEntity
 from waylay.services.resources.models.resource_with_id_entity import ResourceWithIdEntity
 try:

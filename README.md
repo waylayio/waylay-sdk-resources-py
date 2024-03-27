@@ -11,12 +11,12 @@ a process that's also called _resource provisioning_.
 This Python package is automatically generated based on the 
 Waylay Resources OpenAPI specification (API version: 8.1.0)
 
-It consists of two sub-packages that are both plugins for the  package.
+It consists of two sub-packages that are both plugins for the waylay-sdk package.
 - The `waylay-sdk-resources` sub-package contains the Resources api methods.
 - The `waylay-sdk-resources-types` sub-package is an extension that contains the typed model classes for all path params, query params, body params and responses for each of the api methods in `waylay-sdk-resources`.
 
 ## Requirements.
-This package requires Python 3.11+.
+This package requires Python 3.9+.
 
 ## Installation
 Typically this package is installed when installing the [waylay-sdk](https://github.com/waylayio/waylay-sdk-py) package to enable the service's functionality.
@@ -25,7 +25,7 @@ When the service api methods are required, waylay-sdk-resources is included in:
 - ```pip install waylay-sdk[services]``` to install `waylay-sdk` along with all services.
 When the typed models are required, both waylay-sdk-resources and waylay-sdk-resources-types are included in:
 - ```pip install waylay-sdk[resources,resources-types]``` to install `waylay-sdk` along with only this service including the typed models, or
-- ```pip install waylay-sdk[resources]``` to install `waylay-sdk` along with all services along with the typed models.
+- ```pip install waylay-sdk[services,services-types]``` to install `waylay-sdk` along with all services along with the typed models.
 
 ## Usage
 
@@ -40,6 +40,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.batch_operation_enqueued import BatchOperationEnqueued
 from waylay.services.resources.models.batch_resource_operation import BatchResourceOperation
 try:
@@ -95,27 +96,39 @@ Class | Method | HTTP request | Description
 
  - [ArrayMustContainInner](docs/ArrayMustContainInner.md)
  - [ArrayValueConstraint](docs/ArrayValueConstraint.md)
+ - [ArrayValueConstraintType](docs/ArrayValueConstraintType.md)
  - [AttributeItem](docs/AttributeItem.md)
  - [BatchOperationEnqueued](docs/BatchOperationEnqueued.md)
  - [BatchOperationResult](docs/BatchOperationResult.md)
  - [BatchOperationStatusResponse](docs/BatchOperationStatusResponse.md)
  - [BatchResourceOperation](docs/BatchResourceOperation.md)
+ - [BatchResourceOperationAction](docs/BatchResourceOperationAction.md)
+ - [BatchResourceOperationEntity](docs/BatchResourceOperationEntity.md)
  - [BatchResourceOperationQuery](docs/BatchResourceOperationQuery.md)
  - [BatchResourceOperationQueryIdsInner](docs/BatchResourceOperationQueryIdsInner.md)
  - [BatchRunningResourceOperation](docs/BatchRunningResourceOperation.md)
  - [BatchRunningResourceOperationOperation](docs/BatchRunningResourceOperationOperation.md)
+ - [BatchRunningResourceOperationOperationEntity](docs/BatchRunningResourceOperationOperationEntity.md)
  - [BooleanValueConstraint](docs/BooleanValueConstraint.md)
+ - [BooleanValueConstraintType](docs/BooleanValueConstraintType.md)
  - [ChangedEvent](docs/ChangedEvent.md)
+ - [ChangedEventType](docs/ChangedEventType.md)
  - [CloudMetadataEvent](docs/CloudMetadataEvent.md)
  - [CloudMetadataEventData](docs/CloudMetadataEventData.md)
+ - [CloudMetadataEventDataSource](docs/CloudMetadataEventDataSource.md)
+ - [CloudMetadataEventDataType](docs/CloudMetadataEventDataType.md)
  - [Constraint](docs/Constraint.md)
  - [ConstraintError](docs/ConstraintError.md)
  - [ConstraintStatus](docs/ConstraintStatus.md)
+ - [ConstraintStatusStatus](docs/ConstraintStatusStatus.md)
  - [CreateDeleteEvent](docs/CreateDeleteEvent.md)
+ - [CreateDeleteEventType](docs/CreateDeleteEventType.md)
  - [DiscoveredEvent](docs/DiscoveredEvent.md)
+ - [DiscoveredEventType](docs/DiscoveredEventType.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [FailureOperationResultValue](docs/FailureOperationResultValue.md)
  - [GenericMetadataEvent](docs/GenericMetadataEvent.md)
+ - [GetStreamEventFormatParameter](docs/GetStreamEventFormatParameter.md)
  - [HALIdLink](docs/HALIdLink.md)
  - [HALLink](docs/HALLink.md)
  - [HALPageLinks](docs/HALPageLinks.md)
@@ -139,8 +152,11 @@ Class | Method | HTTP request | Description
  - [MetadataEvent](docs/MetadataEvent.md)
  - [NdJsonResponseStream](docs/NdJsonResponseStream.md)
  - [NumericEnumValueConstraint](docs/NumericEnumValueConstraint.md)
+ - [NumericEnumValueConstraintType](docs/NumericEnumValueConstraintType.md)
  - [NumericValueConstraint](docs/NumericValueConstraint.md)
+ - [NumericValueConstraintType](docs/NumericValueConstraintType.md)
  - [ObjectValueConstraint](docs/ObjectValueConstraint.md)
+ - [ObjectValueConstraintType](docs/ObjectValueConstraintType.md)
  - [OperationResultObject](docs/OperationResultObject.md)
  - [OperationResultObjectResults](docs/OperationResultObjectResults.md)
  - [PaginationLinks](docs/PaginationLinks.md)
@@ -152,6 +168,7 @@ Class | Method | HTTP request | Description
  - [PatchResourceEntity](docs/PatchResourceEntity.md)
  - [PatchResourceTypeEntity](docs/PatchResourceTypeEntity.md)
  - [ResourceChange](docs/ResourceChange.md)
+ - [ResourceChangeChange](docs/ResourceChangeChange.md)
  - [ResourceChangesPagedResponse](docs/ResourceChangesPagedResponse.md)
  - [ResourceConstraintCreationResponse](docs/ResourceConstraintCreationResponse.md)
  - [ResourceConstraintEntity](docs/ResourceConstraintEntity.md)
@@ -161,10 +178,17 @@ Class | Method | HTTP request | Description
  - [ResourceId](docs/ResourceId.md)
  - [ResourceListing](docs/ResourceListing.md)
  - [ResourceMetadataEvent](docs/ResourceMetadataEvent.md)
+ - [ResourceMetadataEventAllOfObjectType](docs/ResourceMetadataEventAllOfObjectType.md)
  - [ResourceMetric](docs/ResourceMetric.md)
  - [ResourceMetricMetricType](docs/ResourceMetricMetricType.md)
+ - [ResourceMetricMetricTypeOneOf](docs/ResourceMetricMetricTypeOneOf.md)
+ - [ResourceMetricMetricTypeOneOf1](docs/ResourceMetricMetricTypeOneOf1.md)
+ - [ResourceMetricMetricTypeOneOf2](docs/ResourceMetricMetricTypeOneOf2.md)
+ - [ResourceMetricMetricTypeOneOf3](docs/ResourceMetricMetricTypeOneOf3.md)
+ - [ResourceMetricMetricTypeOneOf4](docs/ResourceMetricMetricTypeOneOf4.md)
  - [ResourceParent](docs/ResourceParent.md)
  - [ResourceRefValueConstraint](docs/ResourceRefValueConstraint.md)
+ - [ResourceRefValueConstraintType](docs/ResourceRefValueConstraintType.md)
  - [ResourceReference](docs/ResourceReference.md)
  - [ResourceSensor](docs/ResourceSensor.md)
  - [ResourceSensorSensor](docs/ResourceSensorSensor.md)
@@ -179,12 +203,15 @@ Class | Method | HTTP request | Description
  - [ResourceTypesChangesPagedResponse](docs/ResourceTypesChangesPagedResponse.md)
  - [ResourceWithIdEntity](docs/ResourceWithIdEntity.md)
  - [ResourcetypeMetadataEvent](docs/ResourcetypeMetadataEvent.md)
+ - [ResourcetypeMetadataEventAllOfObjectType](docs/ResourcetypeMetadataEventAllOfObjectType.md)
  - [SSEventStream](docs/SSEventStream.md)
  - [SchemaValidationError](docs/SchemaValidationError.md)
  - [StringEnumValueConstraint](docs/StringEnumValueConstraint.md)
  - [StringValueConstraint](docs/StringValueConstraint.md)
+ - [StringValueConstraintType](docs/StringValueConstraintType.md)
  - [SuccessOperationResultValue](docs/SuccessOperationResultValue.md)
  - [TaskConfiguration](docs/TaskConfiguration.md)
+ - [TaskConfigurationType](docs/TaskConfigurationType.md)
  - [ValidationFailure](docs/ValidationFailure.md)
  - [ValueConstraint](docs/ValueConstraint.md)
  - [VersionResponse](docs/VersionResponse.md)

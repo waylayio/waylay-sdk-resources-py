@@ -6,7 +6,7 @@ Specifies that a value must be a string.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | [optional] 
+**type** | [**StringValueConstraintType**](StringValueConstraintType.md) |  | [optional] 
 **min_length** | **int** | Minimum length a value must have | [optional] 
 **max_length** | **int** | Maximum length a value can have | [optional] 
 

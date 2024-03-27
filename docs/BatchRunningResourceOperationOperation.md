@@ -6,8 +6,8 @@ Queued operation summary
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**entity** | **str** |  | 
-**action** | **str** |  | 
+**entity** | [**BatchRunningResourceOperationOperationEntity**](BatchRunningResourceOperationOperationEntity.md) |  | 
+**action** | [**BatchResourceOperationAction**](BatchResourceOperationAction.md) |  | 
 **description** | **str** |  | 
 
 ## Example

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | [optional] 
+**type** | [**CreateDeleteEventType**](CreateDeleteEventType.md) |  | [optional] 
 
 ## Example
 

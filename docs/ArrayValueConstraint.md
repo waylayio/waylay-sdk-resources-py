@@ -6,7 +6,7 @@ Specifies that a value must be an array and what type of elements it contains
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
+**type** | [**ArrayValueConstraintType**](ArrayValueConstraintType.md) |  | 
 **element_type** | [**ValueConstraint**](ValueConstraint.md) |  | 
 **min_length** | **int** |  | [optional] 
 **max_length** | **int** |  | [optional] 

@@ -2145,7 +2145,6 @@ components:
           title: Template Name
           type: string
         type:
-          title: Task Type
           type: string
           enum:
             - periodic

@@ -9,139 +9,63 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations  # for Python 3.7–3.9
-import io
-import warnings
 
-import enum
-from enum import Enum
-from pydantic import (
-    validate_call,
-    Field,
-    StrictFloat,
-    StrictStr,
-    StrictInt,
-    StrictBool,
-    StrictBytes,
-    ConfigDict,
-    TypeAdapter,
-)
 from typing import (
+    TYPE_CHECKING,
+    Any,
     Dict,
     List,
     Literal,
-    Optional,
-    Tuple,
-    Union,
-    Any,
-    overload,
-    TYPE_CHECKING,
-    Type,
     TypeVar,
+    overload,
+)
+
+from pydantic import (
+    Field,
+    StrictBool,
+    TypeAdapter,
 )
 from typing_extensions import (
     Annotated,  # >=3.9,
-    NotRequired,  # >=3.11
 )
-
-from waylay.sdk.plugin import WithApiClient
 from waylay.sdk.api import (
-    ApiValueError,
-    Request,
-    Response,
     HeaderTypes,
     QueryParamTypes,
-    RequestFiles,
-    RequestData,
-    RequestContent,
+    Response,
 )
 from waylay.sdk.api._models import Model
+from waylay.sdk.plugin import WithApiClient
 
 if TYPE_CHECKING:
-    from waylay.services.resources.models import Constraint
-
-    from waylay.services.resources.queries.resource_constraint_api import CreateQuery
-
-    from waylay.services.resources.models import ResourceConstraintCreationResponse
-
-    from waylay.services.resources.models import ResourceConstraintCreationResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_constraint_api import DeleteQuery
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_constraint_api import GetQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_constraint_api import ListQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import Constraint
-
-    from waylay.services.resources.queries.resource_constraint_api import ReplaceQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
+    from waylay.services.resources.models import (
+        Constraint,
+        ErrorResponse,
+        ResourceConstraintCreationResponse,
+        ResourceConstraintWithIdEntity,
+    )
+    from waylay.services.resources.queries.resource_constraint_api import (
+        CreateQuery,
+        DeleteQuery,
+        GetQuery,
+        ListQuery,
+        ReplaceQuery,
+    )
 
 
 try:
-    from waylay.services.resources.models import Constraint
-
-    from waylay.services.resources.queries.resource_constraint_api import CreateQuery
-
-    from waylay.services.resources.models import ResourceConstraintCreationResponse
-
-    from waylay.services.resources.models import ResourceConstraintCreationResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_constraint_api import DeleteQuery
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_constraint_api import GetQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_constraint_api import ListQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import Constraint
-
-    from waylay.services.resources.queries.resource_constraint_api import ReplaceQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
+    from waylay.services.resources.models import (
+        Constraint,
+        ErrorResponse,
+        ResourceConstraintCreationResponse,
+        ResourceConstraintWithIdEntity,
+    )
+    from waylay.services.resources.queries.resource_constraint_api import (
+        CreateQuery,
+        DeleteQuery,
+        GetQuery,
+        ListQuery,
+        ReplaceQuery,
+    )
 
     MODELS_AVAILABLE = True
 except ImportError:
@@ -151,7 +75,6 @@ except ImportError:
         Constraint = Model
 
         CreateQuery = dict
-
         ResourceConstraintCreationResponse = Model
 
         ErrorResponse = Model
@@ -163,27 +86,22 @@ except ImportError:
         ErrorResponse = Model
 
         GetQuery = dict
-
         ResourceConstraintWithIdEntity = Model
 
         ErrorResponse = Model
 
         ListQuery = dict
-
         ResourceConstraintWithIdEntity = Model
 
         Constraint = Model
 
         ReplaceQuery = dict
-
         ResourceConstraintWithIdEntity = Model
 
         ErrorResponse = Model
 
         ErrorResponse = Model
 
-
-from waylay.sdk.api import ApiClient, RESTTimeout
 
 T = TypeVar("T")
 
@@ -341,7 +259,7 @@ class ResourceConstraintApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -501,7 +419,7 @@ class ResourceConstraintApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -660,7 +578,7 @@ class ResourceConstraintApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -803,7 +721,7 @@ class ResourceConstraintApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -975,7 +893,7 @@ class ResourceConstraintApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )

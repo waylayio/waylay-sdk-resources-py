@@ -22,13 +22,14 @@ Get the results of the Resource Batch Operation.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.batch_operation_status_response import BatchOperationStatusResponse
 try:
     # Get Resource Batch Operation Status
@@ -89,13 +90,14 @@ Deletes multiple _Resources_ or _Resource Types_ in one batch.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.batch_operation_enqueued import BatchOperationEnqueued
 from waylay.services.resources.models.batch_resource_operation import BatchResourceOperation
 try:

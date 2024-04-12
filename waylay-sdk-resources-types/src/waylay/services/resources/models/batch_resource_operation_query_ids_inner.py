@@ -10,30 +10,17 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-from inspect import getfullargspec
-import json
-import pprint
-import re  # noqa: F401
-
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
-from ..models.resource_id import ResourceId
-from ..models.resource_type_id import ResourceTypeId
 
 from typing import (
     Union,
-    Any,
-    List,
-    TYPE_CHECKING,
-    Optional,
-    Dict,
-    Literal,  # >=3.8
 )
+
 from typing_extensions import (
     Annotated,  # >=3.9
 )
 
-from pydantic import StrictStr, Field, ConfigDict
+from ..models.resource_id import ResourceId
+from ..models.resource_type_id import ResourceTypeId
 
 BatchResourceOperationQueryIdsInner = Union[
     Annotated[ResourceId, ""], Annotated[ResourceTypeId, ""]

@@ -9,44 +9,24 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations  # for Python 3.7–3.9
-import io
-import warnings
 
 from pydantic import (
-    BaseModel,
-    validate_call,
-    Field,
-    StrictFloat,
-    StrictStr,
-    StrictInt,
     ConfigDict,
-    SerializationInfo,
-    model_serializer,
+    Field,
+    StrictInt,
+    StrictStr,
 )
-from pydantic_core import from_json
-from typing import Dict, List, Optional, Tuple, Union, Any, Callable
 from typing_extensions import (
-    Self,  # >=3.11
+    Annotated,  # >=3.11
 )
-
-from pydantic import Field
-from typing_extensions import Annotated
-from pydantic import StrictInt, StrictStr, field_validator
-
-from typing import List, Optional
-
-from ..models.constraint import Constraint
-from ..models.resource_constraint_creation_response import (
-    ResourceConstraintCreationResponse,
-)
-from ..models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
+from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 
 def _create_query_alias_for(field_name: str) -> str:
     return field_name
 
 
-class CreateQuery(BaseModel):
+class CreateQuery(WaylayBaseModel):
     """Model for `create` query parameters."""
 
     model_config = ConfigDict(
@@ -57,47 +37,12 @@ class CreateQuery(BaseModel):
         populate_by_name=True,
     )
 
-    @model_serializer(mode="wrap")
-    def serializer(
-        self, handler: Callable, info: SerializationInfo
-    ) -> Dict[StrictStr, Any]:
-        """The default serializer of the model.
-
-        * Excludes `None` fields that were not set at model initialization.
-        """
-        model_dict = handler(self, info)
-        return {
-            k: v
-            for k, v in model_dict.items()
-            if v is not None or k in self.model_fields_set
-        }
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the CreateQuery instance to dict."""
-        return self.model_dump(by_alias=True, exclude_unset=True, exclude_none=True)
-
-    def to_json(self) -> str:
-        """Convert the CreateQuery instance to a JSON-encoded string."""
-        return self.model_dump_json(
-            by_alias=True, exclude_unset=True, exclude_none=True
-        )
-
-    @classmethod
-    def from_dict(cls, obj: dict) -> Self:
-        """Create a CreateQuery instance from a dict."""
-        return cls.model_validate(obj)
-
-    @classmethod
-    def from_json(cls, json_data: str | bytes | bytearray) -> Self:
-        """Create a CreateQuery instance from a JSON-encoded string."""
-        return cls.model_validate_json(json_data)
-
 
 def _delete_query_alias_for(field_name: str) -> str:
     return field_name
 
 
-class DeleteQuery(BaseModel):
+class DeleteQuery(WaylayBaseModel):
     """Model for `delete` query parameters."""
 
     model_config = ConfigDict(
@@ -108,47 +53,12 @@ class DeleteQuery(BaseModel):
         populate_by_name=True,
     )
 
-    @model_serializer(mode="wrap")
-    def serializer(
-        self, handler: Callable, info: SerializationInfo
-    ) -> Dict[StrictStr, Any]:
-        """The default serializer of the model.
-
-        * Excludes `None` fields that were not set at model initialization.
-        """
-        model_dict = handler(self, info)
-        return {
-            k: v
-            for k, v in model_dict.items()
-            if v is not None or k in self.model_fields_set
-        }
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the DeleteQuery instance to dict."""
-        return self.model_dump(by_alias=True, exclude_unset=True, exclude_none=True)
-
-    def to_json(self) -> str:
-        """Convert the DeleteQuery instance to a JSON-encoded string."""
-        return self.model_dump_json(
-            by_alias=True, exclude_unset=True, exclude_none=True
-        )
-
-    @classmethod
-    def from_dict(cls, obj: dict) -> Self:
-        """Create a DeleteQuery instance from a dict."""
-        return cls.model_validate(obj)
-
-    @classmethod
-    def from_json(cls, json_data: str | bytes | bytearray) -> Self:
-        """Create a DeleteQuery instance from a JSON-encoded string."""
-        return cls.model_validate_json(json_data)
-
 
 def _get_query_alias_for(field_name: str) -> str:
     return field_name
 
 
-class GetQuery(BaseModel):
+class GetQuery(WaylayBaseModel):
     """Model for `get` query parameters."""
 
     model_config = ConfigDict(
@@ -158,41 +68,6 @@ class GetQuery(BaseModel):
         alias_generator=_get_query_alias_for,
         populate_by_name=True,
     )
-
-    @model_serializer(mode="wrap")
-    def serializer(
-        self, handler: Callable, info: SerializationInfo
-    ) -> Dict[StrictStr, Any]:
-        """The default serializer of the model.
-
-        * Excludes `None` fields that were not set at model initialization.
-        """
-        model_dict = handler(self, info)
-        return {
-            k: v
-            for k, v in model_dict.items()
-            if v is not None or k in self.model_fields_set
-        }
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the GetQuery instance to dict."""
-        return self.model_dump(by_alias=True, exclude_unset=True, exclude_none=True)
-
-    def to_json(self) -> str:
-        """Convert the GetQuery instance to a JSON-encoded string."""
-        return self.model_dump_json(
-            by_alias=True, exclude_unset=True, exclude_none=True
-        )
-
-    @classmethod
-    def from_dict(cls, obj: dict) -> Self:
-        """Create a GetQuery instance from a dict."""
-        return cls.model_validate(obj)
-
-    @classmethod
-    def from_json(cls, json_data: str | bytes | bytearray) -> Self:
-        """Create a GetQuery instance from a JSON-encoded string."""
-        return cls.model_validate_json(json_data)
 
 
 def _list_query_alias_for(field_name: str) -> str:
@@ -205,7 +80,7 @@ def _list_query_alias_for(field_name: str) -> str:
     return field_name
 
 
-class ListQuery(BaseModel):
+class ListQuery(WaylayBaseModel):
     """Model for `list` query parameters."""
 
     skip: Annotated[
@@ -226,47 +101,12 @@ class ListQuery(BaseModel):
         populate_by_name=True,
     )
 
-    @model_serializer(mode="wrap")
-    def serializer(
-        self, handler: Callable, info: SerializationInfo
-    ) -> Dict[StrictStr, Any]:
-        """The default serializer of the model.
-
-        * Excludes `None` fields that were not set at model initialization.
-        """
-        model_dict = handler(self, info)
-        return {
-            k: v
-            for k, v in model_dict.items()
-            if v is not None or k in self.model_fields_set
-        }
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the ListQuery instance to dict."""
-        return self.model_dump(by_alias=True, exclude_unset=True, exclude_none=True)
-
-    def to_json(self) -> str:
-        """Convert the ListQuery instance to a JSON-encoded string."""
-        return self.model_dump_json(
-            by_alias=True, exclude_unset=True, exclude_none=True
-        )
-
-    @classmethod
-    def from_dict(cls, obj: dict) -> Self:
-        """Create a ListQuery instance from a dict."""
-        return cls.model_validate(obj)
-
-    @classmethod
-    def from_json(cls, json_data: str | bytes | bytearray) -> Self:
-        """Create a ListQuery instance from a JSON-encoded string."""
-        return cls.model_validate_json(json_data)
-
 
 def _replace_query_alias_for(field_name: str) -> str:
     return field_name
 
 
-class ReplaceQuery(BaseModel):
+class ReplaceQuery(WaylayBaseModel):
     """Model for `replace` query parameters."""
 
     model_config = ConfigDict(
@@ -276,38 +116,3 @@ class ReplaceQuery(BaseModel):
         alias_generator=_replace_query_alias_for,
         populate_by_name=True,
     )
-
-    @model_serializer(mode="wrap")
-    def serializer(
-        self, handler: Callable, info: SerializationInfo
-    ) -> Dict[StrictStr, Any]:
-        """The default serializer of the model.
-
-        * Excludes `None` fields that were not set at model initialization.
-        """
-        model_dict = handler(self, info)
-        return {
-            k: v
-            for k, v in model_dict.items()
-            if v is not None or k in self.model_fields_set
-        }
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the ReplaceQuery instance to dict."""
-        return self.model_dump(by_alias=True, exclude_unset=True, exclude_none=True)
-
-    def to_json(self) -> str:
-        """Convert the ReplaceQuery instance to a JSON-encoded string."""
-        return self.model_dump_json(
-            by_alias=True, exclude_unset=True, exclude_none=True
-        )
-
-    @classmethod
-    def from_dict(cls, obj: dict) -> Self:
-        """Create a ReplaceQuery instance from a dict."""
-        return cls.model_validate(obj)
-
-    @classmethod
-    def from_json(cls, json_data: str | bytes | bytearray) -> Self:
-        """Create a ReplaceQuery instance from a JSON-encoded string."""
-        return cls.model_validate_json(json_data)

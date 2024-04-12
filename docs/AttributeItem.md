@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** | name of the attribute | 
 **required** | **bool** | Indicates if the attribute must be present or is optional | 
-**type** | [**ValueConstraint**](ValueConstraint.md) |  | 
+**type** | [**GenericModel**](GenericModel.md) |  | 
 
 ## Example
 

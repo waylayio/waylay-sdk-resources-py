@@ -7,7 +7,7 @@ Specification of a template and task creation attributes for the task that gets 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **template_name** | **str** |  | 
-**type** | **str** |  | [optional] 
+**type** | [**TaskConfigurationType**](TaskConfigurationType.md) |  | [optional] 
 
 ## Example
 

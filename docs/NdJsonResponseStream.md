@@ -5,15 +5,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**object_type** | **str** |  | 
+**type** | [**CloudMetadataEventDataType**](CloudMetadataEventDataType.md) |  | 
+**object_type** | [**ResourcetypeMetadataEventAllOfObjectType**](ResourcetypeMetadataEventAllOfObjectType.md) |  | 
 **timestamp** | **datetime** |  | 
 **resource** | [**ResourceEntity**](ResourceEntity.md) |  | 
 **old_values** | **object** | old values of all attributes that have changed | [optional] 
 **message** | **object** | The broker message that triggered the discovery | [optional] 
 **resourcetype** | [**ResourceTypeEntity**](ResourceTypeEntity.md) |  | 
 **id** | **object** |  | 
-**source** | **str** |  | 
+**source** | [**CloudMetadataEventDataSource**](CloudMetadataEventDataSource.md) |  | 
 **subject** | **object** |  | 
 **data** | [**MetadataEvent**](MetadataEvent.md) |  | [optional] 
 **time** | **datetime** |  | 

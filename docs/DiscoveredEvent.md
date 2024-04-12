@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | [optional] 
+**type** | [**DiscoveredEventType**](DiscoveredEventType.md) |  | [optional] 
 **message** | **object** | The broker message that triggered the discovery | [optional] 
 
 ## Example

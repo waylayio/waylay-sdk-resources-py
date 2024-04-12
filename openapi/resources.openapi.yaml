@@ -51,15 +51,15 @@ tags:
   externalDocs:
     description: Waylay Documentation
     url: https://docs.waylay.io/#/api/resources/?id=bulk-interface
-- name: Version
+- name: About
 paths:
   /resources/v1/:
     get:
-      summary: Get Version
-      operationId: get_version
+      summary: Get Service Information
+      operationId: get_about
       tags:
-      - Version
-      description: Gets the status and version of the service.
+      - About
+      description: Get the name and version of the service.
       responses:
         '200':
           $ref: '#/components/responses/VersionResponse'
@@ -1178,6 +1178,16 @@ components:
       description: User subject id in the Waylay Accounts database
       pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
       example: 4b6c0c68-7c5f-4ad8-a138-e5d9d96242ed
+    WithIdRequired:
+      type: object
+      x-comment: Entity with a required id
+      required:
+      - id
+      properties:
+        id:
+          type: string
+      example:
+        id: afcea5a1-81df-44f6-bd34-e0b602a2cf3d
     ResourceReference:
       type: object
       title: Resource Reference
@@ -1311,6 +1321,7 @@ components:
     ResourceTypeWithIdEntity:
       type: object
       allOf:
+      - $ref: '#/components/schemas/WithIdRequired'
       - $ref: '#/components/schemas/ResourceTypeEntity'
       - properties:
           $bulkOperation:
@@ -1328,8 +1339,6 @@ components:
               its `resourceTypeId` attribute set to the `id` of this _Resource Type_.'
             items:
               $ref: '#/components/schemas/ConstraintStatus'
-        required:
-        - id
     HALLink:
       type: object
       title: HAL link
@@ -1443,10 +1452,8 @@ components:
       - $ref: '#/components/schemas/MetadataEntity'
     ResourceWithIdEntity:
       allOf:
+      - $ref: '#/components/schemas/WithIdRequired'
       - $ref: '#/components/schemas/ResourceEntity'
-      - type: object
-        required:
-        - id
     PatchResourceEntity:
       type: object
       allOf:
@@ -1549,10 +1556,8 @@ components:
       - $ref: '#/components/schemas/Constraint'
     ResourceConstraintWithIdEntity:
       allOf:
+      - $ref: '#/components/schemas/WithIdRequired'
       - $ref: '#/components/schemas/ResourceConstraintEntity'
-      - type: object
-        required:
-        - id
     PagingSkip:
       type: integer
       title: Skipped Count

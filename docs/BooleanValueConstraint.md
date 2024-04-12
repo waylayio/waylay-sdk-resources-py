@@ -6,7 +6,7 @@ Specifies that the value must be a boolean
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | [optional] 
+**type** | [**BooleanValueConstraintType**](BooleanValueConstraintType.md) |  | [optional] 
 
 ## Example
 

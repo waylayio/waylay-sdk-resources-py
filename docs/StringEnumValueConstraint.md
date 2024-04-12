@@ -6,8 +6,8 @@ Specifies that a value must be one of the given strings.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**enum_type** | **str** |  | 
+**type** | [**NumericEnumValueConstraintType**](NumericEnumValueConstraintType.md) |  | 
+**enum_type** | [**StringValueConstraintType**](StringValueConstraintType.md) |  | 
 **items** | **List[str]** |  | 
 
 ## Example

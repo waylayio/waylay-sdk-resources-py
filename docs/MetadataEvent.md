@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**object_type** | **str** |  | 
+**type** | [**ChangedEventType**](ChangedEventType.md) |  | 
+**object_type** | [**ResourcetypeMetadataEventAllOfObjectType**](ResourcetypeMetadataEventAllOfObjectType.md) |  | 
 **timestamp** | **datetime** |  | 
 **resource** | [**ResourceEntity**](ResourceEntity.md) |  | 
 **old_values** | **object** | old values of all attributes that have changed | [optional] 

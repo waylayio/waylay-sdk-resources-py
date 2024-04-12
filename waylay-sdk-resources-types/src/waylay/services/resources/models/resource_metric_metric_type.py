@@ -10,41 +10,26 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-from inspect import getfullargspec
-import json
-import pprint
-import re  # noqa: F401
+
 from typing import (
     Union,
-    Any,
-    List,
-    TYPE_CHECKING,
-    Optional,
-    Dict,
-    Literal,  # >=3.8
 )
+
 from typing_extensions import (
     Annotated,  # >=3.9
 )
-from pydantic import StrictStr, Field, ConfigDict
 
-
-from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
-from pydantic import Field
-
+from ..models.resource_metric_metric_type_one_of import ResourceMetricMetricTypeOneOf
+from ..models.resource_metric_metric_type_one_of1 import ResourceMetricMetricTypeOneOf1
+from ..models.resource_metric_metric_type_one_of2 import ResourceMetricMetricTypeOneOf2
+from ..models.resource_metric_metric_type_one_of3 import ResourceMetricMetricTypeOneOf3
+from ..models.resource_metric_metric_type_one_of4 import ResourceMetricMetricTypeOneOf4
 
 ResourceMetricMetricType = Union[
-    Annotated[str, "A number per second (implies that unit ends on ‘/s’)"],
-    Annotated[str, "A number per a given interval (such as a statsd flushInterval)"],
-    Annotated[str, "Values at each point in time"],
-    Annotated[
-        str,
-        "Keeps increasing over time (but might wrap/reset at some point) i.e. a gauge with the added notion of “i usually want to derive this to see the rate”",
-    ],
-    Annotated[
-        str,
-        "Value represents a unix timestamp. so basically a gauge or counter but we know we can also render the “age” at each point.",
-    ],
+    Annotated[ResourceMetricMetricTypeOneOf, ""],
+    Annotated[ResourceMetricMetricTypeOneOf1, ""],
+    Annotated[ResourceMetricMetricTypeOneOf2, ""],
+    Annotated[ResourceMetricMetricTypeOneOf3, ""],
+    Annotated[ResourceMetricMetricTypeOneOf4, ""],
 ]
 """How measurements should be treated as a time series.."""

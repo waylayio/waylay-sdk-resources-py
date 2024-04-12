@@ -9,231 +9,80 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations  # for Python 3.7–3.9
-import io
-import warnings
 
-import enum
-from enum import Enum
-from pydantic import (
-    validate_call,
-    Field,
-    StrictFloat,
-    StrictStr,
-    StrictInt,
-    StrictBool,
-    StrictBytes,
-    ConfigDict,
-    TypeAdapter,
-)
 from typing import (
+    TYPE_CHECKING,
+    Any,
     Dict,
     List,
     Literal,
-    Optional,
-    Tuple,
-    Union,
-    Any,
-    overload,
-    TYPE_CHECKING,
-    Type,
     TypeVar,
+    overload,
+)
+
+from pydantic import (
+    Field,
+    StrictBool,
+    StrictStr,
+    TypeAdapter,
 )
 from typing_extensions import (
     Annotated,  # >=3.9,
-    NotRequired,  # >=3.11
 )
-
-from waylay.sdk.plugin import WithApiClient
 from waylay.sdk.api import (
-    ApiValueError,
-    Request,
-    Response,
     HeaderTypes,
     QueryParamTypes,
-    RequestFiles,
-    RequestData,
-    RequestContent,
+    Response,
 )
 from waylay.sdk.api._models import Model
+from waylay.sdk.plugin import WithApiClient
 
 if TYPE_CHECKING:
-    from waylay.services.resources.models import ResourceTypeWithConstraints
-
-    from waylay.services.resources.queries.resource_type_api import CreateQuery
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import DeleteQuery
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import GetQuery
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import ListChangesQuery
-
-    from waylay.services.resources.models import ResourceTypeChange
-
-    from waylay.services.resources.models import ResourceTypeChange
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import ListConstraintsQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import ListQuery
-
-    from waylay.services.resources.models import ResourceTypeListing
-
-    from waylay.services.resources.models import ResourceTypeListing
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import PatchResourceTypeEntity
-
-    from waylay.services.resources.queries.resource_type_api import PatchQuery
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ResourceTypeWithConstraints
-
-    from waylay.services.resources.queries.resource_type_api import ReplaceQuery
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import RevalidateQuery
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
+    from waylay.services.resources.models import (
+        ErrorResponse,
+        PatchResourceTypeEntity,
+        ResourceConstraintWithIdEntity,
+        ResourceTypeChange,
+        ResourceTypeCreationResponse,
+        ResourceTypeListing,
+        ResourceTypeWithConstraints,
+        ResourceTypeWithIdEntity,
+    )
+    from waylay.services.resources.queries.resource_type_api import (
+        CreateQuery,
+        DeleteQuery,
+        GetQuery,
+        ListChangesQuery,
+        ListConstraintsQuery,
+        ListQuery,
+        PatchQuery,
+        ReplaceQuery,
+        RevalidateQuery,
+    )
 
 
 try:
-    from waylay.services.resources.models import ResourceTypeWithConstraints
-
-    from waylay.services.resources.queries.resource_type_api import CreateQuery
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import DeleteQuery
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import GetQuery
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import ListChangesQuery
-
-    from waylay.services.resources.models import ResourceTypeChange
-
-    from waylay.services.resources.models import ResourceTypeChange
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import ListConstraintsQuery
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ResourceConstraintWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import ListQuery
-
-    from waylay.services.resources.models import ResourceTypeListing
-
-    from waylay.services.resources.models import ResourceTypeListing
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import PatchResourceTypeEntity
-
-    from waylay.services.resources.queries.resource_type_api import PatchQuery
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ResourceTypeCreationResponse
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ResourceTypeWithConstraints
-
-    from waylay.services.resources.queries.resource_type_api import ReplaceQuery
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.models import ErrorResponse
-
-    from waylay.services.resources.queries.resource_type_api import RevalidateQuery
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ResourceTypeWithIdEntity
-
-    from waylay.services.resources.models import ErrorResponse
+    from waylay.services.resources.models import (
+        ErrorResponse,
+        PatchResourceTypeEntity,
+        ResourceConstraintWithIdEntity,
+        ResourceTypeChange,
+        ResourceTypeCreationResponse,
+        ResourceTypeListing,
+        ResourceTypeWithConstraints,
+        ResourceTypeWithIdEntity,
+    )
+    from waylay.services.resources.queries.resource_type_api import (
+        CreateQuery,
+        DeleteQuery,
+        GetQuery,
+        ListChangesQuery,
+        ListConstraintsQuery,
+        ListQuery,
+        PatchQuery,
+        ReplaceQuery,
+        RevalidateQuery,
+    )
 
     MODELS_AVAILABLE = True
 except ImportError:
@@ -243,7 +92,6 @@ except ImportError:
         ResourceTypeWithConstraints = Model
 
         CreateQuery = dict
-
         ResourceTypeCreationResponse = Model
 
         ErrorResponse = Model
@@ -259,25 +107,21 @@ except ImportError:
         ErrorResponse = Model
 
         GetQuery = dict
-
         ResourceTypeWithIdEntity = Model
 
         ErrorResponse = Model
 
         ListChangesQuery = dict
-
         ResourceTypeChange = Model
 
         ErrorResponse = Model
 
         ListConstraintsQuery = dict
-
         ResourceConstraintWithIdEntity = Model
 
         ErrorResponse = Model
 
         ListQuery = dict
-
         ResourceTypeListing = Model
 
         ErrorResponse = Model
@@ -285,7 +129,6 @@ except ImportError:
         PatchResourceTypeEntity = Model
 
         PatchQuery = dict
-
         ResourceTypeCreationResponse = Model
 
         ResourceTypeWithIdEntity = Model
@@ -297,7 +140,6 @@ except ImportError:
         ResourceTypeWithConstraints = Model
 
         ReplaceQuery = dict
-
         ResourceTypeWithIdEntity = Model
 
         ErrorResponse = Model
@@ -307,13 +149,10 @@ except ImportError:
         ErrorResponse = Model
 
         RevalidateQuery = dict
-
         ResourceTypeWithIdEntity = Model
 
         ErrorResponse = Model
 
-
-from waylay.sdk.api import ApiClient, RESTTimeout
 
 T = TypeVar("T")
 
@@ -472,7 +311,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -621,7 +460,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -772,7 +611,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -923,7 +762,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -1070,7 +909,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -1223,7 +1062,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -1384,7 +1223,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -1545,7 +1384,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -1692,7 +1531,7 @@ class ResourceTypeApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )

@@ -10,39 +10,22 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-import pprint
-import re  # noqa: F401
-import json
-from pydantic import ConfigDict, SerializationInfo, model_serializer, StrictStr
-from pydantic_core import from_json
-from typing import Callable, Union
-from typing import cast
-from typing_extensions import (
-    Self,  # >=3.11
+
+from pydantic import (
+    ConfigDict,
+    Field,
+    StrictStr,
 )
+from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
-from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr, field_validator
-from pydantic import Field
+from ..models.task_configuration_type import TaskConfigurationType
 
 
-class TaskConfiguration(BaseModel):
+class TaskConfiguration(WaylayBaseModel):
     """Specification of a template and task creation attributes for the task that gets instantiate when a _Resource_ created.."""
 
     template_name: StrictStr = Field(alias="templateName")
-    type: StrictStr | None = None
-
-    @field_validator("type")
-    @classmethod
-    def type_validate_enum(cls, value):
-        """Validate the enum."""
-        if value is None:
-            return value
-        if value not in ("periodic", "onetime", "scheduled", "reactive"):
-            raise ValueError(
-                "must be one of enum values ('periodic', 'onetime', 'scheduled', 'reactive')"
-            )
-        return value
+    type: TaskConfigurationType | None = None
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,38 +33,3 @@ class TaskConfiguration(BaseModel):
         protected_namespaces=(),
         extra="allow",
     )
-
-    @model_serializer(mode="wrap")
-    def serializer(
-        self, handler: Callable, info: SerializationInfo
-    ) -> Dict[StrictStr, Any]:
-        """The default serializer of the model.
-
-        * Excludes `None` fields that were not set at model initialization.
-        """
-        model_dict = handler(self, info)
-        return {
-            k: v
-            for k, v in model_dict.items()
-            if v is not None or k in self.model_fields_set
-        }
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the TaskConfiguration instance to dict."""
-        return self.model_dump(by_alias=True, exclude_unset=True, exclude_none=True)
-
-    def to_json(self) -> str:
-        """Convert the TaskConfiguration instance to a JSON-encoded string."""
-        return self.model_dump_json(
-            by_alias=True, exclude_unset=True, exclude_none=True
-        )
-
-    @classmethod
-    def from_dict(cls, obj: dict) -> Self:
-        """Create a TaskConfiguration instance from a dict."""
-        return cls.model_validate(obj)
-
-    @classmethod
-    def from_json(cls, json_data: str | bytes | bytearray) -> Self:
-        """Create a TaskConfiguration instance from a JSON-encoded string."""
-        return cls.model_validate_json(json_data)

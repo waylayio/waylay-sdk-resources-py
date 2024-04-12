@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**entity** | **str** | Type of entities to remove | 
-**action** | **str** |  | 
+**entity** | [**BatchResourceOperationEntity**](BatchResourceOperationEntity.md) |  | 
+**action** | [**BatchResourceOperationAction**](BatchResourceOperationAction.md) |  | 
 **query** | [**BatchResourceOperationQuery**](BatchResourceOperationQuery.md) |  | 
 
 ## Example

@@ -6,9 +6,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **object** |  | 
-**source** | **str** |  | 
+**source** | [**CloudMetadataEventDataSource**](CloudMetadataEventDataSource.md) |  | 
 **subject** | **object** |  | 
-**type** | **str** |  | 
+**type** | [**CloudMetadataEventDataType**](CloudMetadataEventDataType.md) |  | 
 **data** | [**MetadataEvent**](MetadataEvent.md) |  | [optional] 
 **time** | **datetime** |  | 
 

@@ -6,8 +6,8 @@ Specifies that a value must be an array and what type of elements it contains
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**element_type** | [**ValueConstraint**](ValueConstraint.md) |  | 
+**type** | [**ArrayValueConstraintType**](ArrayValueConstraintType.md) |  | 
+**element_type** | [**GenericModel**](GenericModel.md) |  | 
 **min_length** | **int** |  | [optional] 
 **max_length** | **int** |  | [optional] 
 **unique_values** | **bool** | If true, all values in the array must be unique. | [optional] [default to False]

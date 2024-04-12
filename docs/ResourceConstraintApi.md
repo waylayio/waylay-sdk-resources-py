@@ -24,13 +24,14 @@ Creates a new _Resource Constraint_ from the given representation.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.constraint import Constraint
 from waylay.services.resources.models.resource_constraint_creation_response import ResourceConstraintCreationResponse
 try:
@@ -94,13 +95,14 @@ Removes a _Resource Constraint_. Fails if the _Resource Constraint_ is already a
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 try:
     # Remove Resource Constraint
     # calls `DELETE /resources/v1/resourceconstraints/{resourceConstraintId}`
@@ -160,13 +162,14 @@ Gets the definition or _JSON Schema_ representation of a _Resource Constraint_.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
 try:
     # Get Resource Constraint
@@ -228,13 +231,14 @@ Lists _Resource Constraints_ that fulfill the given criteria.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
 try:
     # List Resource Constraints
@@ -300,13 +304,14 @@ Replaces the full definition of a _Resource Constraint_. Fails if the _Resource 
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.constraint import Constraint
 from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
 try:

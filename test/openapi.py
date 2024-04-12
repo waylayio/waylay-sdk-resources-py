@@ -1,4 +1,5 @@
 import json
+
 import yaml
 
 
@@ -42,36 +43,30 @@ _array_must_contain_inner_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"Array_Must_Contain_inner": _array_must_contain_inner_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "Array_Must_Contain_inner": _array_must_contain_inner_model_schema
+})
 
 _array_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "ArrayValueConstraint",
   "required" : [ "elementType", "type" ],
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "array" ]
+      "$ref" : "#/components/schemas/ArrayValueConstraint_type"
     },
     "elementType" : {
       "$ref" : "#/components/schemas/ValueConstraint"
     },
     "minLength" : {
-      "title" : "minLength",
       "minimum" : 0,
       "type" : "integer"
     },
     "maxLength" : {
-      "title" : "maxLength",
       "minimum" : 0,
       "type" : "integer"
     },
     "uniqueValues" : {
-      "title" : "uniqueValues",
       "type" : "boolean",
       "description" : "If true, all values in the array must be unique.",
       "default" : false
@@ -91,6 +86,19 @@ _array_value_constraint_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"ArrayValueConstraint": _array_value_constraint_model_schema})
+
+_array_value_constraint_type_model_schema = json.loads(
+    r"""{
+  "title" : "ArrayValueConstraint_type",
+  "type" : "string",
+  "enum" : [ "array" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ArrayValueConstraint_type": _array_value_constraint_type_model_schema
+})
 
 _attribute_item_model_schema = json.loads(
     r"""{
@@ -145,9 +153,9 @@ _batch_operation_enqueued_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"Batch_operation_enqueued": _batch_operation_enqueued_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "Batch_operation_enqueued": _batch_operation_enqueued_model_schema
+})
 
 _batch_operation_result_model_schema = json.loads(
     r"""{
@@ -202,9 +210,9 @@ _batch_operation_status_response_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"BatchOperationStatusResponse": _batch_operation_status_response_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "BatchOperationStatusResponse": _batch_operation_status_response_model_schema
+})
 
 _batch_resource_operation_model_schema = json.loads(
     r"""{
@@ -212,13 +220,10 @@ _batch_resource_operation_model_schema = json.loads(
   "type" : "object",
   "properties" : {
     "entity" : {
-      "type" : "string",
-      "description" : "Type of entities to remove",
-      "enum" : [ "resource", "resourcetype" ]
+      "$ref" : "#/components/schemas/BatchResourceOperation_entity"
     },
     "action" : {
-      "type" : "string",
-      "enum" : [ "delete" ]
+      "$ref" : "#/components/schemas/BatchResourceOperation_action"
     },
     "query" : {
       "$ref" : "#/components/schemas/BatchResourceOperation_query"
@@ -228,9 +233,36 @@ _batch_resource_operation_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"BatchResourceOperation": _batch_resource_operation_model_schema}
+MODEL_DEFINITIONS.update({
+    "BatchResourceOperation": _batch_resource_operation_model_schema
+})
+
+_batch_resource_operation_action_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourceOperation_action",
+  "type" : "string",
+  "enum" : [ "delete" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "BatchResourceOperation_action": _batch_resource_operation_action_model_schema
+})
+
+_batch_resource_operation_entity_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourceOperation_entity",
+  "type" : "string",
+  "description" : "Type of entities to remove",
+  "enum" : [ "resource", "resourcetype" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourceOperation_entity": _batch_resource_operation_entity_model_schema
+})
 
 _batch_resource_operation_query_model_schema = json.loads(
     r"""{
@@ -251,9 +283,9 @@ _batch_resource_operation_query_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"BatchResourceOperation_query": _batch_resource_operation_query_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "BatchResourceOperation_query": _batch_resource_operation_query_model_schema
+})
 
 _batch_resource_operation_query_ids_inner_model_schema = json.loads(
     r"""{
@@ -267,11 +299,9 @@ _batch_resource_operation_query_ids_inner_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "BatchResourceOperation_query_ids_inner": _batch_resource_operation_query_ids_inner_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "BatchResourceOperation_query_ids_inner": _batch_resource_operation_query_ids_inner_model_schema
+})
 
 _batch_running_resource_operation_model_schema = json.loads(
     r"""{
@@ -295,9 +325,9 @@ _batch_running_resource_operation_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"BatchRunningResourceOperation": _batch_running_resource_operation_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "BatchRunningResourceOperation": _batch_running_resource_operation_model_schema
+})
 
 _batch_running_resource_operation_operation_model_schema = json.loads(
     r"""{
@@ -306,14 +336,10 @@ _batch_running_resource_operation_operation_model_schema = json.loads(
   "type" : "object",
   "properties" : {
     "entity" : {
-      "title" : "entity",
-      "type" : "string",
-      "enum" : [ "resource", "resourcetype" ]
+      "$ref" : "#/components/schemas/BatchRunningResourceOperation_operation_entity"
     },
     "action" : {
-      "title" : "action",
-      "type" : "string",
-      "enum" : [ "delete" ]
+      "$ref" : "#/components/schemas/BatchResourceOperation_action"
     },
     "description" : {
       "title" : "description",
@@ -326,21 +352,29 @@ _batch_running_resource_operation_operation_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "BatchRunningResourceOperation_operation": _batch_running_resource_operation_operation_model_schema
-    }
+MODEL_DEFINITIONS.update({
+    "BatchRunningResourceOperation_operation": _batch_running_resource_operation_operation_model_schema
+})
+
+_batch_running_resource_operation_operation_entity_model_schema = json.loads(
+    r"""{
+  "title" : "BatchRunningResourceOperation_operation_entity",
+  "type" : "string",
+  "enum" : [ "resource", "resourcetype" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "BatchRunningResourceOperation_operation_entity": _batch_running_resource_operation_operation_entity_model_schema
+})
 
 _boolean_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "BooleanValueConstraint",
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "boolean" ]
+      "$ref" : "#/components/schemas/BooleanValueConstraint_type"
     }
   },
   "description" : "Specifies that the value must be a boolean"
@@ -348,16 +382,28 @@ _boolean_value_constraint_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"BooleanValueConstraint": _boolean_value_constraint_model_schema}
+MODEL_DEFINITIONS.update({
+    "BooleanValueConstraint": _boolean_value_constraint_model_schema
+})
+
+_boolean_value_constraint_type_model_schema = json.loads(
+    r"""{
+  "title" : "BooleanValueConstraint_type",
+  "type" : "string",
+  "enum" : [ "boolean" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "BooleanValueConstraint_type": _boolean_value_constraint_type_model_schema
+})
 
 _changed_event_model_schema = json.loads(
     r"""{
   "properties" : {
     "type" : {
-      "type" : "string",
-      "enum" : [ "update" ]
+      "$ref" : "#/components/schemas/ChangedEvent_type"
     },
     "oldValues" : {
       "type" : "object",
@@ -369,6 +415,17 @@ _changed_event_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"ChangedEvent": _changed_event_model_schema})
+
+_changed_event_type_model_schema = json.loads(
+    r"""{
+  "title" : "ChangedEvent_type",
+  "type" : "string",
+  "enum" : [ "update" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"ChangedEvent_type": _changed_event_type_model_schema})
 
 _cloud_metadata_event_model_schema = json.loads(
     r"""{
@@ -393,16 +450,13 @@ _cloud_metadata_event_data_model_schema = json.loads(
       "example" : "dd59d2d9-9657-4d36-b045-ef97315f2d20"
     },
     "source" : {
-      "type" : "string",
-      "example" : "/resources/v1/resources",
-      "enum" : [ "/resources/v1/resources", "/resources/v1/resourcetypes" ]
+      "$ref" : "#/components/schemas/CloudMetadataEventData_source"
     },
     "subject" : {
       "example" : "289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d"
     },
     "type" : {
-      "type" : "string",
-      "enum" : [ "io.waylay.resources.v1.resourcetype.created", "io.waylay.resources.v1.resourcetype.updated", "io.waylay.resources.v1.resourcetype.deleted", "io.waylay.resources.v1.resource.created", "io.waylay.resources.v1.resource.updated", "io.waylay.resources.v1.resource.deleted", "io.waylay.resources.v1.resource.discovered" ]
+      "$ref" : "#/components/schemas/CloudMetadataEventData_type"
     },
     "data" : {
       "$ref" : "#/components/schemas/MetadataEvent"
@@ -415,9 +469,36 @@ _cloud_metadata_event_data_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"CloudMetadataEventData": _cloud_metadata_event_data_model_schema}
+MODEL_DEFINITIONS.update({
+    "CloudMetadataEventData": _cloud_metadata_event_data_model_schema
+})
+
+_cloud_metadata_event_data_source_model_schema = json.loads(
+    r"""{
+  "title" : "CloudMetadataEventData_source",
+  "type" : "string",
+  "example" : "/resources/v1/resources",
+  "enum" : [ "/resources/v1/resources", "/resources/v1/resourcetypes" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "CloudMetadataEventData_source": _cloud_metadata_event_data_source_model_schema
+})
+
+_cloud_metadata_event_data_type_model_schema = json.loads(
+    r"""{
+  "title" : "CloudMetadataEventData_type",
+  "type" : "string",
+  "enum" : [ "io.waylay.resources.v1.resourcetype.created", "io.waylay.resources.v1.resourcetype.updated", "io.waylay.resources.v1.resourcetype.deleted", "io.waylay.resources.v1.resource.created", "io.waylay.resources.v1.resource.updated", "io.waylay.resources.v1.resource.deleted", "io.waylay.resources.v1.resource.discovered" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "CloudMetadataEventData_type": _cloud_metadata_event_data_type_model_schema
+})
 
 _constraint_model_schema = json.loads(
     r"""{
@@ -496,10 +577,7 @@ _constraint_status_model_schema = json.loads(
   "type" : "object",
   "properties" : {
     "status" : {
-      "title" : "status",
-      "type" : "string",
-      "example" : "failed",
-      "enum" : [ "applying", "ineffect", "failed" ]
+      "$ref" : "#/components/schemas/ConstraintStatus_status"
     },
     "constraintId" : {
       "$ref" : "#/components/schemas/ResourceConstraintId"
@@ -519,12 +597,25 @@ _constraint_status_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"ConstraintStatus": _constraint_status_model_schema})
 
+_constraint_status_status_model_schema = json.loads(
+    r"""{
+  "title" : "ConstraintStatus_status",
+  "type" : "string",
+  "example" : "failed",
+  "enum" : [ "applying", "ineffect", "failed" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ConstraintStatus_status": _constraint_status_status_model_schema
+})
+
 _create_delete_event_model_schema = json.loads(
     r"""{
   "properties" : {
     "type" : {
-      "type" : "string",
-      "enum" : [ "create", "delete" ]
+      "$ref" : "#/components/schemas/CreateDeleteEvent_type"
     }
   }
 }
@@ -533,12 +624,24 @@ _create_delete_event_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"CreateDeleteEvent": _create_delete_event_model_schema})
 
+_create_delete_event_type_model_schema = json.loads(
+    r"""{
+  "title" : "CreateDeleteEvent_type",
+  "type" : "string",
+  "enum" : [ "create", "delete" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "CreateDeleteEvent_type": _create_delete_event_type_model_schema
+})
+
 _discovered_event_model_schema = json.loads(
     r"""{
   "properties" : {
     "type" : {
-      "type" : "string",
-      "enum" : [ "discovered" ]
+      "$ref" : "#/components/schemas/DiscoveredEvent_type"
     },
     "message" : {
       "type" : "object",
@@ -550,6 +653,17 @@ _discovered_event_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"DiscoveredEvent": _discovered_event_model_schema})
+
+_discovered_event_type_model_schema = json.loads(
+    r"""{
+  "title" : "DiscoveredEvent_type",
+  "type" : "string",
+  "enum" : [ "discovered" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"DiscoveredEvent_type": _discovered_event_type_model_schema})
 
 _error_response_model_schema = json.loads(
     r"""{
@@ -597,9 +711,9 @@ _failure_operation_result_value_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"FailureOperationResult_value": _failure_operation_result_value_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "FailureOperationResult_value": _failure_operation_result_value_model_schema
+})
 
 _generic_metadata_event_model_schema = json.loads(
     r"""{
@@ -621,6 +735,18 @@ _generic_metadata_event_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"GenericMetadataEvent": _generic_metadata_event_model_schema})
+
+_get_stream_event_format_parameter_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "enum" : [ "application/cloudevents+json" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "getStream_eventFormat_parameter": _get_stream_event_format_parameter_model_schema
+})
 
 _halid_link_model_schema = json.loads(
     r"""{
@@ -711,11 +837,9 @@ _hal_resource_entity_all_of__embedded_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "HALResourceEntity_allOf__embedded": _hal_resource_entity_all_of__embedded_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "HALResourceEntity_allOf__embedded": _hal_resource_entity_all_of__embedded_model_schema
+})
 
 _hal_resource_entity_all_of__links_model_schema = json.loads(
     r"""{
@@ -736,9 +860,9 @@ _hal_resource_entity_all_of__links_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"HALResourceEntity_allOf__links": _hal_resource_entity_all_of__links_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "HALResourceEntity_allOf__links": _hal_resource_entity_all_of__links_model_schema
+})
 
 _hal_resource_entity_all_of__links_children_model_schema = json.loads(
     r"""{
@@ -755,11 +879,9 @@ _hal_resource_entity_all_of__links_children_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "HALResourceEntity_allOf__links_children": _hal_resource_entity_all_of__links_children_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "HALResourceEntity_allOf__links_children": _hal_resource_entity_all_of__links_children_model_schema
+})
 
 _hal_resource_entity_all_of__links_parent_model_schema = json.loads(
     r"""{
@@ -777,11 +899,9 @@ _hal_resource_entity_all_of__links_parent_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "HALResourceEntity_allOf__links_parent": _hal_resource_entity_all_of__links_parent_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "HALResourceEntity_allOf__links_parent": _hal_resource_entity_all_of__links_parent_model_schema
+})
 
 _hal_resource_entity_all_of__links_resource_type_model_schema = json.loads(
     r"""{
@@ -799,11 +919,9 @@ _hal_resource_entity_all_of__links_resource_type_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "HALResourceEntity_allOf__links_resourceType": _hal_resource_entity_all_of__links_resource_type_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "HALResourceEntity_allOf__links_resourceType": _hal_resource_entity_all_of__links_resource_type_model_schema
+})
 
 _hal_resource_listing_model_schema = json.loads(
     r"""{
@@ -848,11 +966,9 @@ _hal_resource_listing_all_of__embedded_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "HALResourceListing_allOf__embedded": _hal_resource_listing_all_of__embedded_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "HALResourceListing_allOf__embedded": _hal_resource_listing_all_of__embedded_model_schema
+})
 
 _hal_resource_type_entity_model_schema = json.loads(
     r"""{
@@ -866,9 +982,9 @@ _hal_resource_type_entity_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"HALResourceTypeEntity": _hal_resource_type_entity_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "HALResourceTypeEntity": _hal_resource_type_entity_model_schema
+})
 
 _hal_self_links_model_schema = json.loads(
     r"""{
@@ -916,9 +1032,9 @@ _hal_self_links__links_self_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"HALSelfLinks__links_self": _hal_self_links__links_self_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "HALSelfLinks__links_self": _hal_self_links__links_self_model_schema
+})
 
 _hal_self_links__links_value_model_schema = json.loads(
     r"""{
@@ -932,9 +1048,9 @@ _hal_self_links__links_value_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"HALSelfLinks__links_value": _hal_self_links__links_value_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "HALSelfLinks__links_value": _hal_self_links__links_value_model_schema
+})
 
 _list_constraints_200_response_model_schema = json.loads(
     r"""{
@@ -955,9 +1071,9 @@ _list_constraints_200_response_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"listConstraints_200_response": _list_constraints_200_response_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "listConstraints_200_response": _list_constraints_200_response_model_schema
+})
 
 _metadata_entity_model_schema = json.loads(
     r"""{
@@ -1023,9 +1139,9 @@ _metadata_entity_location_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"MetadataEntity_location": _metadata_entity_location_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "MetadataEntity_location": _metadata_entity_location_model_schema
+})
 
 _metadata_entity_value_model_schema = json.loads(
     r"""{
@@ -1066,28 +1182,22 @@ _nd_json_response_stream_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"NdJsonResponseStream": _nd_json_response_stream_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "NdJsonResponseStream": _nd_json_response_stream_model_schema
+})
 
 _numeric_enum_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "NumericEnumValueConstraint",
   "required" : [ "enumType", "items", "type" ],
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "enum" ]
+      "$ref" : "#/components/schemas/NumericEnumValueConstraint_type"
     },
     "enumType" : {
-      "title" : "enumType",
-      "type" : "string",
-      "enum" : [ "numeric" ]
+      "$ref" : "#/components/schemas/NumericValueConstraint_type"
     },
     "items" : {
-      "title" : "items",
       "minItems" : 1,
       "type" : "array",
       "items" : {
@@ -1100,28 +1210,36 @@ _numeric_enum_value_constraint_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"NumericEnumValueConstraint": _numeric_enum_value_constraint_model_schema}
+MODEL_DEFINITIONS.update({
+    "NumericEnumValueConstraint": _numeric_enum_value_constraint_model_schema
+})
+
+_numeric_enum_value_constraint_type_model_schema = json.loads(
+    r"""{
+  "title" : "NumericEnumValueConstraint_type",
+  "type" : "string",
+  "enum" : [ "enum" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "NumericEnumValueConstraint_type": _numeric_enum_value_constraint_type_model_schema
+})
 
 _numeric_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "NumericValueConstraint",
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "numeric" ]
+      "$ref" : "#/components/schemas/NumericValueConstraint_type"
     },
     "minimum" : {
-      "title" : "minimum",
       "type" : "number",
       "description" : "Specifies the minimum value the attribute can have",
       "example" : -1486.147
     },
     "maximum" : {
-      "title" : "maximum",
       "type" : "number",
       "description" : "Specifies the maximum value the attribute can have",
       "example" : 784596
@@ -1132,23 +1250,32 @@ _numeric_value_constraint_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"NumericValueConstraint": _numeric_value_constraint_model_schema}
+MODEL_DEFINITIONS.update({
+    "NumericValueConstraint": _numeric_value_constraint_model_schema
+})
+
+_numeric_value_constraint_type_model_schema = json.loads(
+    r"""{
+  "title" : "NumericValueConstraint_type",
+  "type" : "string",
+  "enum" : [ "numeric" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "NumericValueConstraint_type": _numeric_value_constraint_type_model_schema
+})
 
 _object_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "ObjectValueConstraint",
   "required" : [ "attributes", "type" ],
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "object" ]
+      "$ref" : "#/components/schemas/ObjectValueConstraint_type"
     },
     "attributes" : {
-      "title" : "attributes",
       "type" : "array",
       "description" : "Attributes descriptions",
       "items" : {
@@ -1161,9 +1288,22 @@ _object_value_constraint_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ObjectValueConstraint": _object_value_constraint_model_schema}
+MODEL_DEFINITIONS.update({
+    "ObjectValueConstraint": _object_value_constraint_model_schema
+})
+
+_object_value_constraint_type_model_schema = json.loads(
+    r"""{
+  "title" : "ObjectValueConstraint_type",
+  "type" : "string",
+  "enum" : [ "object" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "ObjectValueConstraint_type": _object_value_constraint_type_model_schema
+})
 
 _operation_result_object_model_schema = json.loads(
     r"""{
@@ -1182,9 +1322,9 @@ _operation_result_object_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"OperationResultObject": _operation_result_object_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "OperationResultObject": _operation_result_object_model_schema
+})
 
 _operation_result_object_results_model_schema = json.loads(
     r"""{
@@ -1204,9 +1344,9 @@ _operation_result_object_results_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"OperationResultObject_results": _operation_result_object_results_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "OperationResultObject_results": _operation_result_object_results_model_schema
+})
 
 _pagination_links_model_schema = json.loads(
     r"""{
@@ -1424,9 +1564,9 @@ _patch_resource_type_entity_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"PatchResourceTypeEntity": _patch_resource_type_entity_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "PatchResourceTypeEntity": _patch_resource_type_entity_model_schema
+})
 
 _resource_change_model_schema = json.loads(
     r"""{
@@ -1443,8 +1583,7 @@ _resource_change_model_schema = json.loads(
       "$ref" : "#/components/schemas/UserId"
     },
     "change" : {
-      "type" : "string",
-      "enum" : [ "created", "updated", "deleted" ]
+      "$ref" : "#/components/schemas/ResourceChange_change"
     },
     "resource" : {
       "$ref" : "#/components/schemas/ResourceWithIdEntity"
@@ -1455,6 +1594,19 @@ _resource_change_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"ResourceChange": _resource_change_model_schema})
+
+_resource_change_change_model_schema = json.loads(
+    r"""{
+  "title" : "ResourceChange_change",
+  "type" : "string",
+  "enum" : [ "created", "updated", "deleted" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ResourceChange_change": _resource_change_change_model_schema
+})
 
 _resource_changes_paged_response_model_schema = json.loads(
     r"""{
@@ -1476,9 +1628,9 @@ _resource_changes_paged_response_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceChangesPagedResponse": _resource_changes_paged_response_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceChangesPagedResponse": _resource_changes_paged_response_model_schema
+})
 
 _resource_constraint_creation_response_model_schema = json.loads(
     r"""{
@@ -1502,11 +1654,9 @@ _resource_constraint_creation_response_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "ResourceConstraintCreationResponse": _resource_constraint_creation_response_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "ResourceConstraintCreationResponse": _resource_constraint_creation_response_model_schema
+})
 
 _resource_constraint_entity_model_schema = json.loads(
     r"""{
@@ -1524,26 +1674,25 @@ _resource_constraint_entity_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceConstraintEntity": _resource_constraint_entity_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceConstraintEntity": _resource_constraint_entity_model_schema
+})
 
 _resource_constraint_with_id_entity_model_schema = json.loads(
     r"""{
   "title" : "ResourceConstraintWithIdEntity",
   "allOf" : [ {
-    "$ref" : "#/components/schemas/ResourceConstraintEntity"
+    "$ref" : "#/components/schemas/WithIdRequired"
   }, {
-    "required" : [ "id" ],
-    "type" : "object"
+    "$ref" : "#/components/schemas/ResourceConstraintEntity"
   } ]
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceConstraintWithIdEntity": _resource_constraint_with_id_entity_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceConstraintWithIdEntity": _resource_constraint_with_id_entity_model_schema
+})
 
 _resource_creation_response_model_schema = json.loads(
     r"""{
@@ -1567,9 +1716,9 @@ _resource_creation_response_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceCreationResponse": _resource_creation_response_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceCreationResponse": _resource_creation_response_model_schema
+})
 
 _resource_entity_model_schema = json.loads(
     r"""{
@@ -1670,8 +1819,7 @@ _resource_metadata_event_model_schema = json.loads(
     "required" : [ "resource" ],
     "properties" : {
       "objectType" : {
-        "type" : "string",
-        "enum" : [ "resource" ]
+        "$ref" : "#/components/schemas/ResourceMetadataEvent_allOf_objectType"
       },
       "resource" : {
         "$ref" : "#/components/schemas/ResourceEntity"
@@ -1690,9 +1838,22 @@ _resource_metadata_event_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceMetadataEvent": _resource_metadata_event_model_schema}
+MODEL_DEFINITIONS.update({
+    "ResourceMetadataEvent": _resource_metadata_event_model_schema
+})
+
+_resource_metadata_event_all_of_object_type_model_schema = json.loads(
+    r"""{
+  "title" : "ResourceMetadataEvent_allOf_objectType",
+  "type" : "string",
+  "enum" : [ "resource" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "ResourceMetadataEvent_allOf_objectType": _resource_metadata_event_all_of_object_type_model_schema
+})
 
 _resource_metric_model_schema = json.loads(
     r"""{
@@ -1756,34 +1917,89 @@ _resource_metric_metric_type_model_schema = json.loads(
   "description" : "How measurements should be treated as a time series.",
   "example" : "counter",
   "oneOf" : [ {
-    "type" : "string",
-    "description" : "A number per second (implies that unit ends on ‘/s’)",
-    "enum" : [ "rate" ]
+    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf"
   }, {
-    "type" : "string",
-    "description" : "A number per a given interval (such as a statsd flushInterval)",
-    "enum" : [ "count" ]
+    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_1"
   }, {
-    "type" : "string",
-    "description" : "Values at each point in time",
-    "enum" : [ "gauge" ]
+    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_2"
   }, {
-    "type" : "string",
-    "description" : "Keeps increasing over time (but might wrap/reset at some point) i.e. a gauge with the added notion of “i usually want to derive this to see the rate”",
-    "enum" : [ "counter" ]
+    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_3"
   }, {
-    "type" : "string",
-    "description" : "Value represents a unix timestamp. so basically a gauge or counter but we know we can also render the “age” at each point.",
-    "enum" : [ "timestamp" ]
+    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_4"
   } ],
   "default" : "gauge"
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceMetric_metricType": _resource_metric_metric_type_model_schema}
+MODEL_DEFINITIONS.update({
+    "ResourceMetric_metricType": _resource_metric_metric_type_model_schema
+})
+
+_resource_metric_metric_type_one_of_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "A number per second (implies that unit ends on ‘/s’)",
+  "enum" : [ "rate" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "ResourceMetric_metricType_oneOf": _resource_metric_metric_type_one_of_model_schema
+})
+
+_resource_metric_metric_type_one_of_1_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "A number per a given interval (such as a statsd flushInterval)",
+  "enum" : [ "count" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ResourceMetric_metricType_oneOf_1": _resource_metric_metric_type_one_of_1_model_schema
+})
+
+_resource_metric_metric_type_one_of_2_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "Values at each point in time",
+  "enum" : [ "gauge" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ResourceMetric_metricType_oneOf_2": _resource_metric_metric_type_one_of_2_model_schema
+})
+
+_resource_metric_metric_type_one_of_3_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "Keeps increasing over time (but might wrap/reset at some point) i.e. a gauge with the added notion of “i usually want to derive this to see the rate”",
+  "enum" : [ "counter" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ResourceMetric_metricType_oneOf_3": _resource_metric_metric_type_one_of_3_model_schema
+})
+
+_resource_metric_metric_type_one_of_4_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "Value represents a unix timestamp. so basically a gauge or counter but we know we can also render the “age” at each point.",
+  "enum" : [ "timestamp" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ResourceMetric_metricType_oneOf_4": _resource_metric_metric_type_one_of_4_model_schema
+})
 
 _resource_parent_model_schema = json.loads(
     r"""{
@@ -1801,16 +2017,12 @@ MODEL_DEFINITIONS.update({"Resource_Parent": _resource_parent_model_schema})
 
 _resource_ref_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "ResourceRefValueConstraint",
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "resourceRef" ]
+      "$ref" : "#/components/schemas/ResourceRefValueConstraint_type"
     },
     "attributes" : {
-      "title" : "attributes",
       "type" : "array",
       "description" : "Additional attributes in the reference object, describing the relation.",
       "items" : {
@@ -1818,7 +2030,6 @@ _resource_ref_value_constraint_model_schema = json.loads(
       }
     },
     "resourceTypes" : {
-      "title" : "resourceTypes",
       "type" : "array",
       "description" : "The possible _Resource Types_ for the referenced _Resource_.",
       "items" : {
@@ -1826,7 +2037,6 @@ _resource_ref_value_constraint_model_schema = json.loads(
       }
     },
     "exists" : {
-      "title" : "exists",
       "type" : "boolean",
       "description" : "Flag to indicate if the referenced _Resource_ must exist",
       "default" : false
@@ -1837,9 +2047,22 @@ _resource_ref_value_constraint_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceRefValueConstraint": _resource_ref_value_constraint_model_schema}
+MODEL_DEFINITIONS.update({
+    "ResourceRefValueConstraint": _resource_ref_value_constraint_model_schema
+})
+
+_resource_ref_value_constraint_type_model_schema = json.loads(
+    r"""{
+  "title" : "ResourceRefValueConstraint_type",
+  "type" : "string",
+  "enum" : [ "resourceRef" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "ResourceRefValueConstraint_type": _resource_ref_value_constraint_type_model_schema
+})
 
 _resource_reference_model_schema = json.loads(
     r"""{
@@ -1923,9 +2146,9 @@ _resource_sensor_sensor_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceSensor_sensor": _resource_sensor_sensor_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceSensor_sensor": _resource_sensor_sensor_model_schema
+})
 
 _resource_type_model_schema = json.loads(
     r"""{
@@ -1955,8 +2178,7 @@ _resource_type_change_model_schema = json.loads(
       "$ref" : "#/components/schemas/UserId"
     },
     "change" : {
-      "type" : "string",
-      "enum" : [ "created", "updated", "deleted" ]
+      "$ref" : "#/components/schemas/ResourceChange_change"
     },
     "resourceType" : {
       "$ref" : "#/components/schemas/ResourceTypeWithIdEntity"
@@ -1990,9 +2212,9 @@ _resource_type_creation_response_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceTypeCreationResponse": _resource_type_creation_response_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceTypeCreationResponse": _resource_type_creation_response_model_schema
+})
 
 _resource_type_entity_model_schema = json.loads(
     r"""{
@@ -2092,18 +2314,19 @@ _resource_type_with_constraints_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceTypeWithConstraints": _resource_type_with_constraints_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceTypeWithConstraints": _resource_type_with_constraints_model_schema
+})
 
 _resource_type_with_id_entity_model_schema = json.loads(
     r"""{
   "title" : "ResourceTypeWithIdEntity",
   "type" : "object",
   "allOf" : [ {
+    "$ref" : "#/components/schemas/WithIdRequired"
+  }, {
     "$ref" : "#/components/schemas/ResourceTypeEntity"
   }, {
-    "required" : [ "id" ],
     "properties" : {
       "$bulkOperation" : {
         "title" : "Running Operation",
@@ -2125,9 +2348,9 @@ _resource_type_with_id_entity_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceTypeWithIdEntity": _resource_type_with_id_entity_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceTypeWithIdEntity": _resource_type_with_id_entity_model_schema
+})
 
 _resource_types_changes_paged_response_model_schema = json.loads(
     r"""{
@@ -2149,28 +2372,25 @@ _resource_types_changes_paged_response_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {
-        "ResourceTypesChangesPagedResponse": _resource_types_changes_paged_response_model_schema
-    }
-)
+MODEL_DEFINITIONS.update({
+    "ResourceTypesChangesPagedResponse": _resource_types_changes_paged_response_model_schema
+})
 
 _resource_with_id_entity_model_schema = json.loads(
     r"""{
   "title" : "ResourceWithIdEntity",
   "allOf" : [ {
-    "$ref" : "#/components/schemas/ResourceEntity"
+    "$ref" : "#/components/schemas/WithIdRequired"
   }, {
-    "required" : [ "id" ],
-    "type" : "object"
+    "$ref" : "#/components/schemas/ResourceEntity"
   } ]
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourceWithIdEntity": _resource_with_id_entity_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "ResourceWithIdEntity": _resource_with_id_entity_model_schema
+})
 
 _resourcetype_metadata_event_model_schema = json.loads(
     r"""{
@@ -2186,8 +2406,7 @@ _resourcetype_metadata_event_model_schema = json.loads(
     "required" : [ "resourcetype" ],
     "properties" : {
       "objectType" : {
-        "type" : "string",
-        "enum" : [ "resourcetype" ]
+        "$ref" : "#/components/schemas/ResourcetypeMetadataEvent_allOf_objectType"
       },
       "resourcetype" : {
         "$ref" : "#/components/schemas/ResourceTypeEntity"
@@ -2198,9 +2417,22 @@ _resourcetype_metadata_event_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"ResourcetypeMetadataEvent": _resourcetype_metadata_event_model_schema}
+MODEL_DEFINITIONS.update({
+    "ResourcetypeMetadataEvent": _resourcetype_metadata_event_model_schema
+})
+
+_resourcetype_metadata_event_all_of_object_type_model_schema = json.loads(
+    r"""{
+  "title" : "ResourcetypeMetadataEvent_allOf_objectType",
+  "type" : "string",
+  "enum" : [ "resourcetype" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "ResourcetypeMetadataEvent_allOf_objectType": _resourcetype_metadata_event_all_of_object_type_model_schema
+})
 
 _ss_event_stream_model_schema = json.loads(
     r"""{
@@ -2263,28 +2495,22 @@ _schema_validation_error_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"SchemaValidationError": _schema_validation_error_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "SchemaValidationError": _schema_validation_error_model_schema
+})
 
 _string_enum_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "StringEnumValueConstraint",
   "required" : [ "enumType", "items", "type" ],
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "enum" ]
+      "$ref" : "#/components/schemas/NumericEnumValueConstraint_type"
     },
     "enumType" : {
-      "title" : "enumType",
-      "type" : "string",
-      "enum" : [ "string" ]
+      "$ref" : "#/components/schemas/StringValueConstraint_type"
     },
     "items" : {
-      "title" : "items",
       "minItems" : 1,
       "type" : "array",
       "items" : {
@@ -2297,29 +2523,24 @@ _string_enum_value_constraint_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"StringEnumValueConstraint": _string_enum_value_constraint_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "StringEnumValueConstraint": _string_enum_value_constraint_model_schema
+})
 
 _string_value_constraint_model_schema = json.loads(
     r"""{
-  "title" : "StringValueConstraint",
   "type" : "object",
   "properties" : {
     "type" : {
-      "title" : "type",
-      "type" : "string",
-      "enum" : [ "string" ]
+      "$ref" : "#/components/schemas/StringValueConstraint_type"
     },
     "minLength" : {
-      "title" : "minLength",
       "minimum" : 0,
       "type" : "integer",
       "description" : "Minimum length a value must have",
       "example" : 1
     },
     "maxLength" : {
-      "title" : "maxLength",
       "minimum" : 0,
       "type" : "integer",
       "description" : "Maximum length a value can have",
@@ -2331,9 +2552,22 @@ _string_value_constraint_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"StringValueConstraint": _string_value_constraint_model_schema}
+MODEL_DEFINITIONS.update({
+    "StringValueConstraint": _string_value_constraint_model_schema
+})
+
+_string_value_constraint_type_model_schema = json.loads(
+    r"""{
+  "title" : "StringValueConstraint_type",
+  "type" : "string",
+  "enum" : [ "string" ]
+}
+""",
+    object_hook=with_example_provider,
 )
+MODEL_DEFINITIONS.update({
+    "StringValueConstraint_type": _string_value_constraint_type_model_schema
+})
 
 _success_operation_result_value_model_schema = json.loads(
     r"""{
@@ -2352,9 +2586,9 @@ _success_operation_result_value_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update(
-    {"SuccessOperationResult_value": _success_operation_result_value_model_schema}
-)
+MODEL_DEFINITIONS.update({
+    "SuccessOperationResult_value": _success_operation_result_value_model_schema
+})
 
 _task_configuration_model_schema = json.loads(
     r"""{
@@ -2367,9 +2601,7 @@ _task_configuration_model_schema = json.loads(
       "type" : "string"
     },
     "type" : {
-      "title" : "Task Type",
-      "type" : "string",
-      "enum" : [ "periodic", "onetime", "scheduled", "reactive" ]
+      "$ref" : "#/components/schemas/TaskConfiguration_type"
     }
   },
   "additionalProperties" : {
@@ -2387,6 +2619,19 @@ _task_configuration_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"TaskConfiguration": _task_configuration_model_schema})
+
+_task_configuration_type_model_schema = json.loads(
+    r"""{
+  "title" : "TaskConfiguration_type",
+  "type" : "string",
+  "enum" : [ "periodic", "onetime", "scheduled", "reactive" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "TaskConfiguration_type": _task_configuration_type_model_schema
+})
 
 _validation_failure_model_schema = json.loads(
     r"""{
@@ -2407,42 +2652,6 @@ _validation_failure_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"Validation_Failure": _validation_failure_model_schema})
 
-_value_constraint_model_schema = json.loads(
-    r"""{
-  "title" : "ValueConstraint",
-  "required" : [ "type" ],
-  "type" : "object",
-  "properties" : {
-    "type" : {
-      "title" : "type",
-      "type" : "string",
-      "description" : "Type of the attribute"
-    }
-  },
-  "description" : "Constraint on the value of _Resource_ attribute.",
-  "oneOf" : [ {
-    "$ref" : "#/components/schemas/StringValueConstraint"
-  }, {
-    "$ref" : "#/components/schemas/NumericValueConstraint"
-  }, {
-    "$ref" : "#/components/schemas/BooleanValueConstraint"
-  }, {
-    "$ref" : "#/components/schemas/StringEnumValueConstraint"
-  }, {
-    "$ref" : "#/components/schemas/NumericEnumValueConstraint"
-  }, {
-    "$ref" : "#/components/schemas/ResourceRefValueConstraint"
-  }, {
-    "$ref" : "#/components/schemas/ObjectValueConstraint"
-  }, {
-    "$ref" : "#/components/schemas/ArrayValueConstraint"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({"ValueConstraint": _value_constraint_model_schema})
-
 _version_response_model_schema = json.loads(
     r"""{
   "required" : [ "name", "version" ],
@@ -2462,3 +2671,22 @@ _version_response_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"VersionResponse": _version_response_model_schema})
+
+_with_id_required_model_schema = json.loads(
+    r"""{
+  "required" : [ "id" ],
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "string"
+    }
+  },
+  "example" : {
+    "id" : "afcea5a1-81df-44f6-bd34-e0b602a2cf3d"
+  },
+  "x-comment" : "Entity with a required id"
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"WithIdRequired": _with_id_required_model_schema})

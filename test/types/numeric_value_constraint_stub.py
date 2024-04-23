@@ -61,11 +61,22 @@ class NumericValueConstraintStub:
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return numeric_value_constraint_faker.generate()
+        return numeric_value_constraint_faker.generate(
+            use_defaults=True, use_examples=True
+        )
 
     @classmethod
     def create_instance(cls) -> "NumericValueConstraint":
         """Create NumericValueConstraint stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
-        return NumericValueConstraintAdapter.validate_python(cls.create_json())
+        json = cls.create_json()
+        if not json:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                NumericValueConstraintAdapter.json_schema(), allow_none_optionals=1
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return NumericValueConstraintAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

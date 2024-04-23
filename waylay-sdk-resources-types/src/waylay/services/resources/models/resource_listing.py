@@ -36,8 +36,5 @@ class ResourceListing(WaylayBaseModel):
     values: List[ResourceWithIdEntity] = Field(description="_Resource_ entities")
 
     model_config = ConfigDict(
-        populate_by_name=True,
-        validate_assignment=True,
-        protected_namespaces=(),
-        extra="allow",
+        populate_by_name=True, protected_namespaces=(), extra="allow"
     )

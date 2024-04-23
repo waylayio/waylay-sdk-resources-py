@@ -39,7 +39,6 @@ class GetStreamQuery(WaylayBaseModel):
     ] = None
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_get_stream_query_alias_for,

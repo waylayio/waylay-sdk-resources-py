@@ -60,11 +60,23 @@ class BatchRunningResourceOperationStub:
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return batch_running_resource_operation_faker.generate()
+        return batch_running_resource_operation_faker.generate(
+            use_defaults=True, use_examples=True
+        )
 
     @classmethod
     def create_instance(cls) -> "BatchRunningResourceOperation":
         """Create BatchRunningResourceOperation stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
-        return BatchRunningResourceOperationAdapter.validate_python(cls.create_json())
+        json = cls.create_json()
+        if not json:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                BatchRunningResourceOperationAdapter.json_schema(),
+                allow_none_optionals=1,
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return BatchRunningResourceOperationAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

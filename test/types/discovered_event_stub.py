@@ -49,11 +49,20 @@ class DiscoveredEventStub:
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return discovered_event_faker.generate()
+        return discovered_event_faker.generate(use_defaults=True, use_examples=True)
 
     @classmethod
     def create_instance(cls) -> "DiscoveredEvent":
         """Create DiscoveredEvent stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
-        return DiscoveredEventAdapter.validate_python(cls.create_json())
+        json = cls.create_json()
+        if not json:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                DiscoveredEventAdapter.json_schema(), allow_none_optionals=1
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return DiscoveredEventAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

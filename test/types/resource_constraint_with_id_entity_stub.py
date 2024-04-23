@@ -52,11 +52,23 @@ class ResourceConstraintWithIdEntityStub:
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return resource_constraint_with_id_entity_faker.generate()
+        return resource_constraint_with_id_entity_faker.generate(
+            use_defaults=True, use_examples=True
+        )
 
     @classmethod
     def create_instance(cls) -> "ResourceConstraintWithIdEntity":
         """Create ResourceConstraintWithIdEntity stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
-        return ResourceConstraintWithIdEntityAdapter.validate_python(cls.create_json())
+        json = cls.create_json()
+        if not json:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                ResourceConstraintWithIdEntityAdapter.json_schema(),
+                allow_none_optionals=1,
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return ResourceConstraintWithIdEntityAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

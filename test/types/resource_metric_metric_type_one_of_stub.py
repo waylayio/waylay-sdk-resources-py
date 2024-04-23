@@ -49,11 +49,23 @@ class ResourceMetricMetricTypeOneOfStub:
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return resource_metric_metric_type_one_of_faker.generate()
+        return resource_metric_metric_type_one_of_faker.generate(
+            use_defaults=True, use_examples=True
+        )
 
     @classmethod
     def create_instance(cls) -> "ResourceMetricMetricTypeOneOf":
         """Create ResourceMetricMetricTypeOneOf stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
-        return ResourceMetricMetricTypeOneOfAdapter.validate_python(cls.create_json())
+        json = cls.create_json()
+        if not json:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                ResourceMetricMetricTypeOneOfAdapter.json_schema(),
+                allow_none_optionals=1,
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return ResourceMetricMetricTypeOneOfAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

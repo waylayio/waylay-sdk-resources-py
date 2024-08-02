@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **name** | **str** | The key under which values of this metric are present in the root of a Waylay Event. Also the _metric_ identifier in the timeseries database for these values when stored. | 
 **value_type** | **str** | Type of the value | [optional] 
 **value_choices** | **List[str]** | Enumeration of the possible values for a metric | [optional] 
-**metric_type** | [**ResourceMetricMetricType**](ResourceMetricMetricType.md) |  | [optional] 
+**metric_type** | [**ResourceMetricMetricType**](ResourceMetricMetricType.md) |  | [optional] [default to 'gauge']
 **unit** | **str** | Physical measurement unit, preferentially SI unit, for the numerical values of this metric | [optional] 
 **maximum** | **float** | Expected maximum value for this metric. | [optional] 
 **minimum** | **float** | Expected minimum value for this metric. | [optional] 

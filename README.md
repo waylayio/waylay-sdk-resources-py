@@ -20,13 +20,16 @@ It consists of two sub-packages that are both plugins for the waylay-sdk-core pa
 This package requires Python 3.9+.
 
 ## Installation
-Typically this package is installed when installing the [waylay-sdk-core](https://pypi.org/project/waylay-sdk/) package to enable the service's functionality.
-When the service api methods are required, waylay-sdk-resources is included in:
-- ```pip install waylay-sdk-core[resources]``` to install `waylay-sdk-core` along with only this service, or
-- ```pip install waylay-sdk-core[services]``` to install `waylay-sdk-core` along with all services.
-When the typed models are required, both waylay-sdk-resources and waylay-sdk-resources-types are included in:
-- ```pip install waylay-sdk-core[resources,resources-types]``` to install `waylay-sdk-core` along with only this service including the typed models, or
-- ```pip install waylay-sdk-core[services,services-types]``` to install `waylay-sdk-core` along with all services along with the typed models.
+
+Normally this package is installed together with support for other services using the [waylay-sdk](https://pypi.org/project/waylay-sdk/) umbrella package:
+* `pip install waylay-sdk` will install `waylay-sdk-resources` together with the SDK api packages for other services.
+* `pip install waylay-sdk[types-resources]` will additionally install the types package `waylay-sdk-resources-types`.
+* `pip install waylay-sdk[types]` will install the types packages for this and all other services.
+
+Alternatively, you can install support for this _resources_ service only, installing or extending an existing [waylay-sdk-core](https://pypi.org/project/waylay-sdk-core/):
+
+- `pip install waylay-sdk-resources` to only install api support for _resources_.
+- `pip install waylay-sdk-resources[types]` to additionally install type support for _resources_.
 
 ## Usage
 
@@ -185,13 +188,11 @@ Class | Method | HTTP request | Description
  - [ResourceMetricMetricTypeOneOf2](docs/ResourceMetricMetricTypeOneOf2.md)
  - [ResourceMetricMetricTypeOneOf3](docs/ResourceMetricMetricTypeOneOf3.md)
  - [ResourceMetricMetricTypeOneOf4](docs/ResourceMetricMetricTypeOneOf4.md)
- - [ResourceParent](docs/ResourceParent.md)
  - [ResourceRefValueConstraint](docs/ResourceRefValueConstraint.md)
  - [ResourceRefValueConstraintType](docs/ResourceRefValueConstraintType.md)
  - [ResourceReference](docs/ResourceReference.md)
  - [ResourceSensor](docs/ResourceSensor.md)
  - [ResourceSensorSensor](docs/ResourceSensorSensor.md)
- - [ResourceType](docs/ResourceType.md)
  - [ResourceTypeChange](docs/ResourceTypeChange.md)
  - [ResourceTypeCreationResponse](docs/ResourceTypeCreationResponse.md)
  - [ResourceTypeEntity](docs/ResourceTypeEntity.md)

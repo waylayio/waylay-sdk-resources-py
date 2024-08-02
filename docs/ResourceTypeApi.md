@@ -203,7 +203,7 @@ Name     | Type  | API binding   | Description   | Notes
 -------- | ----- | ------------- | ------------- | -------------
 **resource_type_id** | **ResourceTypeId** | path parameter `"resourceTypeId"` | _Resource Type_ id | 
 **query** | [QueryParamTypes](Operation.md#req_arg_query) \| **None** | URL query parameter |  | 
-**query['field']** (dict) <br> **query.field** (Query) | [**List[str]**](str.md) | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
+**query['field']** (dict) <br> **query.var_field** (Query) | [**List[str]**](str.md) | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
 **query['fields']** (dict) <br> **query.fields** (Query) | [**List[str]**](str.md) | query parameter `"fields"` | Select which attributes to render for each matching _Resource_ (comma-separated). | [optional] 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
@@ -425,7 +425,7 @@ Name     | Type  | API binding   | Description   | Notes
 **query** | [QueryParamTypes](Operation.md#req_arg_query) \| **None** | URL query parameter |  | 
 **query['skip']** (dict) <br> **query.skip** (Query) | **int** | query parameter `"skip"` | (Paging) items to skip in the listing | [optional] [default 0]
 **query['limit']** (dict) <br> **query.limit** (Query) | **int** | query parameter `"limit"` | (Paging) maximal number of items returned | [optional] [default 100]
-**query['field']** (dict) <br> **query.field** (Query) | [**List[str]**](str.md) | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
+**query['field']** (dict) <br> **query.var_field** (Query) | [**List[str]**](str.md) | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
 **query['fields']** (dict) <br> **query.fields** (Query) | [**List[str]**](str.md) | query parameter `"fields"` | Select which attributes to render for each matching _Resource_ (comma-separated). | [optional] 
 **query['filter']** (dict) <br> **query.filter** (Query) | **str** | query parameter `"filter"` | (Filter) fuzzy search on multiple fields. | [optional] 
 **query['query']** (dict) <br> **query.query** (Query) | **str** | query parameter `"query"` | Search string using a query language consisting of &gt; &#x60;&lt;metadata key&gt;:&lt;operation&gt;(&lt;arguments&gt;)&#x60;  Supported operations are - &#x60;eq&#x60;: equals - exact match - &#x60;in&#x60;: in - exact match - arguments are a (comma-separated) list of values - &#x60;lt&#x60;: smaller then - &#x60;lte&#x60;: smaller then or equal - &#x60;gt&#x60;: greater then - &#x60;gte&#x60;: greater then or equal - &#x60;ref&#x60;: references - argument should be uri /resources/&lt;resourceId&gt; - &#x60;exists&#x60;: check if the _Resource_ has the specified metadata key - no argument allowed - &#x60;like&#x60;: wildcard search - argument should contain * and/or ?  For more info see [Waylay Docs](/#/api/resources/?id&#x3D;metadata-query-language) | [optional] 

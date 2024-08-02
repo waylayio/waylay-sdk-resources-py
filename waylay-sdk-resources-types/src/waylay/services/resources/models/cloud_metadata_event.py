@@ -12,7 +12,7 @@ Do not edit the class manually.
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from pydantic import (
     ConfigDict,
@@ -27,9 +27,9 @@ from ..models.metadata_event import MetadataEvent
 class CloudMetadataEvent(WaylayBaseModel):
     """CloudMetadataEvent."""
 
-    id: Dict[str, Any]
+    id: Any | None
     source: CloudMetadataEventDataSource
-    subject: Dict[str, Any]
+    subject: Any | None
     type: CloudMetadataEventDataType
     data: MetadataEvent | None = None
     time: datetime

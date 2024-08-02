@@ -1730,10 +1730,19 @@ _resource_entity_model_schema = json.loads(
         "$ref" : "#/components/schemas/ResourceId"
       },
       "resourceTypeId" : {
-        "$ref" : "#/components/schemas/Resource_Type"
+        "title" : "Resource Type",
+        "description" : "Id of the linked _Resource Type_",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ResourceTypeId"
+        } ]
       },
       "parentId" : {
-        "$ref" : "#/components/schemas/Resource_Parent"
+        "title" : "Resource Parent",
+        "description" : "Id of the parent _Resource_",
+        "example" : "658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ResourceId"
+        } ]
       },
       "name" : {
         "title" : "Name",
@@ -1747,7 +1756,10 @@ _resource_entity_model_schema = json.loads(
         "example" : "testresource-alias"
       },
       "lastMessageTimestamp" : {
-        "$ref" : "#/components/schemas/ResourceEntity_allOf_lastMessageTimestamp"
+        "description" : "Epoch time of the last contact",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/UnixEpochMillis"
+        } ]
       },
       "owner" : {
         "type" : "string",
@@ -2001,20 +2013,6 @@ MODEL_DEFINITIONS.update({
     "ResourceMetric_metricType_oneOf_4": _resource_metric_metric_type_one_of_4_model_schema
 })
 
-_resource_parent_model_schema = json.loads(
-    r"""{
-  "title" : "Resource Parent",
-  "description" : "Id of the parent _Resource_",
-  "example" : "658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a",
-  "allOf" : [ {
-    "$ref" : "#/components/schemas/ResourceId"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({"Resource_Parent": _resource_parent_model_schema})
-
 _resource_ref_value_constraint_model_schema = json.loads(
     r"""{
   "type" : "object",
@@ -2149,19 +2147,6 @@ _resource_sensor_sensor_model_schema = json.loads(
 MODEL_DEFINITIONS.update({
     "ResourceSensor_sensor": _resource_sensor_sensor_model_schema
 })
-
-_resource_type_model_schema = json.loads(
-    r"""{
-  "title" : "Resource Type",
-  "description" : "Id of the linked _Resource Type_",
-  "allOf" : [ {
-    "$ref" : "#/components/schemas/ResourceTypeId"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({"Resource_Type": _resource_type_model_schema})
 
 _resource_type_change_model_schema = json.loads(
     r"""{

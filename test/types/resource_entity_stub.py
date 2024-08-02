@@ -33,10 +33,19 @@ resource_entity_model_schema = json.loads(
         "$ref" : "#/components/schemas/ResourceId"
       },
       "resourceTypeId" : {
-        "$ref" : "#/components/schemas/Resource_Type"
+        "title" : "Resource Type",
+        "description" : "Id of the linked _Resource Type_",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ResourceTypeId"
+        } ]
       },
       "parentId" : {
-        "$ref" : "#/components/schemas/Resource_Parent"
+        "title" : "Resource Parent",
+        "description" : "Id of the parent _Resource_",
+        "example" : "658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ResourceId"
+        } ]
       },
       "name" : {
         "title" : "Name",
@@ -50,7 +59,10 @@ resource_entity_model_schema = json.loads(
         "example" : "testresource-alias"
       },
       "lastMessageTimestamp" : {
-        "$ref" : "#/components/schemas/ResourceEntity_allOf_lastMessageTimestamp"
+        "description" : "Epoch time of the last contact",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/UnixEpochMillis"
+        } ]
       },
       "owner" : {
         "type" : "string",

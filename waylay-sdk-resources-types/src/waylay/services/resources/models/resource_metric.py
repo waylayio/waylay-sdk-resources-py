@@ -40,7 +40,7 @@ class ResourceMetric(WaylayBaseModel):
         alias="valueChoices",
     )
     metric_type: ResourceMetricMetricType | None = Field(
-        default=None, alias="metricType"
+        default="gauge", alias="metricType"
     )
     unit: StrictStr | None = Field(
         default=None,

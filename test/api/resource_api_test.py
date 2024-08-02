@@ -183,7 +183,7 @@ async def test_get(service: ResourcesService, gateway_url: str, httpx_mock: HTTP
         # optionally use GetQuery to validate and reuse parameters
         "query": GetQuery(
             denormalized=True,
-            field=[],
+            var_field=[],
             fields=[],
         ),
     }
@@ -305,7 +305,7 @@ async def test_list_children(
         # optionally use ListChildrenQuery to validate and reuse parameters
         "query": ListChildrenQuery(
             denormalized=True,
-            field=[],
+            var_field=[],
             fields=[],
             skip=0,
             limit=100,
@@ -370,7 +370,7 @@ async def test_list_referrers(
     kwargs = {
         # optionally use ListReferrersQuery to validate and reuse parameters
         "query": ListReferrersQuery(
-            field=[""],
+            var_field=[""],
             fields=[],
             skip=0,
             limit=100,
@@ -428,7 +428,7 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
         "query": ListQuery(
             skip=0,
             limit=100,
-            field=[],
+            var_field=[],
             fields=[],
             filter="needle",
             query="address.city:in(Ghent,Brussels)",

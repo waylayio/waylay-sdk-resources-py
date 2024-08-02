@@ -95,13 +95,11 @@ src/waylay/services/resources/models/resource_metric_metric_type_one_of1.py
 src/waylay/services/resources/models/resource_metric_metric_type_one_of2.py
 src/waylay/services/resources/models/resource_metric_metric_type_one_of3.py
 src/waylay/services/resources/models/resource_metric_metric_type_one_of4.py
-src/waylay/services/resources/models/resource_parent.py
 src/waylay/services/resources/models/resource_ref_value_constraint.py
 src/waylay/services/resources/models/resource_ref_value_constraint_type.py
 src/waylay/services/resources/models/resource_reference.py
 src/waylay/services/resources/models/resource_sensor.py
 src/waylay/services/resources/models/resource_sensor_sensor.py
-src/waylay/services/resources/models/resource_type.py
 src/waylay/services/resources/models/resource_type_change.py
 src/waylay/services/resources/models/resource_type_creation_response.py
 src/waylay/services/resources/models/resource_type_entity.py

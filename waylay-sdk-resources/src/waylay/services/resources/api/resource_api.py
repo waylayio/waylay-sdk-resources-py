@@ -274,7 +274,7 @@ class ResourceApi(WithApiClient):
         ## named body parameters
         body_args: Dict[str, Any] = {}
         if json is not None and validate_request:
-            body_adapter = TypeAdapter(ResourceEntity)
+            body_adapter: Any = TypeAdapter(ResourceEntity)
             json = body_adapter.validate_python(json)  # type: ignore # https://github.com/pydantic/pydantic/discussions/7094
         body_args["json"] = json
 
@@ -551,7 +551,7 @@ class ResourceApi(WithApiClient):
         :type query: GetQuery | QueryParamTypes, optional
         :param query['denormalized'] (dict) <br> query.denormalized (Query) : Unless explicitly set to `false`, attributes inherited from a linked _Resource Type_ will be included in the representation.
         :type query['denormalized']: bool
-        :param query['field'] (dict) <br> query.field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
+        :param query['field'] (dict) <br> query.var_field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
         :type query['field']: List[str]
         :param query['fields'] (dict) <br> query.fields (Query) : Select which attributes to render for each matching _Resource_ (comma-separated).
         :type query['fields']: List[str]
@@ -861,7 +861,7 @@ class ResourceApi(WithApiClient):
         :type query: ListChildrenQuery | QueryParamTypes, optional
         :param query['denormalized'] (dict) <br> query.denormalized (Query) : Unless explicitly set to `false`, attributes inherited from a linked _Resource Type_ will be included in the representation.
         :type query['denormalized']: bool
-        :param query['field'] (dict) <br> query.field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
+        :param query['field'] (dict) <br> query.var_field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
         :type query['field']: List[str]
         :param query['fields'] (dict) <br> query.fields (Query) : Select which attributes to render for each matching _Resource_ (comma-separated).
         :type query['fields']: List[str]
@@ -1019,7 +1019,7 @@ class ResourceApi(WithApiClient):
         :type resource_id: ResourceId
         :param query: URL Query parameters.
         :type query: ListReferrersQuery | QueryParamTypes, optional
-        :param query['field'] (dict) <br> query.field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
+        :param query['field'] (dict) <br> query.var_field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
         :type query['field']: List[str]
         :param query['fields'] (dict) <br> query.fields (Query) : Select which attributes to render for each matching _Resource_ (comma-separated).
         :type query['fields']: List[str]
@@ -1173,7 +1173,7 @@ class ResourceApi(WithApiClient):
         :type query['skip']: int
         :param query['limit'] (dict) <br> query.limit (Query) : (Paging) maximal number of items returned
         :type query['limit']: int
-        :param query['field'] (dict) <br> query.field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
+        :param query['field'] (dict) <br> query.var_field (Query) : Select which attributes to render for each matching _Resource_ (repeated).
         :type query['field']: List[str]
         :param query['fields'] (dict) <br> query.fields (Query) : Select which attributes to render for each matching _Resource_ (comma-separated).
         :type query['fields']: List[str]
@@ -1386,7 +1386,7 @@ class ResourceApi(WithApiClient):
         ## named body parameters
         body_args: Dict[str, Any] = {}
         if json is not None and validate_request:
-            body_adapter = TypeAdapter(PatchResourceEntity)
+            body_adapter: Any = TypeAdapter(PatchResourceEntity)
             json = body_adapter.validate_python(json)  # type: ignore # https://github.com/pydantic/pydantic/discussions/7094
         body_args["json"] = json
 
@@ -1548,7 +1548,7 @@ class ResourceApi(WithApiClient):
         ## named body parameters
         body_args: Dict[str, Any] = {}
         if json is not None and validate_request:
-            body_adapter = TypeAdapter(ResourceEntity)
+            body_adapter: Any = TypeAdapter(ResourceEntity)
             json = body_adapter.validate_python(json)  # type: ignore # https://github.com/pydantic/pydantic/discussions/7094
         body_args["json"] = json
 

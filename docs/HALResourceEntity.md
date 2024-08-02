@@ -8,11 +8,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **links** | [**HALResourceEntityAllOfLinks**](HALResourceEntityAllOfLinks.md) |  | 
 **id** | [**ResourceId**](ResourceId.md) |  | 
-**resource_type_id** | [**ResourceType**](ResourceType.md) |  | [optional] 
-**parent_id** | [**ResourceParent**](ResourceParent.md) |  | [optional] 
+**resource_type_id** | [**ResourceTypeId**](ResourceTypeId.md) | Id of the linked _Resource Type_ | [optional] 
+**parent_id** | [**ResourceId**](ResourceId.md) | Id of the parent _Resource_ | [optional] 
 **name** | **str** | Name for the _Resource_ | [optional] 
 **alias** | **str** | Alias for the name of the _Resource_ | [optional] 
-**last_message_timestamp** | **object** |  | [optional] 
+**last_message_timestamp** | **int** | Epoch time of the last contact | [optional] 
 **owner** | **str** | Owner of the _Resource_ | [optional] 
 **tags** | **List[str]** | Custom classifiers for this _Resource_. | [optional] 
 **provider** | **str** |  | [optional] 

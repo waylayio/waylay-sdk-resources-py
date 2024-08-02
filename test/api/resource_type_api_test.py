@@ -189,7 +189,7 @@ async def test_get(service: ResourcesService, gateway_url: str, httpx_mock: HTTP
     kwargs = {
         # optionally use GetQuery to validate and reuse parameters
         "query": GetQuery(
-            field=[""],
+            var_field=[""],
             fields=[],
         ),
     }
@@ -356,7 +356,7 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
         "query": ListQuery(
             skip=0,
             limit=100,
-            field=[],
+            var_field=[],
             fields=[],
             filter="needle",
             query="address.city:in(Ghent,Brussels)",

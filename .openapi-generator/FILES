@@ -101,13 +101,11 @@ docs/ResourceMetricMetricTypeOneOf1.md
 docs/ResourceMetricMetricTypeOneOf2.md
 docs/ResourceMetricMetricTypeOneOf3.md
 docs/ResourceMetricMetricTypeOneOf4.md
-docs/ResourceParent.md
 docs/ResourceRefValueConstraint.md
 docs/ResourceRefValueConstraintType.md
 docs/ResourceReference.md
 docs/ResourceSensor.md
 docs/ResourceSensorSensor.md
-docs/ResourceType.md
 docs/ResourceTypeApi.md
 docs/ResourceTypeChange.md
 docs/ResourceTypeCreationResponse.md
@@ -236,7 +234,6 @@ test/types/resource_metric_metric_type_one_of4_stub.py
 test/types/resource_metric_metric_type_one_of_stub.py
 test/types/resource_metric_metric_type_stub.py
 test/types/resource_metric_stub.py
-test/types/resource_parent_stub.py
 test/types/resource_ref_value_constraint_stub.py
 test/types/resource_ref_value_constraint_type_stub.py
 test/types/resource_reference_stub.py
@@ -247,7 +244,6 @@ test/types/resource_type_creation_response_stub.py
 test/types/resource_type_entity_stub.py
 test/types/resource_type_id_stub.py
 test/types/resource_type_listing_stub.py
-test/types/resource_type_stub.py
 test/types/resource_type_with_constraints_stub.py
 test/types/resource_type_with_id_entity_stub.py
 test/types/resource_types_changes_paged_response_stub.py

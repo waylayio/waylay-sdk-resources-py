@@ -61,7 +61,7 @@ class DeleteQuery(WaylayBaseModel):
 def _get_query_alias_for(field_name: str) -> str:
     if field_name == "denormalized":
         return "denormalized"
-    if field_name == "field":
+    if field_name == "var_field":
         return "field"
     if field_name == "fields":
         return "fields"
@@ -77,7 +77,7 @@ class GetQuery(WaylayBaseModel):
             description="Unless explicitly set to `false`, attributes inherited from a linked _Resource Type_ will be included in the representation."
         ),
     ] = None
-    field: Annotated[
+    var_field: Annotated[
         List[StrictStr] | None,
         Field(
             description="Select which attributes to render for each matching _Resource_ (repeated)."
@@ -127,7 +127,7 @@ class ListChangesQuery(WaylayBaseModel):
 def _list_children_query_alias_for(field_name: str) -> str:
     if field_name == "denormalized":
         return "denormalized"
-    if field_name == "field":
+    if field_name == "var_field":
         return "field"
     if field_name == "fields":
         return "fields"
@@ -147,7 +147,7 @@ class ListChildrenQuery(WaylayBaseModel):
             description="Unless explicitly set to `false`, attributes inherited from a linked _Resource Type_ will be included in the representation."
         ),
     ] = None
-    field: Annotated[
+    var_field: Annotated[
         List[StrictStr] | None,
         Field(
             description="Select which attributes to render for each matching _Resource_ (repeated)."
@@ -175,7 +175,7 @@ class ListChildrenQuery(WaylayBaseModel):
 
 
 def _list_referrers_query_alias_for(field_name: str) -> str:
-    if field_name == "field":
+    if field_name == "var_field":
         return "field"
     if field_name == "fields":
         return "fields"
@@ -189,7 +189,7 @@ def _list_referrers_query_alias_for(field_name: str) -> str:
 class ListReferrersQuery(WaylayBaseModel):
     """Model for `list_referrers` query parameters."""
 
-    field: Annotated[
+    var_field: Annotated[
         List[StrictStr] | None,
         Field(
             description="Select which attributes to render for each matching _Resource_ (repeated)."
@@ -221,7 +221,7 @@ def _list_query_alias_for(field_name: str) -> str:
         return "skip"
     if field_name == "limit":
         return "limit"
-    if field_name == "field":
+    if field_name == "var_field":
         return "field"
     if field_name == "fields":
         return "fields"
@@ -259,7 +259,7 @@ class ListQuery(WaylayBaseModel):
     limit: Annotated[
         StrictInt | None, Field(description="(Paging) maximal number of items returned")
     ] = None
-    field: Annotated[
+    var_field: Annotated[
         List[StrictStr] | None,
         Field(
             description="Select which attributes to render for each matching _Resource_ (repeated)."

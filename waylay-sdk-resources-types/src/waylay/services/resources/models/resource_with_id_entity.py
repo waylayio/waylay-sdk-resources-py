@@ -16,31 +16,38 @@ from typing import List
 from pydantic import (
     ConfigDict,
     Field,
+    StrictInt,
     StrictStr,
 )
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.metadata_entity_location import MetadataEntityLocation
-from ..models.object import object
 from ..models.resource_id import ResourceId
 from ..models.resource_metric import ResourceMetric
-from ..models.resource_parent import ResourceParent
 from ..models.resource_sensor import ResourceSensor
-from ..models.resource_type import ResourceType
+from ..models.resource_type_id import ResourceTypeId
 
 
 class ResourceWithIdEntity(WaylayBaseModel):
     """ResourceWithIdEntity."""
 
     id: ResourceId
-    resource_type_id: ResourceType | None = Field(default=None, alias="resourceTypeId")
-    parent_id: ResourceParent | None = Field(default=None, alias="parentId")
+    resource_type_id: ResourceTypeId | None = Field(
+        default=None,
+        description="Id of the linked _Resource Type_",
+        alias="resourceTypeId",
+    )
+    parent_id: ResourceId | None = Field(
+        default=None, description="Id of the parent _Resource_", alias="parentId"
+    )
     name: StrictStr | None = Field(default=None, description="Name for the _Resource_")
     alias: StrictStr | None = Field(
         default=None, description="Alias for the name of the _Resource_"
     )
-    last_message_timestamp: object | None = Field(
-        default=None, alias="lastMessageTimestamp"
+    last_message_timestamp: StrictInt | None = Field(
+        default=None,
+        description="Epoch time of the last contact",
+        alias="lastMessageTimestamp",
     )
     owner: StrictStr | None = Field(default=None, description="Owner of the _Resource_")
     tags: List[StrictStr] | None = Field(

@@ -12,14 +12,16 @@ Do not edit the class manually.
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from pydantic import (
     ConfigDict,
     Field,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
+from ..models.cascade_delete_values_inner import CascadeDeleteValuesInner
 from ..models.discovered_event_type import DiscoveredEventType
 from ..models.resource_entity import ResourceEntity
 from ..models.resource_metadata_event_all_of_object_type import (
@@ -34,6 +36,9 @@ class ResourceMetadataEvent(WaylayBaseModel):
     object_type: ResourceMetadataEventAllOfObjectType = Field(alias="objectType")
     timestamp: datetime
     resource: ResourceEntity
+    cascade_delete: List[CascadeDeleteValuesInner] | None = Field(
+        default=None, alias="cascadeDelete"
+    )
     old_values: Dict[str, Any] | None = Field(
         default=None,
         description="old values of all attributes that have changed",

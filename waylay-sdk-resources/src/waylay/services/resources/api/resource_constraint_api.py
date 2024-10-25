@@ -28,6 +28,7 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.9,
 )
+
 from waylay.sdk.api import (
     HeaderTypes,
     QueryParamTypes,
@@ -679,6 +680,8 @@ class ResourceConstraintApi(WithApiClient):
         :type query['limit']: int
         :param query['filter'] (dict) <br> query.filter (Query) : (Filter) fuzzy search on multiple fields.
         :type query['filter']: str
+        :param query['query'] (dict) <br> query.query (Query) : Search string using following query language  > `tags:<operation>(<arguments>)`  Supported operations are * `eq`: equals - exact match * `in`: in - exact match - arguments are a (comma-separated) list of values * `exists`: check if tags are specified on the Constraint * `like`: wildcard search - argument should contain * and/or ?  For more info see [Waylay Docs](/#/api/resources/?id=metadata-query-language)
+        :type query['query']: str
         :param raw_response: If true, return the http Response object instead of returning an api model object, or throwing an ApiError.
         :param select_path: Denotes the json path applied to the response object before returning it.
                 Set it to the empty string `""` to receive the full response object.

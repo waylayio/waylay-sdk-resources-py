@@ -33,6 +33,7 @@ resource_reference_model_schema = json.loads(
       "pattern" : "^/resources/.*",
       "type" : "string",
       "description" : "A URI for the _Resource_, formatted as `/resources/{resourceId}`",
+      "format" : "uri-reference",
       "example" : "/resources/04592b9a-e0c2-4e64-8c9a-202e50cd9275"
     }
   },
@@ -64,7 +65,7 @@ class ResourceReferenceStub:
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
                 ResourceReferenceAdapter.json_schema(), allow_none_optionals=1

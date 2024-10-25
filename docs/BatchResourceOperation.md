@@ -5,9 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**entity** | [**BatchResourceOperationEntity**](BatchResourceOperationEntity.md) |  | 
-**action** | [**BatchResourceOperationAction**](BatchResourceOperationAction.md) |  | 
-**query** | [**BatchResourceOperationQuery**](BatchResourceOperationQuery.md) |  | 
+**entity** | [**BatchResourceTypeDeleteOperationEntity**](BatchResourceTypeDeleteOperationEntity.md) |  | 
+**action** | [**BatchResourceDeleteOperationAction**](BatchResourceDeleteOperationAction.md) |  | 
+**query** | [**BatchResourceTypeDeleteOperationQuery**](BatchResourceTypeDeleteOperationQuery.md) |  | 
+**action_parameters** | [**BatchResourceDeleteOperationActionParameters**](BatchResourceDeleteOperationActionParameters.md) |  | [optional] 
 
 ## Example
 

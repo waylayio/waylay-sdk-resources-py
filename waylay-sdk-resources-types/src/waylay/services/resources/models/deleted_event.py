@@ -14,15 +14,18 @@ from __future__ import annotations
 from pydantic import (
     ConfigDict,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
-from ..models.create_delete_event_type import CreateDeleteEventType
+from ..models.batch_resource_delete_operation_action import (
+    BatchResourceDeleteOperationAction,
+)
 
 
-class CreateDeleteEvent(WaylayBaseModel):
-    """CreateDeleteEvent."""
+class DeletedEvent(WaylayBaseModel):
+    """DeletedEvent."""
 
-    type: CreateDeleteEventType | None = None
+    type: BatchResourceDeleteOperationAction | None = None
 
     model_config = ConfigDict(
         populate_by_name=True, protected_namespaces=(), extra="ignore"

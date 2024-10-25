@@ -11,23 +11,21 @@ Do not edit the class manually.
 
 from __future__ import annotations
 
-from pydantic import (
-    ConfigDict,
+from typing import (
+    Union,
 )
-from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
-from ..models.batch_resource_operation_action import BatchResourceOperationAction
-from ..models.batch_resource_operation_entity import BatchResourceOperationEntity
-from ..models.batch_resource_operation_query import BatchResourceOperationQuery
+from typing_extensions import (
+    Annotated,  # >=3.9
+)
 
+from ..models.batch_resource_delete_operation import BatchResourceDeleteOperation
+from ..models.batch_resource_type_delete_operation import (
+    BatchResourceTypeDeleteOperation,
+)
 
-class BatchResourceOperation(WaylayBaseModel):
-    """BatchResourceOperation."""
-
-    entity: BatchResourceOperationEntity
-    action: BatchResourceOperationAction
-    query: BatchResourceOperationQuery
-
-    model_config = ConfigDict(
-        populate_by_name=True, protected_namespaces=(), extra="ignore"
-    )
+BatchResourceOperation = Union[
+    Annotated[BatchResourceDeleteOperation, ""],
+    Annotated[BatchResourceTypeDeleteOperation, ""],
+]
+"""BatchResourceOperation."""

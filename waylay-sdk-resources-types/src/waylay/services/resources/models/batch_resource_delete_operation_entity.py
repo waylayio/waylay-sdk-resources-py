@@ -14,11 +14,10 @@ from __future__ import annotations
 from enum import Enum
 
 
-class BatchResourceOperationEntity(str, Enum):
+class BatchResourceDeleteOperationEntity(str, Enum):
     """Type of entities to remove."""
 
     RESOURCE = "resource"
-    RESOURCETYPE = "resourcetype"
 
     def __str__(self) -> str:
         return str(self.value)

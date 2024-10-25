@@ -16,54 +16,56 @@ from pydantic import TypeAdapter
 from ..openapi import MODEL_DEFINITIONS, with_example_provider
 
 try:
-    from waylay.services.resources.models.batch_resource_operation_action import (
-        BatchResourceOperationAction,
+    from waylay.services.resources.models.user_resource_properties import (
+        UserResourceProperties,
     )
 
-    BatchResourceOperationActionAdapter = TypeAdapter(BatchResourceOperationAction)
+    UserResourcePropertiesAdapter = TypeAdapter(UserResourceProperties)
     MODELS_AVAILABLE = True
 except ImportError as exc:
     MODELS_AVAILABLE = False
 
-batch_resource_operation_action_model_schema = json.loads(
+user_resource_properties_model_schema = json.loads(
     r"""{
-  "title" : "BatchResourceOperation_action",
-  "type" : "string",
-  "enum" : [ "delete" ]
+  "title" : "User Resource properties",
+  "description" : "Other key-value properties provisioned by the user.",
+  "nullable" : true,
+  "anyOf" : [ {
+    "$ref" : "#/components/schemas/ResourceReference"
+  } ]
 }
 """,
     object_hook=with_example_provider,
 )
-batch_resource_operation_action_model_schema.update({"definitions": MODEL_DEFINITIONS})
+user_resource_properties_model_schema.update({"definitions": MODEL_DEFINITIONS})
 
-batch_resource_operation_action_faker = JSF(
-    batch_resource_operation_action_model_schema, allow_none_optionals=1
+user_resource_properties_faker = JSF(
+    user_resource_properties_model_schema, allow_none_optionals=1
 )
 
 
-class BatchResourceOperationActionStub:
-    """BatchResourceOperationAction unit test stubs."""
+class UserResourcePropertiesStub:
+    """UserResourceProperties unit test stubs."""
 
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return batch_resource_operation_action_faker.generate(
+        return user_resource_properties_faker.generate(
             use_defaults=True, use_examples=True
         )
 
     @classmethod
-    def create_instance(cls) -> "BatchResourceOperationAction":
-        """Create BatchResourceOperationAction stub instance."""
+    def create_instance(cls) -> "UserResourceProperties":
+        """Create UserResourceProperties stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
-                BatchResourceOperationActionAdapter.json_schema(),
-                allow_none_optionals=1,
+                UserResourcePropertiesAdapter.json_schema(), allow_none_optionals=1
             )
             json = backup_faker.generate(use_defaults=True, use_examples=True)
-        return BatchResourceOperationActionAdapter.validate_python(
+        return UserResourcePropertiesAdapter.validate_python(
             json, context={"skip_validation": True}
         )

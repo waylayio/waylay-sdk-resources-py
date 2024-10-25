@@ -16,56 +16,53 @@ from pydantic import TypeAdapter
 from ..openapi import MODEL_DEFINITIONS, with_example_provider
 
 try:
-    from waylay.services.resources.models.metadata_entity_value import (
-        MetadataEntityValue,
+    from waylay.services.resources.models.cascade_delete_values_inner import (
+        CascadeDeleteValuesInner,
     )
 
-    MetadataEntityValueAdapter = TypeAdapter(MetadataEntityValue)
+    CascadeDeleteValuesInnerAdapter = TypeAdapter(CascadeDeleteValuesInner)
     MODELS_AVAILABLE = True
 except ImportError as exc:
     MODELS_AVAILABLE = False
 
-metadata_entity_value_model_schema = json.loads(
+cascade_delete_values_inner_model_schema = json.loads(
     r"""{
-  "title" : "User Resource properties",
-  "description" : "Other key-value properties provisioned by the user.",
-  "nullable" : true,
-  "anyOf" : [ {
-    "$ref" : "#/components/schemas/ResourceReference"
-  } ]
+  "title" : "CascadeDeleteValues_inner",
+  "type" : "string",
+  "enum" : [ "alarms", "measurements", "tasks" ]
 }
 """,
     object_hook=with_example_provider,
 )
-metadata_entity_value_model_schema.update({"definitions": MODEL_DEFINITIONS})
+cascade_delete_values_inner_model_schema.update({"definitions": MODEL_DEFINITIONS})
 
-metadata_entity_value_faker = JSF(
-    metadata_entity_value_model_schema, allow_none_optionals=1
+cascade_delete_values_inner_faker = JSF(
+    cascade_delete_values_inner_model_schema, allow_none_optionals=1
 )
 
 
-class MetadataEntityValueStub:
-    """MetadataEntityValue unit test stubs."""
+class CascadeDeleteValuesInnerStub:
+    """CascadeDeleteValuesInner unit test stubs."""
 
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return metadata_entity_value_faker.generate(
+        return cascade_delete_values_inner_faker.generate(
             use_defaults=True, use_examples=True
         )
 
     @classmethod
-    def create_instance(cls) -> "MetadataEntityValue":
-        """Create MetadataEntityValue stub instance."""
+    def create_instance(cls) -> "CascadeDeleteValuesInner":
+        """Create CascadeDeleteValuesInner stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
-                MetadataEntityValueAdapter.json_schema(), allow_none_optionals=1
+                CascadeDeleteValuesInnerAdapter.json_schema(), allow_none_optionals=1
             )
             json = backup_faker.generate(use_defaults=True, use_examples=True)
-        return MetadataEntityValueAdapter.validate_python(
+        return CascadeDeleteValuesInnerAdapter.validate_python(
             json, context={"skip_validation": True}
         )

@@ -37,7 +37,7 @@ batch_running_resource_operation_operation_model_schema = json.loads(
       "$ref" : "#/components/schemas/BatchRunningResourceOperation_operation_entity"
     },
     "action" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_action"
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_action"
     },
     "description" : {
       "title" : "description",
@@ -75,7 +75,7 @@ class BatchRunningResourceOperationOperationStub:
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
                 BatchRunningResourceOperationOperationAdapter.json_schema(),

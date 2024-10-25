@@ -266,6 +266,7 @@ Name     | Type  | API binding   | Description   | Notes
 **query['skip']** (dict) <br> **query.skip** (Query) | **int** | query parameter `"skip"` | (Paging) items to skip in the listing | [optional] [default 0]
 **query['limit']** (dict) <br> **query.limit** (Query) | **int** | query parameter `"limit"` | (Paging) maximal number of items returned | [optional] [default 100]
 **query['filter']** (dict) <br> **query.filter** (Query) | **str** | query parameter `"filter"` | (Filter) fuzzy search on multiple fields. | [optional] 
+**query['query']** (dict) <br> **query.query** (Query) | **str** | query parameter `"query"` | Search string using following query language  &gt; &#x60;tags:&lt;operation&gt;(&lt;arguments&gt;)&#x60;  Supported operations are * &#x60;eq&#x60;: equals - exact match * &#x60;in&#x60;: in - exact match - arguments are a (comma-separated) list of values * &#x60;exists&#x60;: check if tags are specified on the Constraint * &#x60;like&#x60;: wildcard search - argument should contain * and/or ?  For more info see [Waylay Docs](/#/api/resources/?id&#x3D;metadata-query-language) | [optional] 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type

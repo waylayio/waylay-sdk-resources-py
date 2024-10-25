@@ -1,5 +1,6 @@
-# BatchResourceOperationAction
+# BatchResourceDeleteOperationEntity
 
+Type of entities to remove
 
 ## Properties
 

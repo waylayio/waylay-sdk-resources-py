@@ -3,7 +3,7 @@
 
 This code was generated from the OpenAPI documentation of 'Waylay Resources'
 
-version: 8.1.0
+version: 8.5.0
 
 This service manages  [Waylay Resources](/#/features/resources/?id=resource) and related entities.  A _Waylay Resource_ models a real-world device or abstract entity of your IoT solution, and provides a context when processing data in the Rule Engine.  You'll interact with the _Waylay Resources_ API to create this _Digital Twin_ model,  a process that's also called _resource provisioning_.
 

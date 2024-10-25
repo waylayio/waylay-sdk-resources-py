@@ -17,6 +17,7 @@ from pydantic import (
     StrictInt,
     StrictStr,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity

@@ -42,6 +42,14 @@ constraint_model_schema = json.loads(
       "description" : "A description for the _Resource Constraint_",
       "example" : "Makes the name attribute mandatory"
     },
+    "tags" : {
+      "title" : "tags",
+      "type" : "array",
+      "example" : [ "technology", "myTag" ],
+      "items" : {
+        "type" : "string"
+      }
+    },
     "attributes" : {
       "title" : "attributes",
       "type" : "array",
@@ -75,7 +83,7 @@ class ConstraintStub:
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(ConstraintAdapter.json_schema(), allow_none_optionals=1)
             json = backup_faker.generate(use_defaults=True, use_examples=True)

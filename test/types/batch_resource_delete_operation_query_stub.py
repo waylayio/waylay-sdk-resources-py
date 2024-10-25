@@ -16,18 +16,20 @@ from pydantic import TypeAdapter
 from ..openapi import MODEL_DEFINITIONS, with_example_provider
 
 try:
-    from waylay.services.resources.models.batch_resource_operation_query import (
-        BatchResourceOperationQuery,
+    from waylay.services.resources.models.batch_resource_delete_operation_query import (
+        BatchResourceDeleteOperationQuery,
     )
 
-    BatchResourceOperationQueryAdapter = TypeAdapter(BatchResourceOperationQuery)
+    BatchResourceDeleteOperationQueryAdapter = TypeAdapter(
+        BatchResourceDeleteOperationQuery
+    )
     MODELS_AVAILABLE = True
 except ImportError as exc:
     MODELS_AVAILABLE = False
 
-batch_resource_operation_query_model_schema = json.loads(
+batch_resource_delete_operation_query_model_schema = json.loads(
     r"""{
-  "title" : "BatchResourceOperation_query",
+  "title" : "BatchResourceDeleteOperation_query",
   "required" : [ "ids" ],
   "type" : "object",
   "properties" : {
@@ -36,7 +38,7 @@ batch_resource_operation_query_model_schema = json.loads(
       "minItems" : 1,
       "type" : "array",
       "items" : {
-        "$ref" : "#/components/schemas/BatchResourceOperation_query_ids_inner"
+        "$ref" : "#/components/schemas/ResourceId"
       }
     }
   }
@@ -44,35 +46,38 @@ batch_resource_operation_query_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-batch_resource_operation_query_model_schema.update({"definitions": MODEL_DEFINITIONS})
+batch_resource_delete_operation_query_model_schema.update({
+    "definitions": MODEL_DEFINITIONS
+})
 
-batch_resource_operation_query_faker = JSF(
-    batch_resource_operation_query_model_schema, allow_none_optionals=1
+batch_resource_delete_operation_query_faker = JSF(
+    batch_resource_delete_operation_query_model_schema, allow_none_optionals=1
 )
 
 
-class BatchResourceOperationQueryStub:
-    """BatchResourceOperationQuery unit test stubs."""
+class BatchResourceDeleteOperationQueryStub:
+    """BatchResourceDeleteOperationQuery unit test stubs."""
 
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return batch_resource_operation_query_faker.generate(
+        return batch_resource_delete_operation_query_faker.generate(
             use_defaults=True, use_examples=True
         )
 
     @classmethod
-    def create_instance(cls) -> "BatchResourceOperationQuery":
-        """Create BatchResourceOperationQuery stub instance."""
+    def create_instance(cls) -> "BatchResourceDeleteOperationQuery":
+        """Create BatchResourceDeleteOperationQuery stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
-                BatchResourceOperationQueryAdapter.json_schema(), allow_none_optionals=1
+                BatchResourceDeleteOperationQueryAdapter.json_schema(),
+                allow_none_optionals=1,
             )
             json = backup_faker.generate(use_defaults=True, use_examples=True)
-        return BatchResourceOperationQueryAdapter.validate_python(
+        return BatchResourceDeleteOperationQueryAdapter.validate_python(
             json, context={"skip_validation": True}
         )

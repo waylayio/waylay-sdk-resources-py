@@ -27,19 +27,11 @@ except ImportError as exc:
 
 batch_resource_operation_model_schema = json.loads(
     r"""{
-  "required" : [ "action", "entity", "query" ],
-  "type" : "object",
-  "properties" : {
-    "entity" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_entity"
-    },
-    "action" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_action"
-    },
-    "query" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_query"
-    }
-  }
+  "oneOf" : [ {
+    "$ref" : "#/components/schemas/BatchResourceDeleteOperation"
+  }, {
+    "$ref" : "#/components/schemas/BatchResourceTypeDeleteOperation"
+  } ]
 }
 """,
     object_hook=with_example_provider,
@@ -67,7 +59,7 @@ class BatchResourceOperationStub:
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
                 BatchResourceOperationAdapter.json_schema(), allow_none_optionals=1

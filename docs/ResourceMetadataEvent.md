@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **object_type** | [**ResourceMetadataEventAllOfObjectType**](ResourceMetadataEventAllOfObjectType.md) |  | 
 **timestamp** | **datetime** |  | 
 **resource** | [**ResourceEntity**](ResourceEntity.md) |  | 
+**cascade_delete** | [**List[CascadeDeleteValuesInner]**](CascadeDeleteValuesInner.md) |  | [optional] 
 **old_values** | **object** | old values of all attributes that have changed | [optional] 
 **message** | **object** | The broker message that triggered the discovery | [optional] 
 

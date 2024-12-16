@@ -1,4 +1,4 @@
-# MetadataEntityValue
+# UserResourceProperties
 
 Other key-value properties provisioned by the user.
 
@@ -11,19 +11,19 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from waylay.services.resources.models.metadata_entity_value import MetadataEntityValue
+from waylay.services.resources.models.user_resource_properties import UserResourceProperties
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of MetadataEntityValue from a JSON string
-metadata_entity_value_instance = MetadataEntityValue.from_json(json)
+# create an instance of UserResourceProperties from a JSON string
+user_resource_properties_instance = UserResourceProperties.from_json(json)
 # print the JSON string representation of the object
-print MetadataEntityValue.to_json()
+print UserResourceProperties.to_json()
 
 # convert the object into a dict
-metadata_entity_value_dict = metadata_entity_value_instance.to_dict()
-# create an instance of MetadataEntityValue from a dict
-metadata_entity_value_form_dict = metadata_entity_value.from_dict(metadata_entity_value_dict)
+user_resource_properties_dict = user_resource_properties_instance.to_dict()
+# create an instance of UserResourceProperties from a dict
+user_resource_properties_form_dict = user_resource_properties.from_dict(user_resource_properties_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

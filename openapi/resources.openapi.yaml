@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Waylay Resources
-  version: 8.1.0
+  version: 8.5.0
   description: "This service manages \n[Waylay Resources](/#/features/resources/?id=resource)\
     \ and related entities.\n\nA _Waylay Resource_ models a real-world device or abstract\
     \ entity of your IoT solution,\nand provides a context when processing data in\
@@ -163,6 +163,28 @@ paths:
         schema:
           type: boolean
         example: true
+      - name: sort
+        description: The field to sort on.
+        in: query
+        schema:
+          type: string
+          default: id
+        examples:
+          name:
+            value: name
+            summary: Sort by name
+          custom:
+            value: limits.minimum
+            summary: Sorting on a custom field
+      - name: order
+        description: The order in which to sort
+        in: query
+        schema:
+          type: string
+          enum:
+          - ascending
+          - descending
+          default: ascending
       responses:
         '200':
           description: Resource Listing
@@ -306,6 +328,14 @@ paths:
         url: https://docs.waylay.io/#/api/resources/?id=delete-resource
       parameters:
       - $ref: '#/components/parameters/ResourceId'
+      - name: cascade
+        in: query
+        required: false
+        description: List of related data that needs to be deleted
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/CascadeDeleteValues'
       responses:
         '204':
           description: Resource Removed
@@ -318,6 +348,15 @@ paths:
               example:
                 statusCode: 400
                 error: Resource is still parent of or referenced by 2 resource(s)
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statusCode: 403
+                error: You are not authorized to perform this action
         '404':
           $ref: '#/components/responses/ResourceNotFoundResponse'
       security: *id001
@@ -841,6 +880,25 @@ paths:
       - $ref: '#/components/parameters/PagingSkip'
       - $ref: '#/components/parameters/PagingLimit'
       - $ref: '#/components/parameters/Filter'
+      - name: query
+        in: query
+        description: "Search string using following query language \n> `tags:<operation>(<arguments>)`\n\
+          \nSupported operations are\n* `eq`: equals - exact match\n* `in`: in - exact\
+          \ match - arguments are a (comma-separated) list of values\n* `exists`:\
+          \ check if tags are specified on the Constraint\n* `like`: wildcard search\
+          \ - argument should contain * and/or ?\n\nFor more info see [Waylay Docs](/#/api/resources/?id=metadata-query-language)"
+        schema:
+          type: string
+        examples:
+          simple:
+            value: tags:technology
+            summary: Find with constraints with tag technology
+          multiple:
+            value: tags:in(technology,demo)
+            summary: Find constraints with tag technology AND tag demo
+          or-condition:
+            value: tags:eq(technology) OR tags:eq(demo)
+            summary: Find constraints with tag technology OR tag demo
       responses:
         '200':
           $ref: '#/components/responses/ResourceConstraintsListResponse'
@@ -1089,6 +1147,15 @@ components:
       description: List of SchemaValidationErrors
       items:
         $ref: '#/components/schemas/SchemaValidationError'
+    CascadeDeleteValues:
+      type: array
+      title: Cascade delete values
+      items:
+        type: string
+        enum:
+        - alarms
+        - measurements
+        - tasks
     ResourceCreationResponse:
       type: object
       title: Resource Creation Result
@@ -1196,6 +1263,7 @@ components:
         $ref:
           type: string
           title: Resource URI
+          format: uri-reference
           description: A URI for the _Resource_, formatted as `/resources/{resourceId}`
           pattern: ^/resources/.*
           example: /resources/04592b9a-e0c2-4e64-8c9a-202e50cd9275
@@ -1931,6 +1999,13 @@ components:
           type: string
           description: A description for the _Resource Constraint_
           example: Makes the name attribute mandatory
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+          - technology
+          - myTag
         attributes:
           type: array
           description: List of attribute descriptions
@@ -2153,6 +2228,11 @@ components:
       example: afcea5a1-81df-44f6-bd34-e0b602a2cf3d
     BatchResourceOperation:
       title: a batch operation
+      oneOf:
+      - $ref: '#/components/schemas/BatchResourceDeleteOperation'
+      - $ref: '#/components/schemas/BatchResourceTypeDeleteOperation'
+    BatchResourceDeleteOperation:
+      title: Delete multiple resources in batch
       type: object
       properties:
         entity:
@@ -2160,6 +2240,39 @@ components:
           description: Type of entities to remove
           enum:
           - resource
+        action:
+          type: string
+          enum:
+          - delete
+        query:
+          type: object
+          properties:
+            ids:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/ResourceId'
+          required:
+          - ids
+        actionParameters:
+          type: object
+          properties:
+            cascade:
+              $ref: '#/components/schemas/CascadeDeleteValues'
+          required:
+          - cascade
+      required:
+      - entity
+      - action
+      - query
+    BatchResourceTypeDeleteOperation:
+      title: Delete multiple resourcetypes in batch
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Type of entities to remove
+          enum:
           - resourcetype
         action:
           type: string
@@ -2172,9 +2285,7 @@ components:
               type: array
               minItems: 1
               items:
-                anyOf:
-                - $ref: '#/components/schemas/ResourceId'
-                - $ref: '#/components/schemas/ResourceTypeId'
+                $ref: '#/components/schemas/ResourceTypeId'
           required:
           - ids
       required:
@@ -2314,14 +2425,27 @@ components:
         oldValues:
           type: object
           description: old values of all attributes that have changed
-    CreateDeleteEvent:
-      title: Creation or Deletion
+    CreateEvent:
+      title: Creation
       properties:
         type:
           type: string
           enum:
           - create
+    DeletedEvent:
+      title: Deletion
+      properties:
+        type:
+          type: string
+          enum:
           - delete
+    DeletedResourceEvent:
+      title: Deletion
+      allOf:
+      - $ref: '#/components/schemas/DeletedEvent'
+      - properties:
+          cascadeDelete:
+            $ref: '#/components/schemas/CascadeDeleteValues'
     DiscoveredEvent:
       title: Discovered
       properties:
@@ -2344,14 +2468,16 @@ components:
         required:
         - resource
       - oneOf:
-        - $ref: '#/components/schemas/CreateDeleteEvent'
+        - $ref: '#/components/schemas/CreateEvent'
+        - $ref: '#/components/schemas/DeletedResourceEvent'
         - $ref: '#/components/schemas/ChangedEvent'
         - $ref: '#/components/schemas/DiscoveredEvent'
     ResourcetypeMetadataEvent:
       allOf:
       - $ref: '#/components/schemas/GenericMetadataEvent'
       - oneOf:
-        - $ref: '#/components/schemas/CreateDeleteEvent'
+        - $ref: '#/components/schemas/CreateEvent'
+        - $ref: '#/components/schemas/DeletedEvent'
         - $ref: '#/components/schemas/ChangedEvent'
       - properties:
           objectType:

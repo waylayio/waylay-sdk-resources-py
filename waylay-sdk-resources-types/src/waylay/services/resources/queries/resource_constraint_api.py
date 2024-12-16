@@ -19,6 +19,7 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.11
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 
@@ -74,6 +75,8 @@ def _list_query_alias_for(field_name: str) -> str:
         return "limit"
     if field_name == "filter":
         return "filter"
+    if field_name == "query":
+        return "query"
     return field_name
 
 
@@ -88,6 +91,12 @@ class ListQuery(WaylayBaseModel):
     ] = None
     filter: Annotated[
         StrictStr | None, Field(description="(Filter) fuzzy search on multiple fields.")
+    ] = None
+    query: Annotated[
+        StrictStr | None,
+        Field(
+            description="Search string using following query language  > `tags:<operation>(<arguments>)`  Supported operations are * `eq`: equals - exact match * `in`: in - exact match - arguments are a (comma-separated) list of values * `exists`: check if tags are specified on the Constraint * `like`: wildcard search - argument should contain * and/or ?  For more info see [Waylay Docs](/#/api/resources/?id=metadata-query-language)"
+        ),
     ] = None
 
     model_config = ConfigDict(

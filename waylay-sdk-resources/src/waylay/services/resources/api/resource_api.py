@@ -29,6 +29,7 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.9,
 )
+
 from waylay.sdk.api import (
     HeaderTypes,
     QueryParamTypes,
@@ -99,6 +100,8 @@ except ImportError:
         ErrorResponse = Model
 
         DeleteQuery = dict
+
+        ErrorResponse = Model
 
         ErrorResponse = Model
 
@@ -398,6 +401,8 @@ class ResourceApi(WithApiClient):
         :type resource_id: ResourceId
         :param query: URL Query parameters.
         :type query: DeleteQuery | QueryParamTypes, optional
+        :param query['cascade'] (dict) <br> query.cascade (Query) : List of related data that needs to be deleted
+        :type query['cascade']: List[CascadeDeleteValuesInner]
         :param raw_response: If true, return the http Response object instead of returning an api model object, or throwing an ApiError.
         :param select_path: Denotes the json path applied to the response object before returning it.
                 Set it to the empty string `""` to receive the full response object.
@@ -442,6 +447,7 @@ class ResourceApi(WithApiClient):
         )
         non_200_response_types_map: Dict[str, Any] = {
             "400": ErrorResponse,
+            "403": ErrorResponse,
             "404": ErrorResponse,
         }
         response_types_map.update(non_200_response_types_map)
@@ -1199,6 +1205,10 @@ class ResourceApi(WithApiClient):
         :type query['distance']: str
         :param query['toplevelOnly'] (dict) <br> query.toplevel_only (Query) : If true, search only for _Resources_ without parent.
         :type query['toplevelOnly']: bool
+        :param query['sort'] (dict) <br> query.sort (Query) : The field to sort on.
+        :type query['sort']: str
+        :param query['order'] (dict) <br> query.order (Query) : The order in which to sort
+        :type query['order']: ListResourcesOrderParameter
         :param raw_response: If true, return the http Response object instead of returning an api model object, or throwing an ApiError.
         :param select_path: Denotes the json path applied to the response object before returning it.
                 Set it to the empty string `""` to receive the full response object.

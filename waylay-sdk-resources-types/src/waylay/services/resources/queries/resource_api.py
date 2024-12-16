@@ -23,8 +23,11 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.11
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
+from ..models.cascade_delete_values_inner import CascadeDeleteValuesInner
+from ..models.list_resources_order_parameter import ListResourcesOrderParameter
 from ..models.resource_id import ResourceId
 
 
@@ -44,11 +47,18 @@ class CreateQuery(WaylayBaseModel):
 
 
 def _delete_query_alias_for(field_name: str) -> str:
+    if field_name == "cascade":
+        return "cascade"
     return field_name
 
 
 class DeleteQuery(WaylayBaseModel):
     """Model for `delete` query parameters."""
+
+    cascade: Annotated[
+        List[CascadeDeleteValuesInner] | None,
+        Field(description="List of related data that needs to be deleted"),
+    ] = None
 
     model_config = ConfigDict(
         protected_namespaces=(),
@@ -247,6 +257,10 @@ def _list_query_alias_for(field_name: str) -> str:
         return "distance"
     if field_name == "toplevel_only":
         return "toplevelOnly"
+    if field_name == "sort":
+        return "sort"
+    if field_name == "order":
+        return "order"
     return field_name
 
 
@@ -291,6 +305,11 @@ class ListQuery(WaylayBaseModel):
     toplevel_only: Annotated[
         StrictBool | None,
         Field(description="If true, search only for _Resources_ without parent."),
+    ] = None
+    sort: Annotated[StrictStr | None, Field(description="The field to sort on.")] = None
+    order: Annotated[
+        ListResourcesOrderParameter | None,
+        Field(description="The order in which to sort"),
     ] = None
 
     model_config = ConfigDict(

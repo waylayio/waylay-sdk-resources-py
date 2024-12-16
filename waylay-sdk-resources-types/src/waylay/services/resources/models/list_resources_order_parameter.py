@@ -14,11 +14,11 @@ from __future__ import annotations
 from enum import Enum
 
 
-class CreateDeleteEventType(str, Enum):
-    """CreateDeleteEventType."""
+class ListResourcesOrderParameter(str, Enum):
+    """ListResourcesOrderParameter."""
 
-    CREATE = "create"
-    DELETE = "delete"
+    ASCENDING = "ascending"
+    DESCENDING = "descending"
 
     def __str__(self) -> str:
         return str(self.value)

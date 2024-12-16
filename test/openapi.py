@@ -214,19 +214,23 @@ MODEL_DEFINITIONS.update({
     "BatchOperationStatusResponse": _batch_operation_status_response_model_schema
 })
 
-_batch_resource_operation_model_schema = json.loads(
+_batch_resource_delete_operation_model_schema = json.loads(
     r"""{
+  "title" : "BatchResourceDeleteOperation",
   "required" : [ "action", "entity", "query" ],
   "type" : "object",
   "properties" : {
     "entity" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_entity"
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_entity"
     },
     "action" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_action"
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_action"
     },
     "query" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_query"
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_query"
+    },
+    "actionParameters" : {
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_actionParameters"
     }
   }
 }
@@ -234,12 +238,12 @@ _batch_resource_operation_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "BatchResourceOperation": _batch_resource_operation_model_schema
+    "BatchResourceDeleteOperation": _batch_resource_delete_operation_model_schema
 })
 
-_batch_resource_operation_action_model_schema = json.loads(
+_batch_resource_delete_operation_action_model_schema = json.loads(
     r"""{
-  "title" : "BatchResourceOperation_action",
+  "title" : "BatchResourceDeleteOperation_action",
   "type" : "string",
   "enum" : [ "delete" ]
 }
@@ -247,26 +251,44 @@ _batch_resource_operation_action_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "BatchResourceOperation_action": _batch_resource_operation_action_model_schema
+    "BatchResourceDeleteOperation_action": _batch_resource_delete_operation_action_model_schema
 })
 
-_batch_resource_operation_entity_model_schema = json.loads(
+_batch_resource_delete_operation_action_parameters_model_schema = json.loads(
     r"""{
-  "title" : "BatchResourceOperation_entity",
-  "type" : "string",
-  "description" : "Type of entities to remove",
-  "enum" : [ "resource", "resourcetype" ]
+  "title" : "BatchResourceDeleteOperation_actionParameters",
+  "required" : [ "cascade" ],
+  "type" : "object",
+  "properties" : {
+    "cascade" : {
+      "$ref" : "#/components/schemas/CascadeDeleteValues"
+    }
+  }
 }
 """,
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "BatchResourceOperation_entity": _batch_resource_operation_entity_model_schema
+    "BatchResourceDeleteOperation_actionParameters": _batch_resource_delete_operation_action_parameters_model_schema
 })
 
-_batch_resource_operation_query_model_schema = json.loads(
+_batch_resource_delete_operation_entity_model_schema = json.loads(
     r"""{
-  "title" : "BatchResourceOperation_query",
+  "title" : "BatchResourceDeleteOperation_entity",
+  "type" : "string",
+  "description" : "Type of entities to remove",
+  "enum" : [ "resource" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourceDeleteOperation_entity": _batch_resource_delete_operation_entity_model_schema
+})
+
+_batch_resource_delete_operation_query_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourceDeleteOperation_query",
   "required" : [ "ids" ],
   "type" : "object",
   "properties" : {
@@ -275,7 +297,7 @@ _batch_resource_operation_query_model_schema = json.loads(
       "minItems" : 1,
       "type" : "array",
       "items" : {
-        "$ref" : "#/components/schemas/BatchResourceOperation_query_ids_inner"
+        "$ref" : "#/components/schemas/ResourceId"
       }
     }
   }
@@ -284,23 +306,83 @@ _batch_resource_operation_query_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "BatchResourceOperation_query": _batch_resource_operation_query_model_schema
+    "BatchResourceDeleteOperation_query": _batch_resource_delete_operation_query_model_schema
 })
 
-_batch_resource_operation_query_ids_inner_model_schema = json.loads(
+_batch_resource_operation_model_schema = json.loads(
     r"""{
-  "title" : "BatchResourceOperation_query_ids_inner",
-  "anyOf" : [ {
-    "$ref" : "#/components/schemas/ResourceId"
+  "oneOf" : [ {
+    "$ref" : "#/components/schemas/BatchResourceDeleteOperation"
   }, {
-    "$ref" : "#/components/schemas/ResourceTypeId"
+    "$ref" : "#/components/schemas/BatchResourceTypeDeleteOperation"
   } ]
 }
 """,
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "BatchResourceOperation_query_ids_inner": _batch_resource_operation_query_ids_inner_model_schema
+    "BatchResourceOperation": _batch_resource_operation_model_schema
+})
+
+_batch_resource_type_delete_operation_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourceTypeDeleteOperation",
+  "required" : [ "action", "entity", "query" ],
+  "type" : "object",
+  "properties" : {
+    "entity" : {
+      "$ref" : "#/components/schemas/BatchResourceTypeDeleteOperation_entity"
+    },
+    "action" : {
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_action"
+    },
+    "query" : {
+      "$ref" : "#/components/schemas/BatchResourceTypeDeleteOperation_query"
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourceTypeDeleteOperation": _batch_resource_type_delete_operation_model_schema
+})
+
+_batch_resource_type_delete_operation_entity_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourceTypeDeleteOperation_entity",
+  "type" : "string",
+  "description" : "Type of entities to remove",
+  "enum" : [ "resourcetype" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourceTypeDeleteOperation_entity": _batch_resource_type_delete_operation_entity_model_schema
+})
+
+_batch_resource_type_delete_operation_query_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourceTypeDeleteOperation_query",
+  "required" : [ "ids" ],
+  "type" : "object",
+  "properties" : {
+    "ids" : {
+      "title" : "ids",
+      "minItems" : 1,
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/ResourceTypeId"
+      }
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourceTypeDeleteOperation_query": _batch_resource_type_delete_operation_query_model_schema
 })
 
 _batch_running_resource_operation_model_schema = json.loads(
@@ -339,7 +421,7 @@ _batch_running_resource_operation_operation_model_schema = json.loads(
       "$ref" : "#/components/schemas/BatchRunningResourceOperation_operation_entity"
     },
     "action" : {
-      "$ref" : "#/components/schemas/BatchResourceOperation_action"
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_action"
     },
     "description" : {
       "title" : "description",
@@ -397,6 +479,19 @@ _boolean_value_constraint_type_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({
     "BooleanValueConstraint_type": _boolean_value_constraint_type_model_schema
+})
+
+_cascade_delete_values_inner_model_schema = json.loads(
+    r"""{
+  "title" : "CascadeDeleteValues_inner",
+  "type" : "string",
+  "enum" : [ "alarms", "measurements", "tasks" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "CascadeDeleteValues_inner": _cascade_delete_values_inner_model_schema
 })
 
 _changed_event_model_schema = json.loads(
@@ -519,6 +614,14 @@ _constraint_model_schema = json.loads(
       "description" : "A description for the _Resource Constraint_",
       "example" : "Makes the name attribute mandatory"
     },
+    "tags" : {
+      "title" : "tags",
+      "type" : "array",
+      "example" : [ "technology", "myTag" ],
+      "items" : {
+        "type" : "string"
+      }
+    },
     "attributes" : {
       "title" : "attributes",
       "type" : "array",
@@ -611,31 +714,59 @@ MODEL_DEFINITIONS.update({
     "ConstraintStatus_status": _constraint_status_status_model_schema
 })
 
-_create_delete_event_model_schema = json.loads(
+_create_event_model_schema = json.loads(
     r"""{
   "properties" : {
     "type" : {
-      "$ref" : "#/components/schemas/CreateDeleteEvent_type"
+      "$ref" : "#/components/schemas/CreateEvent_type"
     }
   }
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({"CreateDeleteEvent": _create_delete_event_model_schema})
+MODEL_DEFINITIONS.update({"CreateEvent": _create_event_model_schema})
 
-_create_delete_event_type_model_schema = json.loads(
+_create_event_type_model_schema = json.loads(
     r"""{
-  "title" : "CreateDeleteEvent_type",
+  "title" : "CreateEvent_type",
   "type" : "string",
-  "enum" : [ "create", "delete" ]
+  "enum" : [ "create" ]
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({
-    "CreateDeleteEvent_type": _create_delete_event_type_model_schema
-})
+MODEL_DEFINITIONS.update({"CreateEvent_type": _create_event_type_model_schema})
+
+_deleted_event_model_schema = json.loads(
+    r"""{
+  "properties" : {
+    "type" : {
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_action"
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"DeletedEvent": _deleted_event_model_schema})
+
+_deleted_resource_event_model_schema = json.loads(
+    r"""{
+  "allOf" : [ {
+    "$ref" : "#/components/schemas/DeletedEvent"
+  }, {
+    "properties" : {
+      "cascadeDelete" : {
+        "$ref" : "#/components/schemas/CascadeDeleteValues"
+      }
+    }
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"DeletedResourceEvent": _deleted_resource_event_model_schema})
 
 _discovered_event_model_schema = json.loads(
     r"""{
@@ -1075,6 +1206,19 @@ MODEL_DEFINITIONS.update({
     "listConstraints_200_response": _list_constraints_200_response_model_schema
 })
 
+_list_resources_order_parameter_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "default" : "ascending",
+  "enum" : [ "ascending", "descending" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "list_resources_order_parameter": _list_resources_order_parameter_model_schema
+})
+
 _metadata_entity_model_schema = json.loads(
     r"""{
   "type" : "object",
@@ -1112,7 +1256,7 @@ _metadata_entity_model_schema = json.loads(
     }
   },
   "additionalProperties" : {
-    "$ref" : "#/components/schemas/MetadataEntity_value"
+    "$ref" : "#/components/schemas/User_Resource_properties"
   },
   "description" : "Common attributes for _Resource_ or _Resource Type_"
 }
@@ -1142,20 +1286,6 @@ _metadata_entity_location_model_schema = json.loads(
 MODEL_DEFINITIONS.update({
     "MetadataEntity_location": _metadata_entity_location_model_schema
 })
-
-_metadata_entity_value_model_schema = json.loads(
-    r"""{
-  "title" : "User Resource properties",
-  "description" : "Other key-value properties provisioned by the user.",
-  "nullable" : true,
-  "anyOf" : [ {
-    "$ref" : "#/components/schemas/ResourceReference"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({"MetadataEntity_value": _metadata_entity_value_model_schema})
 
 _metadata_event_model_schema = json.loads(
     r"""{
@@ -1839,7 +1969,9 @@ _resource_metadata_event_model_schema = json.loads(
     }
   }, {
     "oneOf" : [ {
-      "$ref" : "#/components/schemas/CreateDeleteEvent"
+      "$ref" : "#/components/schemas/CreateEvent"
+    }, {
+      "$ref" : "#/components/schemas/DeletedResourceEvent"
     }, {
       "$ref" : "#/components/schemas/ChangedEvent"
     }, {
@@ -2072,6 +2204,7 @@ _resource_reference_model_schema = json.loads(
       "pattern" : "^/resources/.*",
       "type" : "string",
       "description" : "A URI for the _Resource_, formatted as `/resources/{resourceId}`",
+      "format" : "uri-reference",
       "example" : "/resources/04592b9a-e0c2-4e64-8c9a-202e50cd9275"
     }
   },
@@ -2383,7 +2516,9 @@ _resourcetype_metadata_event_model_schema = json.loads(
     "$ref" : "#/components/schemas/GenericMetadataEvent"
   }, {
     "oneOf" : [ {
-      "$ref" : "#/components/schemas/CreateDeleteEvent"
+      "$ref" : "#/components/schemas/CreateEvent"
+    }, {
+      "$ref" : "#/components/schemas/DeletedEvent"
     }, {
       "$ref" : "#/components/schemas/ChangedEvent"
     } ]
@@ -2616,6 +2751,22 @@ _task_configuration_type_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({
     "TaskConfiguration_type": _task_configuration_type_model_schema
+})
+
+_user_resource_properties_model_schema = json.loads(
+    r"""{
+  "title" : "User Resource properties",
+  "description" : "Other key-value properties provisioned by the user.",
+  "nullable" : true,
+  "anyOf" : [ {
+    "$ref" : "#/components/schemas/ResourceReference"
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "User_Resource_properties": _user_resource_properties_model_schema
 })
 
 _validation_failure_model_schema = json.loads(

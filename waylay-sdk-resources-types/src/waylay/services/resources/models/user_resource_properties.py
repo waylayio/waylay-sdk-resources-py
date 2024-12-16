@@ -19,10 +19,7 @@ from typing_extensions import (
     Annotated,  # >=3.9
 )
 
-from ..models.resource_id import ResourceId
-from ..models.resource_type_id import ResourceTypeId
+from ..models.resource_reference import ResourceReference
 
-BatchResourceOperationQueryIdsInner = Union[
-    Annotated[ResourceId, ""], Annotated[ResourceTypeId, ""]
-]
-"""BatchResourceOperationQueryIdsInner."""
+UserResourceProperties = Union[Annotated[ResourceReference, ""]]
+"""Other key-value properties provisioned by the user.."""

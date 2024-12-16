@@ -19,6 +19,7 @@ from pydantic import (
     StrictInt,
     StrictStr,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.hal_resource_entity_all_of_embedded import HALResourceEntityAllOfEmbedded

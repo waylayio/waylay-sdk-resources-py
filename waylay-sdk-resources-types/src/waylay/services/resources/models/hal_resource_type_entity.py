@@ -18,6 +18,7 @@ from pydantic import (
     Field,
     StrictStr,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.hal_self_links_links import HALSelfLinksLinks

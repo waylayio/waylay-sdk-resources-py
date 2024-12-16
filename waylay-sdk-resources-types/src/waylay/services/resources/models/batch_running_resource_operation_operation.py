@@ -15,9 +15,12 @@ from pydantic import (
     ConfigDict,
     StrictStr,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
-from ..models.batch_resource_operation_action import BatchResourceOperationAction
+from ..models.batch_resource_delete_operation_action import (
+    BatchResourceDeleteOperationAction,
+)
 from ..models.batch_running_resource_operation_operation_entity import (
     BatchRunningResourceOperationOperationEntity,
 )
@@ -27,7 +30,7 @@ class BatchRunningResourceOperationOperation(WaylayBaseModel):
     """Queued operation summary."""
 
     entity: BatchRunningResourceOperationOperationEntity
-    action: BatchResourceOperationAction
+    action: BatchResourceDeleteOperationAction
     description: StrictStr
 
     model_config = ConfigDict(

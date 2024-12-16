@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** | Name for the _Resource Constraint_ | 
 **description** | **str** | A description for the _Resource Constraint_ | [optional] 
+**tags** | **List[str]** |  | [optional] 
 **attributes** | [**List[AttributeItem]**](AttributeItem.md) | List of attribute descriptions | 
 
 ## Example

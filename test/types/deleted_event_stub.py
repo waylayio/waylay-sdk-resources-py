@@ -16,51 +16,49 @@ from pydantic import TypeAdapter
 from ..openapi import MODEL_DEFINITIONS, with_example_provider
 
 try:
-    from waylay.services.resources.models.create_delete_event import CreateDeleteEvent
+    from waylay.services.resources.models.deleted_event import DeletedEvent
 
-    CreateDeleteEventAdapter = TypeAdapter(CreateDeleteEvent)
+    DeletedEventAdapter = TypeAdapter(DeletedEvent)
     MODELS_AVAILABLE = True
 except ImportError as exc:
     MODELS_AVAILABLE = False
 
-create_delete_event_model_schema = json.loads(
+deleted_event_model_schema = json.loads(
     r"""{
   "properties" : {
     "type" : {
-      "$ref" : "#/components/schemas/CreateDeleteEvent_type"
+      "$ref" : "#/components/schemas/BatchResourceDeleteOperation_action"
     }
   }
 }
 """,
     object_hook=with_example_provider,
 )
-create_delete_event_model_schema.update({"definitions": MODEL_DEFINITIONS})
+deleted_event_model_schema.update({"definitions": MODEL_DEFINITIONS})
 
-create_delete_event_faker = JSF(
-    create_delete_event_model_schema, allow_none_optionals=1
-)
+deleted_event_faker = JSF(deleted_event_model_schema, allow_none_optionals=1)
 
 
-class CreateDeleteEventStub:
-    """CreateDeleteEvent unit test stubs."""
+class DeletedEventStub:
+    """DeletedEvent unit test stubs."""
 
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return create_delete_event_faker.generate(use_defaults=True, use_examples=True)
+        return deleted_event_faker.generate(use_defaults=True, use_examples=True)
 
     @classmethod
-    def create_instance(cls) -> "CreateDeleteEvent":
-        """Create CreateDeleteEvent stub instance."""
+    def create_instance(cls) -> "DeletedEvent":
+        """Create DeletedEvent stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
-                CreateDeleteEventAdapter.json_schema(), allow_none_optionals=1
+                DeletedEventAdapter.json_schema(), allow_none_optionals=1
             )
             json = backup_faker.generate(use_defaults=True, use_examples=True)
-        return CreateDeleteEventAdapter.validate_python(
+        return DeletedEventAdapter.validate_python(
             json, context={"skip_validation": True}
         )

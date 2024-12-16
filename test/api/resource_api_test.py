@@ -43,6 +43,7 @@ if MODELS_AVAILABLE:
         ResourceWithIdEntity,
     )
     from waylay.services.resources.queries.resource_api import (
+        DeleteQuery,
         GetQuery,
         ListChangesQuery,
         ListChildrenQuery,
@@ -134,7 +135,12 @@ async def test_delete(
     # set path params
     resourceId = ResourceIdStub.create_json()
 
-    kwargs = {}
+    kwargs = {
+        # optionally use DeleteQuery to validate and reuse parameters
+        "query": DeleteQuery(
+            cascade=["alarms"],
+        ),
+    }
     _delete_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.delete(resourceId, **kwargs)
     assert not resp
@@ -151,7 +157,11 @@ async def test_delete_without_types(
     # set path params
     resourceId = ResourceIdStub.create_json()
 
-    kwargs = {}
+    kwargs = {
+        "query": {
+            "cascade": ["alarms"],
+        },
+    }
     _delete_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.delete(resourceId, **kwargs)
     assert not resp
@@ -441,6 +451,8 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
             lon=3.4,
             distance="distance_example",
             toplevel_only=true,
+            sort="id",
+            order="ascending",
         ),
     }
     _list_set_mock_response(httpx_mock, gateway_url)
@@ -474,6 +486,8 @@ async def test_list_without_types(
             "lon": 3.4,
             "distance": "distance_example",
             "toplevelOnly": true,
+            "sort": "id",
+            "order": "ascending",
         },
     }
     _list_set_mock_response(httpx_mock, gateway_url)

@@ -9,7 +9,7 @@ You'll interact with the _Waylay Resources_ API to create this _Digital Twin_ mo
 a process that's also called _resource provisioning_.
 
 This Python package is automatically generated based on the 
-Waylay Resources OpenAPI specification (API version: 8.1.0)
+Waylay Resources OpenAPI specification (API version: 8.5.0)
 For more information, please visit [the openapi specification](https://docs.waylay.io/openapi/public/redocly/resources.html).
 
 It consists of a plugin for the waylay-sdk-core package, and contains the Resources api methods.

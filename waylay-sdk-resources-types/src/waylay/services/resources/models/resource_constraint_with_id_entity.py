@@ -23,6 +23,7 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.11
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.attribute_item import AttributeItem
@@ -40,6 +41,7 @@ class ResourceConstraintWithIdEntity(WaylayBaseModel):
     description: StrictStr | None = Field(
         default=None, description="A description for the _Resource Constraint_"
     )
+    tags: List[StrictStr] | None = None
     attributes: List[AttributeItem] = Field(
         description="List of attribute descriptions"
     )

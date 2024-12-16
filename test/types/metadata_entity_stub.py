@@ -60,7 +60,7 @@ metadata_entity_model_schema = json.loads(
     }
   },
   "additionalProperties" : {
-    "$ref" : "#/components/schemas/MetadataEntity_value"
+    "$ref" : "#/components/schemas/User_Resource_properties"
   },
   "description" : "Common attributes for _Resource_ or _Resource Type_"
 }
@@ -86,7 +86,7 @@ class MetadataEntityStub:
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
                 MetadataEntityAdapter.json_schema(), allow_none_optionals=1

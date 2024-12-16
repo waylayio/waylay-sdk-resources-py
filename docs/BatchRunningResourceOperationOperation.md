@@ -7,7 +7,7 @@ Queued operation summary
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **entity** | [**BatchRunningResourceOperationOperationEntity**](BatchRunningResourceOperationOperationEntity.md) |  | 
-**action** | [**BatchResourceOperationAction**](BatchResourceOperationAction.md) |  | 
+**action** | [**BatchResourceDeleteOperationAction**](BatchResourceDeleteOperationAction.md) |  | 
 **description** | **str** |  | 
 
 ## Example

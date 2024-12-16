@@ -20,17 +20,16 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.11
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
-from ..models.batch_resource_operation_query_ids_inner import (
-    BatchResourceOperationQueryIdsInner,
-)
+from ..models.resource_type_id import ResourceTypeId
 
 
-class BatchResourceOperationQuery(WaylayBaseModel):
-    """BatchResourceOperationQuery."""
+class BatchResourceTypeDeleteOperationQuery(WaylayBaseModel):
+    """BatchResourceTypeDeleteOperationQuery."""
 
-    ids: Annotated[List[BatchResourceOperationQueryIdsInner], Field(min_length=1)]
+    ids: Annotated[List[ResourceTypeId], Field(min_length=1)]
 
     model_config = ConfigDict(
         populate_by_name=True, protected_namespaces=(), extra="ignore"

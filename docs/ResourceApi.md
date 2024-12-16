@@ -88,6 +88,7 @@ str | False _(default)_ | **`Any`** | If any other string value for the selected
 # **delete**
 > delete(
 > resource_id: ResourceId,
+> query: DeleteQuery,
 > headers
 > ) -> void (empty response body)
 
@@ -108,11 +109,15 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
+from waylay.services.resources.models.cascade_delete_values_inner import CascadeDeleteValuesInner
 try:
     # Remove Resource
     # calls `DELETE /resources/v1/resources/{resourceId}`
     await waylay_client.resources.resource.delete(
         waylay.services.resources.ResourceId(), # resource_id | path param "resourceId"
+        # query parameters:
+        query = {
+        },
     )
 except ApiError as e:
     print("Exception when calling resources.resource.delete: %s\n" % e)
@@ -127,6 +132,8 @@ DELETE /resources/v1/resources/{resourceId}
 Name     | Type  | API binding   | Description   | Notes
 -------- | ----- | ------------- | ------------- | -------------
 **resource_id** | **ResourceId** | path parameter `"resourceId"` | _Resource_ id | 
+**query** | [QueryParamTypes](Operation.md#req_arg_query) \| **None** | URL query parameter |  | 
+**query['cascade']** (dict) <br> **query.cascade** (Query) | [**List[CascadeDeleteValuesInner]**](CascadeDeleteValuesInner.md) | query parameter `"cascade"` | List of related data that needs to be deleted | [optional] 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type
@@ -148,6 +155,7 @@ str | False _(default)_ | **`Any`** | If any other string value for the selected
 |-------------|-------------|------------------|
 **204** | Resource Removed |  -  |
 **400** | Resource Still Referenced |  -  |
+**403** | Forbidden |  -  |
 **404** | Resource Not Found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -485,6 +493,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
+from waylay.services.resources.models.list_resources_order_parameter import ListResourcesOrderParameter
 from waylay.services.resources.models.resource_id import ResourceId
 from waylay.services.resources.models.resource_listing import ResourceListing
 try:
@@ -501,6 +510,8 @@ try:
             'lon': 3.4
             'distance': 'distance_example'
             'toplevelOnly': true
+            'sort': 'id'
+            'order': ascending
         },
     )
     print("The response of resources.resource.list:\n")
@@ -533,6 +544,8 @@ Name     | Type  | API binding   | Description   | Notes
 **query['lon']** (dict) <br> **query.lon** (Query) | **float** | query parameter `"lon"` |  | [optional] 
 **query['distance']** (dict) <br> **query.distance** (Query) | **str** | query parameter `"distance"` |  | [optional] 
 **query['toplevelOnly']** (dict) <br> **query.toplevel_only** (Query) | **bool** | query parameter `"toplevelOnly"` | If true, search only for _Resources_ without parent. | [optional] 
+**query['sort']** (dict) <br> **query.sort** (Query) | **str** | query parameter `"sort"` | The field to sort on. | [optional] [default &#39;id&#39;]
+**query['order']** (dict) <br> **query.order** (Query) | [**ListResourcesOrderParameter**](.md) | query parameter `"order"` | The order in which to sort | [optional] [default ascending]
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type

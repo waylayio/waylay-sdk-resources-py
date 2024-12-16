@@ -223,6 +223,7 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
             skip=0,
             limit=100,
             filter="needle",
+            query="tags:technology",
         ),
     }
     _list_set_mock_response(httpx_mock, gateway_url)
@@ -244,6 +245,7 @@ async def test_list_without_types(
             "skip": 0,
             "limit": 100,
             "filter": "needle",
+            "query": "tags:technology",
         },
     }
     _list_set_mock_response(httpx_mock, gateway_url)

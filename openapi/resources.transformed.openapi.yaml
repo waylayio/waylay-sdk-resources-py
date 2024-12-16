@@ -2273,6 +2273,7 @@ components:
             flag indicating if template is diagnostic. No managed task will be
             created if that flag set to true.
           default: false
+          type: boolean
           nullable: true
       additionalProperties:
         description: Additional task creation attributes

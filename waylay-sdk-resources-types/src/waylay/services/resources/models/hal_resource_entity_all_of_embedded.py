@@ -15,7 +15,6 @@ from pydantic import (
     ConfigDict,
     Field,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.hal_resource_type_entity import HALResourceTypeEntity

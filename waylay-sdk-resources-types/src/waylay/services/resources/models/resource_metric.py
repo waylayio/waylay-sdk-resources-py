@@ -20,13 +20,9 @@ from pydantic import (
     StrictInt,
     StrictStr,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
-from ..models.resource_metric_metric_type import (
-    ResourceMetricMetricType,
-    ResourceMetricMetricTypeOneOf2,
-)
+from ..models.resource_metric_metric_type import ResourceMetricMetricType
 
 
 class ResourceMetric(WaylayBaseModel):
@@ -44,7 +40,7 @@ class ResourceMetric(WaylayBaseModel):
         alias="valueChoices",
     )
     metric_type: ResourceMetricMetricType | None = Field(
-        default=ResourceMetricMetricTypeOneOf2.GAUGE, alias="metricType"
+        default="gauge", alias="metricType"
     )
     unit: StrictStr | None = Field(
         default=None,
@@ -55,6 +51,9 @@ class ResourceMetric(WaylayBaseModel):
     )
     minimum: StrictFloat | StrictInt | None = Field(
         default=None, description="Expected minimum value for this metric."
+    )
+    precision: StrictFloat | StrictInt | None = Field(
+        default=None, description="The metric value precision."
     )
 
     model_config = ConfigDict(

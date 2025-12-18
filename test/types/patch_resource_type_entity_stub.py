@@ -58,6 +58,9 @@ patch_resource_type_entity_model_schema = json.loads(
       },
       "sensors" : {
         "nullable" : true
+      },
+      "icon" : {
+        "nullable" : true
       }
     },
     "additionalProperties" : {

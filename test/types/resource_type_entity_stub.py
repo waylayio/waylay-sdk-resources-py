@@ -37,6 +37,11 @@ resource_type_entity_model_schema = json.loads(
         "description" : "Name for the _Resource Type_",
         "example" : "MyDeviceType"
       },
+      "icon" : {
+        "title" : "Icon URL",
+        "type" : "string",
+        "description" : "URL to Resource Type icon."
+      },
       "templates" : {
         "title" : "Managed Task Templates",
         "type" : "array",

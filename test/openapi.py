@@ -1616,6 +1616,9 @@ _patch_resource_entity_model_schema = json.loads(
       "owner" : {
         "nullable" : true
       },
+      "icon" : {
+        "nullable" : true
+      },
       "tags" : {
         "nullable" : true
       },
@@ -1683,6 +1686,9 @@ _patch_resource_type_entity_model_schema = json.loads(
         "nullable" : true
       },
       "sensors" : {
+        "nullable" : true
+      },
+      "icon" : {
         "nullable" : true
       }
     },
@@ -1895,6 +1901,18 @@ _resource_entity_model_schema = json.loads(
         "type" : "string",
         "description" : "Owner of the _Resource_"
       },
+      "icon" : {
+        "type" : "string",
+        "description" : "URL to the resource icon."
+      },
+      "templates" : {
+        "title" : "Diagnostic Task Templates",
+        "type" : "array",
+        "description" : "Templates for the resource. Used to override diagnostic templates inherited from Resource Type.",
+        "items" : {
+          "$ref" : "#/components/schemas/TaskConfiguration"
+        }
+      },
       "tags" : {
         "$ref" : "#/components/schemas/Tags"
       }
@@ -2045,6 +2063,12 @@ _resource_metric_model_schema = json.loads(
       "type" : "number",
       "description" : "Expected minimum value for this metric.",
       "example" : -0.0000010
+    },
+    "precision" : {
+      "title" : "precision",
+      "type" : "number",
+      "description" : "The metric value precision.",
+      "example" : 0.01
     }
   },
   "description" : "Describes a value that is expected to be present in the events sent to Waylay on behalf of this _Resource (Type)_.\nBy default, such values will end up in the time series database, where each time series is identified by the\n_resource id_ and the _metric name_.\n\n> Note: The Waylay System does not enforce any of the statements made in a _Resource Metric_ when\n> processing or retrieving data. As long as a user does not explicitly use this metadata to configure\n> behaviour, a _Resource Metric_ is purely a documentation entity."
@@ -2347,6 +2371,11 @@ _resource_type_entity_model_schema = json.loads(
         "type" : "string",
         "description" : "Name for the _Resource Type_",
         "example" : "MyDeviceType"
+      },
+      "icon" : {
+        "title" : "Icon URL",
+        "type" : "string",
+        "description" : "URL to Resource Type icon."
       },
       "templates" : {
         "title" : "Managed Task Templates",
@@ -2722,6 +2751,12 @@ _task_configuration_model_schema = json.loads(
     },
     "type" : {
       "$ref" : "#/components/schemas/TaskConfiguration_type"
+    },
+    "diagnosticTemplate" : {
+      "title" : "Diagnostic Template",
+      "description" : "flag indicating if template is diagnostic. No managed task will be created if that flag set to true.",
+      "nullable" : true,
+      "default" : false
     }
   },
   "additionalProperties" : {

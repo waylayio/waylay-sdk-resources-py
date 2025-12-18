@@ -11,7 +11,7 @@ Do not edit the class manually.
 import json
 import re
 from importlib.util import find_spec
-from typing import List, Union
+from typing import List
 from urllib.parse import quote
 
 import pytest
@@ -93,7 +93,7 @@ async def test_create(
     }
     _create_set_mock_response(httpx_mock, gateway_url)
     resp = await service.resource_type.create(**kwargs)
-    check_type(resp, Union[ResourceTypeCreationResponse,])
+    check_type(resp, ResourceTypeCreationResponse)
 
 
 @pytest.mark.asyncio
@@ -190,12 +190,12 @@ async def test_get(service: ResourcesService, gateway_url: str, httpx_mock: HTTP
         # optionally use GetQuery to validate and reuse parameters
         "query": GetQuery(
             var_field=[""],
-            fields=[],
+            fields=[""],
         ),
     }
     _get_set_mock_response(httpx_mock, gateway_url, quote(str(resourceTypeId)))
     resp = await service.resource_type.get(resourceTypeId, **kwargs)
-    check_type(resp, Union[ResourceTypeWithIdEntity,])
+    check_type(resp, ResourceTypeWithIdEntity)
 
 
 @pytest.mark.asyncio
@@ -212,7 +212,7 @@ async def test_get_without_types(
     kwargs = {
         "query": {
             "field": [""],
-            "fields": [],
+            "fields": [""],
         },
     }
     _get_set_mock_response(httpx_mock, gateway_url, quote(str(resourceTypeId)))
@@ -255,7 +255,7 @@ async def test_list_changes(
     }
     _list_changes_set_mock_response(httpx_mock, gateway_url, quote(str(resourceTypeId)))
     resp = await service.resource_type.list_changes(resourceTypeId, **kwargs)
-    check_type(resp, Union[List[ResourceTypeChange],])
+    check_type(resp, List[ResourceTypeChange])
 
 
 @pytest.mark.asyncio
@@ -311,7 +311,7 @@ async def test_list_constraints(
         httpx_mock, gateway_url, quote(str(resourceTypeId))
     )
     resp = await service.resource_type.list_constraints(resourceTypeId, **kwargs)
-    check_type(resp, Union[ResourceConstraintWithIdEntity,])
+    check_type(resp, ResourceConstraintWithIdEntity)
 
 
 @pytest.mark.asyncio
@@ -356,17 +356,17 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
         "query": ListQuery(
             skip=0,
             limit=100,
-            var_field=[],
-            fields=[],
+            var_field=[""],
+            fields=[""],
             filter="needle",
             query="address.city:in(Ghent,Brussels)",
-            id=[],
+            id=[ResourceTypeIdStub.create_json()],
             template="MonitoringTemplate_3443",
         ),
     }
     _list_set_mock_response(httpx_mock, gateway_url)
     resp = await service.resource_type.list(**kwargs)
-    check_type(resp, Union[ResourceTypeListing,])
+    check_type(resp, ResourceTypeListing)
 
 
 @pytest.mark.asyncio
@@ -382,11 +382,11 @@ async def test_list_without_types(
         "query": {
             "skip": 0,
             "limit": 100,
-            "field": [],
-            "fields": [],
+            "field": [""],
+            "fields": [""],
             "filter": "needle",
             "query": "address.city:in(Ghent,Brussels)",
-            "id": [],
+            "id": [ResourceTypeIdStub.create_json()],
             "template": "MonitoringTemplate_3443",
         },
     }
@@ -426,13 +426,7 @@ async def test_patch(
     }
     _patch_set_mock_response(httpx_mock, gateway_url, quote(str(resourceTypeId)))
     resp = await service.resource_type.patch(resourceTypeId, **kwargs)
-    check_type(
-        resp,
-        Union[
-            ResourceTypeCreationResponse,
-            ResourceTypeWithIdEntity,
-        ],
-    )
+    check_type(resp, ResourceTypeCreationResponse | ResourceTypeWithIdEntity)
 
 
 @pytest.mark.asyncio
@@ -485,7 +479,7 @@ async def test_replace(
     }
     _replace_set_mock_response(httpx_mock, gateway_url, quote(str(resourceTypeId)))
     resp = await service.resource_type.replace(resourceTypeId, **kwargs)
-    check_type(resp, Union[ResourceTypeWithIdEntity,])
+    check_type(resp, ResourceTypeWithIdEntity)
 
 
 @pytest.mark.asyncio
@@ -536,7 +530,7 @@ async def test_revalidate(
     kwargs = {}
     _revalidate_set_mock_response(httpx_mock, gateway_url, quote(str(resourceTypeId)))
     resp = await service.resource_type.revalidate(resourceTypeId, **kwargs)
-    check_type(resp, Union[ResourceTypeWithIdEntity,])
+    check_type(resp, ResourceTypeWithIdEntity)
 
 
 @pytest.mark.asyncio

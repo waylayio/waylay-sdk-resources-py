@@ -15,7 +15,6 @@ from pydantic import (
     ConfigDict,
     Field,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.hal_self_links_links import HALSelfLinksLinks

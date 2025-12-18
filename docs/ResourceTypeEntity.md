@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **sensors** | [**List[ResourceSensor]**](ResourceSensor.md) | Set of sensors that are applicable for a given _Resource_. Please note that there is no explicit action taken by the Waylay platform on this meta key. The idea behind this abstraction is to assist integrations where an architect of the digital twin can specify which sensors from waylay library are applicable for a given _Resource_ (or _Resource Type_). | [optional] 
 **id** | [**ResourceTypeId**](ResourceTypeId.md) |  | [optional] 
 **name** | **str** | Name for the _Resource Type_ | [optional] 
+**icon** | **str** | URL to Resource Type icon. | [optional] 
 **templates** | [**List[TaskConfiguration]**](TaskConfiguration.md) | Templates for task that is automatically created whenever a new  _Resource_ of this _Resource Type_ is created. | [optional] 
 
 ## Example

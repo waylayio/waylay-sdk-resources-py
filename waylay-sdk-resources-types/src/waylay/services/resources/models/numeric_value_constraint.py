@@ -17,7 +17,6 @@ from pydantic import (
     StrictFloat,
     StrictInt,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.numeric_value_constraint_type import NumericValueConstraintType

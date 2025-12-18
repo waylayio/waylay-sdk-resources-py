@@ -15,9 +15,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 from ..models.resource_metadata_event import ResourceMetadataEvent
 from ..models.resourcetype_metadata_event import ResourcetypeMetadataEvent

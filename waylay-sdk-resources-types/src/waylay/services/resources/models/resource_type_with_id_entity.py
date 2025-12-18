@@ -18,7 +18,6 @@ from pydantic import (
     Field,
     StrictStr,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.constraint_status import ConstraintStatus
@@ -35,6 +34,9 @@ class ResourceTypeWithIdEntity(WaylayBaseModel):
     id: ResourceTypeId
     name: StrictStr | None = Field(
         default=None, description="Name for the _Resource Type_"
+    )
+    icon: StrictStr | None = Field(
+        default=None, description="URL to Resource Type icon."
     )
     templates: List[TaskConfiguration] | None = Field(
         default=None,

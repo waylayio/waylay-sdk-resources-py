@@ -69,6 +69,12 @@ resource_metric_model_schema = json.loads(
       "type" : "number",
       "description" : "Expected minimum value for this metric.",
       "example" : -0.0000010
+    },
+    "precision" : {
+      "title" : "precision",
+      "type" : "number",
+      "description" : "The metric value precision.",
+      "example" : 0.01
     }
   },
   "description" : "Describes a value that is expected to be present in the events sent to Waylay on behalf of this _Resource (Type)_.\nBy default, such values will end up in the time series database, where each time series is identified by the\n_resource id_ and the _metric name_.\n\n> Note: The Waylay System does not enforce any of the statements made in a _Resource Metric_ when\n> processing or retrieving data. As long as a user does not explicitly use this metadata to configure\n> behaviour, a _Resource Metric_ is purely a documentation entity."

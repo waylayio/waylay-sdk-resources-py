@@ -19,7 +19,6 @@ from pydantic import (
     StrictInt,
     StrictStr,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.metadata_entity_location import MetadataEntityLocation
@@ -27,6 +26,7 @@ from ..models.resource_id import ResourceId
 from ..models.resource_metric import ResourceMetric
 from ..models.resource_sensor import ResourceSensor
 from ..models.resource_type_id import ResourceTypeId
+from ..models.task_configuration import TaskConfiguration
 
 
 class ResourceWithIdEntity(WaylayBaseModel):
@@ -51,6 +51,13 @@ class ResourceWithIdEntity(WaylayBaseModel):
         alias="lastMessageTimestamp",
     )
     owner: StrictStr | None = Field(default=None, description="Owner of the _Resource_")
+    icon: StrictStr | None = Field(
+        default=None, description="URL to the resource icon."
+    )
+    templates: List[TaskConfiguration] | None = Field(
+        default=None,
+        description="Templates for the resource. Used to override diagnostic templates inherited from Resource Type.",
+    )
     tags: List[StrictStr] | None = Field(
         default=None, description="Custom classifiers for this _Resource_."
     )

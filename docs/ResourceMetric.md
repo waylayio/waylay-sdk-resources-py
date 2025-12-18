@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **unit** | **str** | Physical measurement unit, preferentially SI unit, for the numerical values of this metric | [optional] 
 **maximum** | **float** | Expected maximum value for this metric. | [optional] 
 **minimum** | **float** | Expected minimum value for this metric. | [optional] 
+**precision** | **float** | The metric value precision. | [optional] 
 
 ## Example
 

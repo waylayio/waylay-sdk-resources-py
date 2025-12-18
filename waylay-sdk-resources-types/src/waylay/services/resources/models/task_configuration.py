@@ -11,12 +11,13 @@ Do not edit the class manually.
 
 from __future__ import annotations
 
+from typing import Any
+
 from pydantic import (
     ConfigDict,
     Field,
     StrictStr,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.task_configuration_type import TaskConfigurationType
@@ -27,6 +28,11 @@ class TaskConfiguration(WaylayBaseModel):
 
     template_name: StrictStr = Field(alias="templateName")
     type: TaskConfigurationType | None = None
+    diagnostic_template: Any | None = Field(
+        default=None,
+        description="flag indicating if template is diagnostic. No managed task will be created if that flag set to true.",
+        alias="diagnosticTemplate",
+    )
 
     model_config = ConfigDict(
         populate_by_name=True, protected_namespaces=(), extra="allow"

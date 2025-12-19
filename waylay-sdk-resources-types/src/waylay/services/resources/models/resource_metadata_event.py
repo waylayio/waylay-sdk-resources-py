@@ -18,7 +18,6 @@ from pydantic import (
     ConfigDict,
     Field,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.cascade_delete_values_inner import CascadeDeleteValuesInner

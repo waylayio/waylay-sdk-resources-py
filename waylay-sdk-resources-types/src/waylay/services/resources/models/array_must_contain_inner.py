@@ -15,9 +15,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 ArrayMustContainInner = Union[
     Annotated[bool, ""], Annotated[float, ""], Annotated[str, ""]

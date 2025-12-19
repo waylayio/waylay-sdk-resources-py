@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **template_name** | **str** |  | 
 **type** | [**TaskConfigurationType**](TaskConfigurationType.md) |  | [optional] 
+**diagnostic_template** | **bool** | flag indicating if template is diagnostic. No managed task will be created if that flag set to true. | [optional] [default to False]
 
 ## Example
 

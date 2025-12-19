@@ -15,9 +15,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 from ..models.batch_resource_delete_operation import BatchResourceDeleteOperation
 from ..models.batch_resource_type_delete_operation import (

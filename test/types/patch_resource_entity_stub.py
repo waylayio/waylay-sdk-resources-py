@@ -51,6 +51,9 @@ patch_resource_entity_model_schema = json.loads(
       "owner" : {
         "nullable" : true
       },
+      "icon" : {
+        "nullable" : true
+      },
       "tags" : {
         "nullable" : true
       },

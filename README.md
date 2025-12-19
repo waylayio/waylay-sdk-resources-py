@@ -17,7 +17,7 @@ It consists of two sub-packages that are both plugins for the waylay-sdk-core pa
 - The `waylay-sdk-resources-types` sub-package is an extension that contains the typed model classes for all path params, query params, body params and responses for each of the api methods in `waylay-sdk-resources`.
 
 ## Requirements.
-This package requires Python 3.9+.
+This package requires Python 3.10+.
 
 ## Installation
 

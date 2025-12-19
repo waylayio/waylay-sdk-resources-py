@@ -18,7 +18,6 @@ from pydantic import (
     Field,
     StrictStr,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.metadata_entity_location import MetadataEntityLocation
@@ -47,6 +46,9 @@ class ResourceTypeEntity(WaylayBaseModel):
     id: ResourceTypeId | None = None
     name: StrictStr | None = Field(
         default=None, description="Name for the _Resource Type_"
+    )
+    icon: StrictStr | None = Field(
+        default=None, description="URL to Resource Type icon."
     )
     templates: List[TaskConfiguration] | None = Field(
         default=None,

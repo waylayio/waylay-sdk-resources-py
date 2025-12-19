@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | [**ResourceTypeId**](ResourceTypeId.md) |  | [optional] 
 **name** | **str** | Name for the _Resource Type_ | [optional] 
+**icon** | **str** | URL to Resource Type icon. | [optional] 
 **templates** | [**List[TaskConfiguration]**](TaskConfiguration.md) | Templates for task that is automatically created whenever a new  _Resource_ of this _Resource Type_ is created. | [optional] 
 **provider** | **str** |  | [optional] 
 **provider_id** | **str** |  | [optional] 

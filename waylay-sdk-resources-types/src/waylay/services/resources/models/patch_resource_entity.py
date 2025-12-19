@@ -11,16 +11,16 @@ Do not edit the class manually.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, List
 
 from pydantic import (
     ConfigDict,
     Field,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.resource_id import ResourceId
+from ..models.task_configuration import TaskConfiguration
 
 
 class PatchResourceEntity(WaylayBaseModel):
@@ -35,6 +35,11 @@ class PatchResourceEntity(WaylayBaseModel):
         default=None, alias="lastMessageTimestamp"
     )
     owner: Any | None = None
+    icon: Any | None = None
+    templates: List[TaskConfiguration] | None = Field(
+        default=None,
+        description="Templates for the resource. Used to override diagnostic templates inherited from Resource Type.",
+    )
     tags: Any | None = None
     provider: Any | None = None
     provider_id: Any | None = Field(default=None, alias="providerId")

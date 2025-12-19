@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | [**ResourceTypeId**](ResourceTypeId.md) |  | [optional] 
 **name** | **object** |  | [optional] 
+**icon** | **object** |  | [optional] 
 **templates** | **object** |  | [optional] 
 **provider** | **object** |  | [optional] 
 **provider_id** | **object** |  | [optional] 

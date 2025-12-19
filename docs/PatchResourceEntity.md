@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **alias** | **object** |  | [optional] 
 **last_message_timestamp** | **object** |  | [optional] 
 **owner** | **object** |  | [optional] 
+**icon** | **object** |  | [optional] 
+**templates** | [**List[TaskConfiguration]**](TaskConfiguration.md) | Templates for the resource. Used to override diagnostic templates inherited from Resource Type. | [optional] 
 **tags** | **object** |  | [optional] 
 **provider** | **object** |  | [optional] 
 **provider_id** | **object** |  | [optional] 

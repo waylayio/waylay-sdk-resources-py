@@ -11,7 +11,7 @@ Do not edit the class manually.
 import json
 import re
 from importlib.util import find_spec
-from typing import List, Union
+from typing import List
 from urllib.parse import quote
 
 import pytest
@@ -91,7 +91,7 @@ async def test_create(
     }
     _create_set_mock_response(httpx_mock, gateway_url)
     resp = await service.resource.create(**kwargs)
-    check_type(resp, Union[ResourceCreationResponse,])
+    check_type(resp, ResourceCreationResponse)
 
 
 @pytest.mark.asyncio
@@ -193,13 +193,13 @@ async def test_get(service: ResourcesService, gateway_url: str, httpx_mock: HTTP
         # optionally use GetQuery to validate and reuse parameters
         "query": GetQuery(
             denormalized=True,
-            var_field=[],
-            fields=[],
+            var_field=[""],
+            fields=[""],
         ),
     }
     _get_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.get(resourceId, **kwargs)
-    check_type(resp, Union[ResourceWithIdEntity,])
+    check_type(resp, ResourceWithIdEntity)
 
 
 @pytest.mark.asyncio
@@ -216,8 +216,8 @@ async def test_get_without_types(
     kwargs = {
         "query": {
             "denormalized": True,
-            "field": [],
-            "fields": [],
+            "field": [""],
+            "fields": [""],
         },
     }
     _get_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
@@ -260,7 +260,7 @@ async def test_list_changes(
     }
     _list_changes_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.list_changes(resourceId, **kwargs)
-    check_type(resp, Union[List[ResourceChange],])
+    check_type(resp, List[ResourceChange])
 
 
 @pytest.mark.asyncio
@@ -315,15 +315,15 @@ async def test_list_children(
         # optionally use ListChildrenQuery to validate and reuse parameters
         "query": ListChildrenQuery(
             denormalized=True,
-            var_field=[],
-            fields=[],
+            var_field=[""],
+            fields=[""],
             skip=0,
             limit=100,
         ),
     }
     _list_children_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.list_children(resourceId, **kwargs)
-    check_type(resp, Union[ResourceListing,])
+    check_type(resp, ResourceListing)
 
 
 @pytest.mark.asyncio
@@ -340,8 +340,8 @@ async def test_list_children_without_types(
     kwargs = {
         "query": {
             "denormalized": True,
-            "field": [],
-            "fields": [],
+            "field": [""],
+            "fields": [""],
             "skip": 0,
             "limit": 100,
         },
@@ -381,14 +381,14 @@ async def test_list_referrers(
         # optionally use ListReferrersQuery to validate and reuse parameters
         "query": ListReferrersQuery(
             var_field=[""],
-            fields=[],
+            fields=[""],
             skip=0,
             limit=100,
         ),
     }
     _list_referrers_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.list_referrers(resourceId, **kwargs)
-    check_type(resp, Union[ResourceListing,])
+    check_type(resp, ResourceListing)
 
 
 @pytest.mark.asyncio
@@ -405,7 +405,7 @@ async def test_list_referrers_without_types(
     kwargs = {
         "query": {
             "field": [""],
-            "fields": [],
+            "fields": [""],
             "skip": 0,
             "limit": 100,
         },
@@ -438,12 +438,12 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
         "query": ListQuery(
             skip=0,
             limit=100,
-            var_field=[],
-            fields=[],
+            var_field=[""],
+            fields=[""],
             filter="needle",
             query="address.city:in(Ghent,Brussels)",
-            tag=[],
-            id=[],
+            tag=[""],
+            id=[ResourceIdStub.create_json()],
             provider="provider_example",
             customer="customer_example",
             resource_type_id=ResourceTypeIdStub.create_json(),
@@ -457,7 +457,7 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
     }
     _list_set_mock_response(httpx_mock, gateway_url)
     resp = await service.resource.list(**kwargs)
-    check_type(resp, Union[ResourceListing,])
+    check_type(resp, ResourceListing)
 
 
 @pytest.mark.asyncio
@@ -473,12 +473,12 @@ async def test_list_without_types(
         "query": {
             "skip": 0,
             "limit": 100,
-            "field": [],
-            "fields": [],
+            "field": [""],
+            "fields": [""],
             "filter": "needle",
             "query": "address.city:in(Ghent,Brussels)",
-            "tag": [],
-            "id": [],
+            "tag": [""],
+            "id": [ResourceIdStub.create_json()],
             "provider": "provider_example",
             "customer": "customer_example",
             "resourceTypeId": ResourceTypeIdStub.create_json(),
@@ -524,7 +524,7 @@ async def test_patch(
     }
     _patch_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.patch(resourceId, **kwargs)
-    check_type(resp, Union[ResourceWithIdEntity,])
+    check_type(resp, ResourceWithIdEntity)
 
 
 @pytest.mark.asyncio
@@ -577,7 +577,7 @@ async def test_replace(
     }
     _replace_set_mock_response(httpx_mock, gateway_url, quote(str(resourceId)))
     resp = await service.resource.replace(resourceId, **kwargs)
-    check_type(resp, Union[ResourceWithIdEntity,])
+    check_type(resp, ResourceWithIdEntity)
 
 
 @pytest.mark.asyncio

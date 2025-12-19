@@ -35,6 +35,13 @@ task_configuration_model_schema = json.loads(
     },
     "type" : {
       "$ref" : "#/components/schemas/TaskConfiguration_type"
+    },
+    "diagnosticTemplate" : {
+      "title" : "Diagnostic Template",
+      "type" : "boolean",
+      "description" : "flag indicating if template is diagnostic. No managed task will be created if that flag set to true.",
+      "nullable" : true,
+      "default" : false
     }
   },
   "additionalProperties" : {

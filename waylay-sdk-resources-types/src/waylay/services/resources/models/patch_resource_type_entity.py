@@ -20,7 +20,6 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.11
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.resource_type_id import ResourceTypeId
@@ -31,6 +30,7 @@ class PatchResourceTypeEntity(WaylayBaseModel):
 
     id: ResourceTypeId | None = None
     name: Any | None = None
+    icon: Any | None = None
     templates: Any | None = None
     provider: Any | None = None
     provider_id: Any | None = Field(default=None, alias="providerId")

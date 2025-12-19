@@ -888,6 +888,7 @@ paths:
       x-consumes-urlencoded: false
       x-consumes-json: true
       x-consumes-other: false
+      x-multiple-typed-responses: true
     delete:
       tags:
         - Resource Type
@@ -1661,6 +1662,10 @@ components:
               title: Name
               description: Name for the _Resource Type_
               example: MyDeviceType
+            icon:
+              type: string
+              title: Icon URL
+              description: URL to Resource Type icon.
             templates:
               type: array
               title: Managed Task Templates
@@ -1692,6 +1697,8 @@ components:
             metrics:
               nullable: true
             sensors:
+              nullable: true
+            icon:
               nullable: true
           additionalProperties:
             nullable: true
@@ -1839,6 +1846,17 @@ components:
             owner:
               type: string
               description: Owner of the _Resource_
+            icon:
+              type: string
+              description: URL to the resource icon.
+            templates:
+              type: array
+              title: Diagnostic Task Templates
+              description: >-
+                Templates for the resource. Used to override diagnostic
+                templates inherited from Resource Type.
+              items:
+                $ref: '#/components/schemas/TaskConfiguration'
             tags:
               $ref: '#/components/schemas/Tags'
         - $ref: '#/components/schemas/MetadataEntity'
@@ -1862,6 +1880,8 @@ components:
             lastMessageTimestamp:
               nullable: true
             owner:
+              nullable: true
+            icon:
               nullable: true
             tags:
               nullable: true
@@ -2186,6 +2206,10 @@ components:
           type: number
           description: Expected minimum value for this metric.
           example: -0.000001
+        precision:
+          type: number
+          description: The metric value precision.
+          example: 0.01
       required:
         - name
     Tags:
@@ -2243,6 +2267,14 @@ components:
             - onetime
             - scheduled
             - reactive
+        diagnosticTemplate:
+          title: Diagnostic Template
+          description: >-
+            flag indicating if template is diagnostic. No managed task will be
+            created if that flag set to true.
+          default: false
+          type: boolean
+          nullable: true
       additionalProperties:
         description: Additional task creation attributes
       required:

@@ -15,9 +15,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 from ..models.resource_metric_metric_type_one_of import ResourceMetricMetricTypeOneOf
 from ..models.resource_metric_metric_type_one_of1 import ResourceMetricMetricTypeOneOf1

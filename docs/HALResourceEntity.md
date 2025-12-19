@@ -14,6 +14,8 @@ Name | Type | Description | Notes
 **alias** | **str** | Alias for the name of the _Resource_ | [optional] 
 **last_message_timestamp** | **int** | Epoch time of the last contact | [optional] 
 **owner** | **str** | Owner of the _Resource_ | [optional] 
+**icon** | **str** | URL to the resource icon. | [optional] 
+**templates** | [**List[TaskConfiguration]**](TaskConfiguration.md) | Templates for the resource. Used to override diagnostic templates inherited from Resource Type. | [optional] 
 **tags** | **List[str]** | Custom classifiers for this _Resource_. | [optional] 
 **provider** | **str** |  | [optional] 
 **provider_id** | **str** |  | [optional] 

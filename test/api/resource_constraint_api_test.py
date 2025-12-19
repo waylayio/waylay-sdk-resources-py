@@ -11,7 +11,7 @@ Do not edit the class manually.
 import json
 import re
 from importlib.util import find_spec
-from typing import List, Union
+from typing import List
 from urllib.parse import quote
 
 import pytest
@@ -83,7 +83,7 @@ async def test_create(
     }
     _create_set_mock_response(httpx_mock, gateway_url)
     resp = await service.resource_constraint.create(**kwargs)
-    check_type(resp, Union[ResourceConstraintCreationResponse,])
+    check_type(resp, ResourceConstraintCreationResponse)
 
 
 @pytest.mark.asyncio
@@ -179,7 +179,7 @@ async def test_get(service: ResourcesService, gateway_url: str, httpx_mock: HTTP
     kwargs = {}
     _get_set_mock_response(httpx_mock, gateway_url, quote(str(resourceConstraintId)))
     resp = await service.resource_constraint.get(resourceConstraintId, **kwargs)
-    check_type(resp, Union[ResourceConstraintWithIdEntity,])
+    check_type(resp, ResourceConstraintWithIdEntity)
 
 
 @pytest.mark.asyncio
@@ -228,7 +228,7 @@ async def test_list(service: ResourcesService, gateway_url: str, httpx_mock: HTT
     }
     _list_set_mock_response(httpx_mock, gateway_url)
     resp = await service.resource_constraint.list(**kwargs)
-    check_type(resp, Union[List[ResourceConstraintWithIdEntity],])
+    check_type(resp, List[ResourceConstraintWithIdEntity])
 
 
 @pytest.mark.asyncio
@@ -286,7 +286,7 @@ async def test_replace(
         httpx_mock, gateway_url, quote(str(resourceConstraintId))
     )
     resp = await service.resource_constraint.replace(resourceConstraintId, **kwargs)
-    check_type(resp, Union[ResourceConstraintWithIdEntity,])
+    check_type(resp, ResourceConstraintWithIdEntity)
 
 
 @pytest.mark.asyncio

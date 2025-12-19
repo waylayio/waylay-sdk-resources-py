@@ -68,6 +68,18 @@ resource_entity_model_schema = json.loads(
         "type" : "string",
         "description" : "Owner of the _Resource_"
       },
+      "icon" : {
+        "type" : "string",
+        "description" : "URL to the resource icon."
+      },
+      "templates" : {
+        "title" : "Diagnostic Task Templates",
+        "type" : "array",
+        "description" : "Templates for the resource. Used to override diagnostic templates inherited from Resource Type.",
+        "items" : {
+          "$ref" : "#/components/schemas/TaskConfiguration"
+        }
+      },
       "tags" : {
         "$ref" : "#/components/schemas/Tags"
       }

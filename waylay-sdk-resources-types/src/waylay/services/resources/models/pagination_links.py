@@ -15,7 +15,6 @@ from pydantic import (
     ConfigDict,
     Field,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.pagination_links_next import PaginationLinksNext

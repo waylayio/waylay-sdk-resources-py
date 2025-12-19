@@ -17,7 +17,6 @@ from typing import Any
 from pydantic import (
     ConfigDict,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.cloud_metadata_event_data_source import CloudMetadataEventDataSource

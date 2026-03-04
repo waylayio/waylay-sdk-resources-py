@@ -1,33 +1,44 @@
 # ResourcetypeMetadataEvent
 
 
+**Source:** `waylay.services.resources.models.resourcetype_metadata_event`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **type** | [**ChangedEventType**](ChangedEventType.md) |  | 
-**object_type** | [**ResourcetypeMetadataEventAllOfObjectType**](ResourcetypeMetadataEventAllOfObjectType.md) |  | 
+**object_type** | [**ResourcetypeMetadataEventResourcetype**](ResourcetypeMetadataEventResourcetype.md) |  | 
 **timestamp** | **datetime** |  | 
 **old_values** | **object** | old values of all attributes that have changed | [optional] 
 **resourcetype** | [**ResourceTypeEntity**](ResourceTypeEntity.md) |  | 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.resourcetype_metadata_event import ResourcetypeMetadataEvent
+from waylay.services.resources.models.resourcetype_metadata_event import (
+    ResourcetypeMetadataEvent,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourcetypeMetadataEvent from a JSON string
-resourcetype_metadata_event_instance = ResourcetypeMetadataEvent.from_json(json)
-# print the JSON string representation of the object
-print ResourcetypeMetadataEvent.to_json()
+resourcetype_metadata_event = ResourcetypeMetadataEvent(
+    type=..., object_type=..., timestamp=..., old_values=..., resourcetype=...
+)
 
-# convert the object into a dict
-resourcetype_metadata_event_dict = resourcetype_metadata_event_instance.to_dict()
-# create an instance of ResourcetypeMetadataEvent from a dict
-resourcetype_metadata_event_form_dict = resourcetype_metadata_event.from_dict(resourcetype_metadata_event_dict)
+# Create from JSON
+resourcetype_metadata_event = ResourcetypeMetadataEvent.from_json(
+    '{ "type": ..., "objectType": ..., "timestamp": ..., "oldValues": ..., "resourcetype": ... }'
+)
+
+# Export to dictionary
+resourcetype_metadata_event_dict = resourcetype_metadata_event.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

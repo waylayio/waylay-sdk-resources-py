@@ -2,6 +2,11 @@
 
 Specification of a template and task creation attributes for the task that gets instantiate when a _Resource_ created.
 
+**Source:** `waylay.services.resources.models.task_configuration`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,23 +15,27 @@ Name | Type | Description | Notes
 **type** | [**TaskConfigurationType**](TaskConfigurationType.md) |  | [optional] 
 **diagnostic_template** | **bool** | flag indicating if template is diagnostic. No managed task will be created if that flag set to true. | [optional] [default to False]
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.task_configuration import TaskConfiguration
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of TaskConfiguration from a JSON string
-task_configuration_instance = TaskConfiguration.from_json(json)
-# print the JSON string representation of the object
-print TaskConfiguration.to_json()
+task_configuration = TaskConfiguration(
+    template_name=..., type=..., diagnostic_template=...
+)
 
-# convert the object into a dict
-task_configuration_dict = task_configuration_instance.to_dict()
-# create an instance of TaskConfiguration from a dict
-task_configuration_form_dict = task_configuration.from_dict(task_configuration_dict)
+# Create from JSON
+task_configuration = TaskConfiguration.from_json(
+    '{ "templateName": ..., "type": ..., "diagnosticTemplate": ... }'
+)
+
+# Export to dictionary
+task_configuration_dict = task_configuration.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

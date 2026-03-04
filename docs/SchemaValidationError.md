@@ -1,6 +1,11 @@
 # SchemaValidationError
 
 
+**Source:** `waylay.services.resources.models.schema_validation_error`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -12,23 +17,29 @@ Name | Type | Description | Notes
 **value** | **object** |  | [optional] 
 **instance_path** | **str** |  | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.schema_validation_error import SchemaValidationError
+from waylay.services.resources.models.schema_validation_error import (
+    SchemaValidationError,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of SchemaValidationError from a JSON string
-schema_validation_error_instance = SchemaValidationError.from_json(json)
-# print the JSON string representation of the object
-print SchemaValidationError.to_json()
+schema_validation_error = SchemaValidationError(
+    schema_path=..., errors=..., keyword=..., msgs=..., value=..., instance_path=...
+)
 
-# convert the object into a dict
-schema_validation_error_dict = schema_validation_error_instance.to_dict()
-# create an instance of SchemaValidationError from a dict
-schema_validation_error_form_dict = schema_validation_error.from_dict(schema_validation_error_dict)
+# Create from JSON
+schema_validation_error = SchemaValidationError.from_json(
+    '{ "schemaPath": ..., "errors": ..., "keyword": ..., "msgs": ..., "value": ..., "instancePath": ... }'
+)
+
+# Export to dictionary
+schema_validation_error_dict = schema_validation_error.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

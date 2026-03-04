@@ -2,6 +2,11 @@
 
 Specifies that a value must be a string.
 
+**Source:** `waylay.services.resources.models.string_value_constraint`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,23 +15,29 @@ Name | Type | Description | Notes
 **min_length** | **int** | Minimum length a value must have | [optional] 
 **max_length** | **int** | Maximum length a value can have | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.string_value_constraint import StringValueConstraint
+from waylay.services.resources.models.string_value_constraint import (
+    StringValueConstraint,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of StringValueConstraint from a JSON string
-string_value_constraint_instance = StringValueConstraint.from_json(json)
-# print the JSON string representation of the object
-print StringValueConstraint.to_json()
+string_value_constraint = StringValueConstraint(
+    type=..., min_length=..., max_length=...
+)
 
-# convert the object into a dict
-string_value_constraint_dict = string_value_constraint_instance.to_dict()
-# create an instance of StringValueConstraint from a dict
-string_value_constraint_form_dict = string_value_constraint.from_dict(string_value_constraint_dict)
+# Create from JSON
+string_value_constraint = StringValueConstraint.from_json(
+    '{ "type": ..., "minLength": ..., "maxLength": ... }'
+)
+
+# Export to dictionary
+string_value_constraint_dict = string_value_constraint.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

@@ -1,6 +1,11 @@
 # ResourceTypeWithIdEntity
 
 
+**Source:** `waylay.services.resources.models.resource_type_with_id_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -19,23 +24,41 @@ Name | Type | Description | Notes
 **bulk_operation** | **str** | Indicates an asynchronous operation is busy for the _Resource Type_. | [optional] 
 **constraints** | [**List[ConstraintStatus]**](ConstraintStatus.md) | Validation constraint as applied to each _Resource_ that has its &#x60;resourceTypeId&#x60; attribute set to the &#x60;id&#x60; of this _Resource Type_. | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.resource_type_with_id_entity import ResourceTypeWithIdEntity
+from waylay.services.resources.models.resource_type_with_id_entity import (
+    ResourceTypeWithIdEntity,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceTypeWithIdEntity from a JSON string
-resource_type_with_id_entity_instance = ResourceTypeWithIdEntity.from_json(json)
-# print the JSON string representation of the object
-print ResourceTypeWithIdEntity.to_json()
+resource_type_with_id_entity = ResourceTypeWithIdEntity(
+    id=...,
+    name=...,
+    icon=...,
+    templates=...,
+    provider=...,
+    provider_id=...,
+    customer=...,
+    firmware=...,
+    location=...,
+    metrics=...,
+    sensors=...,
+    bulk_operation=...,
+    constraints=...,
+)
 
-# convert the object into a dict
-resource_type_with_id_entity_dict = resource_type_with_id_entity_instance.to_dict()
-# create an instance of ResourceTypeWithIdEntity from a dict
-resource_type_with_id_entity_form_dict = resource_type_with_id_entity.from_dict(resource_type_with_id_entity_dict)
+# Create from JSON
+resource_type_with_id_entity = ResourceTypeWithIdEntity.from_json(
+    '{ "id": ..., "name": ..., "icon": ..., "templates": ..., "provider": ..., "providerId": ..., "customer": ..., "firmware": ..., "location": ..., "metrics": ..., "sensors": ..., "$bulkOperation": ..., "$constraints": ... }'
+)
+
+# Export to dictionary
+resource_type_with_id_entity_dict = resource_type_with_id_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

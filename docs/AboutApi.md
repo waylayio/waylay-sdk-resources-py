@@ -18,8 +18,6 @@ Get the name and version of the service.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -29,13 +27,12 @@ waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.version_response import VersionResponse
+
 try:
     # Get Service Information
     # calls `GET /resources/v1/`
-    api_response = await waylay_client.resources.about.get(
-    )
-    print("The response of resources.about.get:\n")
-    pprint(api_response)
+    api_response = await waylay_client.resources.about.get()
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.about.get: %s\n" % e)
 ```

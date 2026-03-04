@@ -1,32 +1,32 @@
 # BatchResourceOperation
 
 
-## Properties
+**Source:** `waylay.services.resources.models.batch_resource_operation`
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**entity** | [**BatchResourceTypeDeleteOperationEntity**](BatchResourceTypeDeleteOperationEntity.md) |  | 
-**action** | [**BatchResourceDeleteOperationAction**](BatchResourceDeleteOperationAction.md) |  | 
-**query** | [**BatchResourceTypeDeleteOperationQuery**](BatchResourceTypeDeleteOperationQuery.md) |  | 
-**action_parameters** | [**BatchResourceDeleteOperationActionParameters**](BatchResourceDeleteOperationActionParameters.md) |  | [optional] 
+
+
+## Union Type (One Of)
+
+This type allows one of the following:
+
+Type | Description
+------------ | -------------
+[**BatchResourceDeleteOperation**](BatchResourceDeleteOperation.md) | -
+[**BatchResourceTypeDeleteOperation**](BatchResourceTypeDeleteOperation.md) | -
+[**BatchResourcePatchOperation**](BatchResourcePatchOperation.md) | -
 
 ## Example
 
 ```python
-from waylay.services.resources.models.batch_resource_operation import BatchResourceOperation
+from waylay.services.resources.models.batch_resource_operation import (
+    BatchResourceOperation,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of BatchResourceOperation from a JSON string
-batch_resource_operation_instance = BatchResourceOperation.from_json(json)
-# print the JSON string representation of the object
-print BatchResourceOperation.to_json()
-
-# convert the object into a dict
-batch_resource_operation_dict = batch_resource_operation_instance.to_dict()
-# create an instance of BatchResourceOperation from a dict
-batch_resource_operation_form_dict = batch_resource_operation.from_dict(batch_resource_operation_dict)
+# Use any of the accepted types (see table above)
+my_batch_resource_operation: BatchResourceOperation = ...
 ```
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

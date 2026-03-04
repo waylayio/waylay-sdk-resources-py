@@ -24,14 +24,14 @@ def with_example_provider(dct):
     return dct
 
 
-with open("openapi/resources.transformed.openapi.yaml", "r") as file:
+with open("openapi/resources.transformed.openapi.yaml") as file:
     OPENAPI_SPEC = yaml.safe_load(file)
 
 MODEL_DEFINITIONS = OPENAPI_SPEC["components"]["schemas"]
 
-_array_must_contain_inner_model_schema = json.loads(
+_array_contain_value_model_schema = json.loads(
     r"""{
-  "title" : "Array_Must_Contain_inner",
+  "title" : "ArrayContainValue",
   "oneOf" : [ {
     "type" : "boolean"
   }, {
@@ -43,9 +43,7 @@ _array_must_contain_inner_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({
-    "Array_Must_Contain_inner": _array_must_contain_inner_model_schema
-})
+MODEL_DEFINITIONS.update({"ArrayContainValue": _array_contain_value_model_schema})
 
 _array_value_constraint_model_schema = json.loads(
     r"""{
@@ -76,7 +74,7 @@ _array_value_constraint_model_schema = json.loads(
       "type" : "array",
       "description" : "Only supported if the `elementType` is `boolean`, `numeric` or `string`.\nSpecifies values the array attribute must contain.",
       "items" : {
-        "$ref" : "#/components/schemas/Array_Must_Contain_inner"
+        "$ref" : "#/components/schemas/ArrayContainValue"
       }
     }
   },
@@ -198,6 +196,28 @@ _batch_operation_result_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"BatchOperationResult": _batch_operation_result_model_schema})
 
+_batch_operation_results_model_schema = json.loads(
+    r"""{
+  "title" : "BatchOperationResults",
+  "required" : [ "failure", "success" ],
+  "type" : "object",
+  "properties" : {
+    "success" : {
+      "$ref" : "#/components/schemas/SuccessOperationResult"
+    },
+    "failure" : {
+      "$ref" : "#/components/schemas/FailureOperationResult"
+    }
+  },
+  "description" : "Operation results"
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchOperationResults": _batch_operation_results_model_schema
+})
+
 _batch_operation_status_response_model_schema = json.loads(
     r"""{
   "title" : "BatchOperationStatusResponse",
@@ -315,6 +335,8 @@ _batch_resource_operation_model_schema = json.loads(
     "$ref" : "#/components/schemas/BatchResourceDeleteOperation"
   }, {
     "$ref" : "#/components/schemas/BatchResourceTypeDeleteOperation"
+  }, {
+    "$ref" : "#/components/schemas/BatchResourcePatchOperation"
   } ]
 }
 """,
@@ -322,6 +344,104 @@ _batch_resource_operation_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({
     "BatchResourceOperation": _batch_resource_operation_model_schema
+})
+
+_batch_resource_patch_operation_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourcePatchOperation",
+  "required" : [ "action", "entity", "query" ],
+  "type" : "object",
+  "properties" : {
+    "entity" : {
+      "$ref" : "#/components/schemas/BatchResourcePatchOperation_entity"
+    },
+    "action" : {
+      "$ref" : "#/components/schemas/BatchResourcePatchOperation_action"
+    },
+    "query" : {
+      "$ref" : "#/components/schemas/BatchResourcePatchOperationQuery"
+    },
+    "actionParameters" : {
+      "$ref" : "#/components/schemas/BatchResourcePatchOperationActionParameters"
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourcePatchOperation": _batch_resource_patch_operation_model_schema
+})
+
+_batch_resource_patch_operation_action_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourcePatchOperation_action",
+  "type" : "string",
+  "enum" : [ "patchOrInsert" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourcePatchOperation_action": _batch_resource_patch_operation_action_model_schema
+})
+
+_batch_resource_patch_operation_action_parameters_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourcePatchOperationActionParameters",
+  "type" : "object",
+  "properties" : {
+    "updateProtected" : {
+      "title" : "updateProtected",
+      "type" : "boolean",
+      "description" : "Whether to allow updating protected entities",
+      "default" : false
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourcePatchOperationActionParameters": _batch_resource_patch_operation_action_parameters_model_schema
+})
+
+_batch_resource_patch_operation_entity_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourcePatchOperation_entity",
+  "type" : "string",
+  "description" : "Type of entities to patch or insert",
+  "enum" : [ "resource" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourcePatchOperation_entity": _batch_resource_patch_operation_entity_model_schema
+})
+
+_batch_resource_patch_operation_query_model_schema = json.loads(
+    r"""{
+  "title" : "BatchResourcePatchOperationQuery",
+  "required" : [ "resources" ],
+  "type" : "object",
+  "properties" : {
+    "resources" : {
+      "title" : "resources",
+      "minItems" : 1,
+      "type" : "array",
+      "description" : "Array of resource objects to patch or insert",
+      "items" : {
+        "$ref" : "#/components/schemas/PatchResourceEntity"
+      }
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchResourcePatchOperationQuery": _batch_resource_patch_operation_query_model_schema
 })
 
 _batch_resource_type_delete_operation_model_schema = json.loads(
@@ -397,7 +517,7 @@ _batch_running_resource_operation_model_schema = json.loads(
       "$ref" : "#/components/schemas/UserId"
     },
     "queueTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "operation" : {
       "$ref" : "#/components/schemas/BatchRunningResourceOperation_operation"
@@ -481,18 +601,16 @@ MODEL_DEFINITIONS.update({
     "BooleanValueConstraint_type": _boolean_value_constraint_type_model_schema
 })
 
-_cascade_delete_values_inner_model_schema = json.loads(
+_cascade_delete_option_model_schema = json.loads(
     r"""{
-  "title" : "CascadeDeleteValues_inner",
+  "title" : "CascadeDeleteOption",
   "type" : "string",
   "enum" : [ "alarms", "measurements", "tasks" ]
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({
-    "CascadeDeleteValues_inner": _cascade_delete_values_inner_model_schema
-})
+MODEL_DEFINITIONS.update({"CascadeDeleteOption": _cascade_delete_option_model_schema})
 
 _changed_event_model_schema = json.loads(
     r"""{
@@ -521,6 +639,23 @@ _changed_event_type_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"ChangedEvent_type": _changed_event_type_model_schema})
+
+_children_resource_link_model_schema = json.loads(
+    r"""{
+  "title" : "ChildrenResourceLink",
+  "allOf" : [ {
+    "$ref" : "#/components/schemas/HALLink"
+  }, {
+    "description" : "Link to fetch the children of the resource",
+    "example" : {
+      "href" : "/resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1/children"
+    }
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"ChildrenResourceLink": _children_resource_link_model_schema})
 
 _cloud_metadata_event_model_schema = json.loads(
     r"""{
@@ -557,7 +692,7 @@ _cloud_metadata_event_data_model_schema = json.loads(
       "$ref" : "#/components/schemas/MetadataEvent"
     },
     "time" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     }
   }
 }
@@ -858,7 +993,7 @@ _generic_metadata_event_model_schema = json.loads(
       "type" : "string"
     },
     "timestamp" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     }
   }
 }
@@ -940,10 +1075,10 @@ _hal_resource_entity_model_schema = json.loads(
   }, {
     "properties" : {
       "_links" : {
-        "$ref" : "#/components/schemas/HALResourceEntity_allOf__links"
+        "$ref" : "#/components/schemas/ResourceHALLinks"
       },
       "_embedded" : {
-        "$ref" : "#/components/schemas/HALResourceEntity_allOf__embedded"
+        "$ref" : "#/components/schemas/ResourceHALEmbedded"
       }
     }
   }, {
@@ -954,105 +1089,6 @@ _hal_resource_entity_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"HALResourceEntity": _hal_resource_entity_model_schema})
-
-_hal_resource_entity_all_of__embedded_model_schema = json.loads(
-    r"""{
-  "title" : "HALResourceEntity_allOf__embedded",
-  "type" : "object",
-  "properties" : {
-    "resourceType" : {
-      "$ref" : "#/components/schemas/HALResourceTypeEntity"
-    }
-  }
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "HALResourceEntity_allOf__embedded": _hal_resource_entity_all_of__embedded_model_schema
-})
-
-_hal_resource_entity_all_of__links_model_schema = json.loads(
-    r"""{
-  "title" : "HALResourceEntity_allOf__links",
-  "type" : "object",
-  "properties" : {
-    "parent" : {
-      "$ref" : "#/components/schemas/HALResourceEntity_allOf__links_parent"
-    },
-    "children" : {
-      "$ref" : "#/components/schemas/HALResourceEntity_allOf__links_children"
-    },
-    "resourceType" : {
-      "$ref" : "#/components/schemas/HALResourceEntity_allOf__links_resourceType"
-    }
-  }
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "HALResourceEntity_allOf__links": _hal_resource_entity_all_of__links_model_schema
-})
-
-_hal_resource_entity_all_of__links_children_model_schema = json.loads(
-    r"""{
-  "title" : "HALResourceEntity_allOf__links_children",
-  "allOf" : [ {
-    "$ref" : "#/components/schemas/HALLink"
-  }, {
-    "description" : "Link to fetch the children of the resource",
-    "example" : {
-      "href" : "/resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1/children"
-    }
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "HALResourceEntity_allOf__links_children": _hal_resource_entity_all_of__links_children_model_schema
-})
-
-_hal_resource_entity_all_of__links_parent_model_schema = json.loads(
-    r"""{
-  "title" : "HALResourceEntity_allOf__links_parent",
-  "allOf" : [ {
-    "$ref" : "#/components/schemas/HALIdLink"
-  }, {
-    "description" : "Link to the parent resource",
-    "example" : {
-      "href" : "/resources/v1/resources/658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a",
-      "id" : "658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a"
-    }
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "HALResourceEntity_allOf__links_parent": _hal_resource_entity_all_of__links_parent_model_schema
-})
-
-_hal_resource_entity_all_of__links_resource_type_model_schema = json.loads(
-    r"""{
-  "title" : "HALResourceEntity_allOf__links_resourceType",
-  "allOf" : [ {
-    "$ref" : "#/components/schemas/HALIdLink"
-  }, {
-    "description" : "Link to the resourceType for the resource",
-    "example" : {
-      "href" : "/resources/v1/resourcetypes/17b8b6ea-0573-4381-8088-8692f7938165",
-      "id" : "17b8b6ea-0573-4381-8088-8692f7938165"
-    }
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "HALResourceEntity_allOf__links_resourceType": _hal_resource_entity_all_of__links_resource_type_model_schema
-})
 
 _hal_resource_listing_model_schema = json.loads(
     r"""{
@@ -1068,7 +1104,7 @@ _hal_resource_listing_model_schema = json.loads(
   }, {
     "properties" : {
       "_embedded" : {
-        "$ref" : "#/components/schemas/HALResourceListing_allOf__embedded"
+        "$ref" : "#/components/schemas/ResourceListingHALEmbedded"
       }
     }
   } ]
@@ -1077,29 +1113,6 @@ _hal_resource_listing_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"HALResourceListing": _hal_resource_listing_model_schema})
-
-_hal_resource_listing_all_of__embedded_model_schema = json.loads(
-    r"""{
-  "title" : "HALResourceListing_allOf__embedded",
-  "required" : [ "values" ],
-  "type" : "object",
-  "properties" : {
-    "values" : {
-      "title" : "values",
-      "type" : "array",
-      "description" : "_Resource_ entities in HAL format",
-      "items" : {
-        "$ref" : "#/components/schemas/HALResourceEntity"
-      }
-    }
-  }
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "HALResourceListing_allOf__embedded": _hal_resource_listing_all_of__embedded_model_schema
-})
 
 _hal_resource_type_entity_model_schema = json.loads(
     r"""{
@@ -1181,29 +1194,6 @@ _hal_self_links__links_value_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({
     "HALSelfLinks__links_value": _hal_self_links__links_value_model_schema
-})
-
-_list_constraints_200_response_model_schema = json.loads(
-    r"""{
-  "type" : "object",
-  "allOf" : [ {
-    "properties" : {
-      "values" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/ResourceConstraintWithIdEntity"
-        }
-      }
-    }
-  }, {
-    "$ref" : "#/components/schemas/PagingResult"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "listConstraints_200_response": _list_constraints_200_response_model_schema
 })
 
 _list_resources_order_parameter_model_schema = json.loads(
@@ -1300,9 +1290,73 @@ _metadata_event_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"MetadataEvent": _metadata_event_model_schema})
 
+_metric_type_count_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "A number per a given interval (such as a statsd flushInterval)",
+  "enum" : [ "count" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"MetricTypeCount": _metric_type_count_model_schema})
+
+_metric_type_counter_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "Keeps increasing over time (but might wrap/reset at some point) i.e. a gauge with the added notion of “i usually want to derive this to see the rate”",
+  "enum" : [ "counter" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"MetricTypeCounter": _metric_type_counter_model_schema})
+
+_metric_type_gauge_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "Values at each point in time",
+  "enum" : [ "gauge" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"MetricTypeGauge": _metric_type_gauge_model_schema})
+
+_metric_type_rate_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "A number per second (implies that unit ends on ‘/s’)",
+  "enum" : [ "rate" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"MetricTypeRate": _metric_type_rate_model_schema})
+
+_metric_type_timestamp_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "description" : "Value represents a unix timestamp. so basically a gauge or counter but we know we can also render the “age” at each point.",
+  "enum" : [ "timestamp" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"MetricTypeTimestamp": _metric_type_timestamp_model_schema})
+
 _nd_json_response_stream_model_schema = json.loads(
     r"""{
   "title" : "NdJsonResponseStream",
+  "example" : {
+    "type" : "create",
+    "objectType" : "resource",
+    "timestamp" : "2024-03-02T10:15:30.000Z",
+    "resource" : {
+      "id" : "289dd1a3-35a7-44fa-8596-9aee3ad0b36f",
+      "name" : "sensor-device-001"
+    }
+  },
   "oneOf" : [ {
     "$ref" : "#/components/schemas/MetadataEvent"
   }, {
@@ -1441,10 +1495,10 @@ _operation_result_object_model_schema = json.loads(
   "type" : "object",
   "properties" : {
     "finishedTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "results" : {
-      "$ref" : "#/components/schemas/OperationResultObject_results"
+      "$ref" : "#/components/schemas/BatchOperationResults"
     }
   },
   "description" : "Finished Batch Operation results"
@@ -1454,28 +1508,6 @@ _operation_result_object_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({
     "OperationResultObject": _operation_result_object_model_schema
-})
-
-_operation_result_object_results_model_schema = json.loads(
-    r"""{
-  "title" : "OperationResultObject_results",
-  "required" : [ "failure", "success" ],
-  "type" : "object",
-  "properties" : {
-    "success" : {
-      "$ref" : "#/components/schemas/SuccessOperationResult"
-    },
-    "failure" : {
-      "$ref" : "#/components/schemas/FailureOperationResult"
-    }
-  },
-  "description" : "Operation results"
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "OperationResultObject_results": _operation_result_object_results_model_schema
 })
 
 _pagination_links_model_schema = json.loads(
@@ -1589,6 +1621,24 @@ _paging_result_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"PagingResult": _paging_result_model_schema})
+
+_parent_resource_link_model_schema = json.loads(
+    r"""{
+  "title" : "ParentResourceLink",
+  "allOf" : [ {
+    "$ref" : "#/components/schemas/HALIdLink"
+  }, {
+    "description" : "Link to the parent resource",
+    "example" : {
+      "href" : "/resources/v1/resources/658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a",
+      "id" : "658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a"
+    }
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"ParentResourceLink": _parent_resource_link_model_schema})
 
 _patch_resource_entity_model_schema = json.loads(
     r"""{
@@ -1710,7 +1760,7 @@ _resource_change_model_schema = json.loads(
   "type" : "object",
   "properties" : {
     "time" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "resourceId" : {
       "$ref" : "#/components/schemas/ResourceId"
@@ -1926,6 +1976,42 @@ _resource_entity_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"ResourceEntity": _resource_entity_model_schema})
 
+_resource_hal_embedded_model_schema = json.loads(
+    r"""{
+  "title" : "ResourceHALEmbedded",
+  "type" : "object",
+  "properties" : {
+    "resourceType" : {
+      "$ref" : "#/components/schemas/HALResourceTypeEntity"
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"ResourceHALEmbedded": _resource_hal_embedded_model_schema})
+
+_resource_hal_links_model_schema = json.loads(
+    r"""{
+  "title" : "ResourceHALLinks",
+  "type" : "object",
+  "properties" : {
+    "parent" : {
+      "$ref" : "#/components/schemas/ParentResourceLink"
+    },
+    "children" : {
+      "$ref" : "#/components/schemas/ChildrenResourceLink"
+    },
+    "resourceType" : {
+      "$ref" : "#/components/schemas/ResourceTypeLink"
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"ResourceHALLinks": _resource_hal_links_model_schema})
+
 _resource_id_model_schema = json.loads(
     r"""{
   "type" : "string",
@@ -1971,6 +2057,29 @@ _resource_listing_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"ResourceListing": _resource_listing_model_schema})
 
+_resource_listing_hal_embedded_model_schema = json.loads(
+    r"""{
+  "title" : "ResourceListingHALEmbedded",
+  "required" : [ "values" ],
+  "type" : "object",
+  "properties" : {
+    "values" : {
+      "title" : "values",
+      "type" : "array",
+      "description" : "_Resource_ entities in HAL format",
+      "items" : {
+        "$ref" : "#/components/schemas/HALResourceEntity"
+      }
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ResourceListingHALEmbedded": _resource_listing_hal_embedded_model_schema
+})
+
 _resource_metadata_event_model_schema = json.loads(
     r"""{
   "allOf" : [ {
@@ -1979,7 +2088,7 @@ _resource_metadata_event_model_schema = json.loads(
     "required" : [ "resource" ],
     "properties" : {
       "objectType" : {
-        "$ref" : "#/components/schemas/ResourceMetadataEvent_allOf_objectType"
+        "$ref" : "#/components/schemas/ResourceMetadataEventResource"
       },
       "resource" : {
         "$ref" : "#/components/schemas/ResourceEntity"
@@ -2004,9 +2113,9 @@ MODEL_DEFINITIONS.update({
     "ResourceMetadataEvent": _resource_metadata_event_model_schema
 })
 
-_resource_metadata_event_all_of_object_type_model_schema = json.loads(
+_resource_metadata_event_resource_model_schema = json.loads(
     r"""{
-  "title" : "ResourceMetadataEvent_allOf_objectType",
+  "title" : "ResourceMetadataEventResource",
   "type" : "string",
   "enum" : [ "resource" ]
 }
@@ -2014,7 +2123,7 @@ _resource_metadata_event_all_of_object_type_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "ResourceMetadataEvent_allOf_objectType": _resource_metadata_event_all_of_object_type_model_schema
+    "ResourceMetadataEventResource": _resource_metadata_event_resource_model_schema
 })
 
 _resource_metric_model_schema = json.loads(
@@ -2085,88 +2194,24 @@ _resource_metric_metric_type_model_schema = json.loads(
   "description" : "How measurements should be treated as a time series.",
   "example" : "counter",
   "oneOf" : [ {
-    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf"
+    "$ref" : "#/components/schemas/MetricTypeRate"
   }, {
-    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_1"
+    "$ref" : "#/components/schemas/MetricTypeCount"
   }, {
-    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_2"
+    "$ref" : "#/components/schemas/MetricTypeGauge"
   }, {
-    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_3"
+    "$ref" : "#/components/schemas/MetricTypeCounter"
   }, {
-    "$ref" : "#/components/schemas/ResourceMetric_metricType_oneOf_4"
+    "$ref" : "#/components/schemas/MetricTypeTimestamp"
   } ],
-  "default" : "gauge"
+  "default" : "gauge",
+  "x-typeDefaultIgnore" : true
 }
 """,
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
     "ResourceMetric_metricType": _resource_metric_metric_type_model_schema
-})
-
-_resource_metric_metric_type_one_of_model_schema = json.loads(
-    r"""{
-  "type" : "string",
-  "description" : "A number per second (implies that unit ends on ‘/s’)",
-  "enum" : [ "rate" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "ResourceMetric_metricType_oneOf": _resource_metric_metric_type_one_of_model_schema
-})
-
-_resource_metric_metric_type_one_of_1_model_schema = json.loads(
-    r"""{
-  "type" : "string",
-  "description" : "A number per a given interval (such as a statsd flushInterval)",
-  "enum" : [ "count" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "ResourceMetric_metricType_oneOf_1": _resource_metric_metric_type_one_of_1_model_schema
-})
-
-_resource_metric_metric_type_one_of_2_model_schema = json.loads(
-    r"""{
-  "type" : "string",
-  "description" : "Values at each point in time",
-  "enum" : [ "gauge" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "ResourceMetric_metricType_oneOf_2": _resource_metric_metric_type_one_of_2_model_schema
-})
-
-_resource_metric_metric_type_one_of_3_model_schema = json.loads(
-    r"""{
-  "type" : "string",
-  "description" : "Keeps increasing over time (but might wrap/reset at some point) i.e. a gauge with the added notion of “i usually want to derive this to see the rate”",
-  "enum" : [ "counter" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "ResourceMetric_metricType_oneOf_3": _resource_metric_metric_type_one_of_3_model_schema
-})
-
-_resource_metric_metric_type_one_of_4_model_schema = json.loads(
-    r"""{
-  "type" : "string",
-  "description" : "Value represents a unix timestamp. so basically a gauge or counter but we know we can also render the “age” at each point.",
-  "enum" : [ "timestamp" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "ResourceMetric_metricType_oneOf_4": _resource_metric_metric_type_one_of_4_model_schema
 })
 
 _resource_ref_value_constraint_model_schema = json.loads(
@@ -2311,7 +2356,7 @@ _resource_type_change_model_schema = json.loads(
   "type" : "object",
   "properties" : {
     "time" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "resourceTypeId" : {
       "$ref" : "#/components/schemas/ResourceTypeId"
@@ -2331,6 +2376,29 @@ _resource_type_change_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"ResourceTypeChange": _resource_type_change_model_schema})
+
+_resource_type_constraints_listing_model_schema = json.loads(
+    r"""{
+  "type" : "object",
+  "allOf" : [ {
+    "properties" : {
+      "values" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/ResourceConstraintWithIdEntity"
+        }
+      }
+    }
+  }, {
+    "$ref" : "#/components/schemas/PagingResult"
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ResourceTypeConstraintsListing": _resource_type_constraints_listing_model_schema
+})
 
 _resource_type_creation_response_model_schema = json.loads(
     r"""{
@@ -2415,6 +2483,24 @@ _resource_type_id_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"ResourceTypeId": _resource_type_id_model_schema})
+
+_resource_type_link_model_schema = json.loads(
+    r"""{
+  "title" : "ResourceTypeLink",
+  "allOf" : [ {
+    "$ref" : "#/components/schemas/HALIdLink"
+  }, {
+    "description" : "Link to the resourceType for the resource",
+    "example" : {
+      "href" : "/resources/v1/resourcetypes/17b8b6ea-0573-4381-8088-8692f7938165",
+      "id" : "17b8b6ea-0573-4381-8088-8692f7938165"
+    }
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"ResourceTypeLink": _resource_type_link_model_schema})
 
 _resource_type_listing_model_schema = json.loads(
     r"""{
@@ -2555,7 +2641,7 @@ _resourcetype_metadata_event_model_schema = json.loads(
     "required" : [ "resourcetype" ],
     "properties" : {
       "objectType" : {
-        "$ref" : "#/components/schemas/ResourcetypeMetadataEvent_allOf_objectType"
+        "$ref" : "#/components/schemas/ResourcetypeMetadataEventResourcetype"
       },
       "resourcetype" : {
         "$ref" : "#/components/schemas/ResourceTypeEntity"
@@ -2570,9 +2656,9 @@ MODEL_DEFINITIONS.update({
     "ResourcetypeMetadataEvent": _resourcetype_metadata_event_model_schema
 })
 
-_resourcetype_metadata_event_all_of_object_type_model_schema = json.loads(
+_resourcetype_metadata_event_resourcetype_model_schema = json.loads(
     r"""{
-  "title" : "ResourcetypeMetadataEvent_allOf_objectType",
+  "title" : "ResourcetypeMetadataEventResourcetype",
   "type" : "string",
   "enum" : [ "resourcetype" ]
 }
@@ -2580,7 +2666,7 @@ _resourcetype_metadata_event_all_of_object_type_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "ResourcetypeMetadataEvent_allOf_objectType": _resourcetype_metadata_event_all_of_object_type_model_schema
+    "ResourcetypeMetadataEventResourcetype": _resourcetype_metadata_event_resourcetype_model_schema
 })
 
 _ss_event_stream_model_schema = json.loads(

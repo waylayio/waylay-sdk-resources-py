@@ -34,8 +34,6 @@ Alternatively, you can install support for this _resources_ service only, instal
 ## Usage
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -45,63 +43,68 @@ waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.version_response import VersionResponse
+
 try:
     # Get Service Information
     # calls `GET /resources/v1/`
-    api_response = await waylay_client.resources.about.get(
-    )
-    print("The response of resources.about.get:\n")
-    pprint(api_response)
+    api_response = await waylay_client.resources.about.get()
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.about.get: %s\n" % e)
 ```
 
 
-For more information, please visit the [Waylay API documentation](https://docs.waylay.io/#/api/?id=software-development-kits).
+For more information, please visit the [Waylay API documentation](https://docs.waylay.io/#/api/sdk/waylay-sdk/).
 
 ## Documentation for API Endpoints
 
 All URIs are relative to *https://api.waylay.io*
 
-Class | Method | HTTP request | Description
+SDK Path | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AboutApi* | [**get**](docs/AboutApi.md#get) | **GET** /resources/v1/ | Get Service Information
-*BatchOperationsApi* | [**get**](docs/BatchOperationsApi.md#get) | **GET** /resources/v1/batch/{batchId} | Get Resource Batch Operation Status
-*BatchOperationsApi* | [**start**](docs/BatchOperationsApi.md#start) | **POST** /resources/v1/batch | Bulk Delete
-*MetadataEventsApi* | [**get_stream**](docs/MetadataEventsApi.md#get_stream) | **GET** /resources/v1/events | Events
-*ResourceApi* | [**create**](docs/ResourceApi.md#create) | **POST** /resources/v1/resources | Create Resource
-*ResourceApi* | [**delete**](docs/ResourceApi.md#delete) | **DELETE** /resources/v1/resources/{resourceId} | Remove Resource
-*ResourceApi* | [**get**](docs/ResourceApi.md#get) | **GET** /resources/v1/resources/{resourceId} | Get Resource
-*ResourceApi* | [**list_changes**](docs/ResourceApi.md#list_changes) | **GET** /resources/v1/resources/{resourceId}/changes | List Resource Changes
-*ResourceApi* | [**list_children**](docs/ResourceApi.md#list_children) | **GET** /resources/v1/resources/{resourceId}/children | List Resource Children
-*ResourceApi* | [**list_referrers**](docs/ResourceApi.md#list_referrers) | **GET** /resources/v1/resources/{resourceId}/referrers | List Referring Resources
-*ResourceApi* | [**list**](docs/ResourceApi.md#list) | **GET** /resources/v1/resources | Query Resources
-*ResourceApi* | [**patch**](docs/ResourceApi.md#patch) | **PATCH** /resources/v1/resources/{resourceId} | Create Or Update Resource Partially
-*ResourceApi* | [**replace**](docs/ResourceApi.md#replace) | **PUT** /resources/v1/resources/{resourceId} | Update Resource
-*ResourceConstraintApi* | [**create**](docs/ResourceConstraintApi.md#create) | **POST** /resources/v1/resourceconstraints | Create Resource Constraint
-*ResourceConstraintApi* | [**delete**](docs/ResourceConstraintApi.md#delete) | **DELETE** /resources/v1/resourceconstraints/{resourceConstraintId} | Remove Resource Constraint
-*ResourceConstraintApi* | [**get**](docs/ResourceConstraintApi.md#get) | **GET** /resources/v1/resourceconstraints/{resourceConstraintId} | Get Resource Constraint
-*ResourceConstraintApi* | [**list**](docs/ResourceConstraintApi.md#list) | **GET** /resources/v1/resourceconstraints | List Resource Constraints
-*ResourceConstraintApi* | [**replace**](docs/ResourceConstraintApi.md#replace) | **PUT** /resources/v1/resourceconstraints/{resourceConstraintId} | Update Resource Constraint
-*ResourceTypeApi* | [**create**](docs/ResourceTypeApi.md#create) | **POST** /resources/v1/resourcetypes | Create Resource Type
-*ResourceTypeApi* | [**delete**](docs/ResourceTypeApi.md#delete) | **DELETE** /resources/v1/resourcetypes/{resourceTypeId} | Remove Resource Type
-*ResourceTypeApi* | [**get**](docs/ResourceTypeApi.md#get) | **GET** /resources/v1/resourcetypes/{resourceTypeId} | Get Resource Type
-*ResourceTypeApi* | [**list_changes**](docs/ResourceTypeApi.md#list_changes) | **GET** /resources/v1/resourcetypes/{resourceTypeId}/changes | List Resource Type Changes
-*ResourceTypeApi* | [**list_constraints**](docs/ResourceTypeApi.md#list_constraints) | **GET** /resources/v1/resourcetypes/{resourceTypeId}/constraints | Get Resource Type Constraints
-*ResourceTypeApi* | [**list**](docs/ResourceTypeApi.md#list) | **GET** /resources/v1/resourcetypes | List Resource Types
-*ResourceTypeApi* | [**patch**](docs/ResourceTypeApi.md#patch) | **PATCH** /resources/v1/resourcetypes/{resourceTypeId} | Create Or Update Resource Type
-*ResourceTypeApi* | [**replace**](docs/ResourceTypeApi.md#replace) | **PUT** /resources/v1/resourcetypes/{resourceTypeId} | Update Resource Type
-*ResourceTypeApi* | [**revalidate**](docs/ResourceTypeApi.md#revalidate) | **POST** /resources/v1/resourcetypes/{resourceTypeId}/revalidate | Revalidate Resource Type
+**waylay_client.resources.about** | [**get**](docs/AboutApi.md#get) | **GET** /resources/v1/ | Get Service Information
+ | | |
+**waylay_client.resources.batch_operations** | [**get**](docs/BatchOperationsApi.md#get) | **GET** /resources/v1/batch/{batchId} | Get Resource Batch Operation Status
+**waylay_client.resources.batch_operations** | [**start**](docs/BatchOperationsApi.md#start) | **POST** /resources/v1/batch | Bulk Delete
+ | | |
+**waylay_client.resources.metadata_events** | [**get_stream**](docs/MetadataEventsApi.md#get_stream) | **GET** /resources/v1/events | Events
+ | | |
+**waylay_client.resources.resource** | [**create**](docs/ResourceApi.md#create) | **POST** /resources/v1/resources | Create Resource
+**waylay_client.resources.resource** | [**delete**](docs/ResourceApi.md#delete) | **DELETE** /resources/v1/resources/{resourceId} | Remove Resource
+**waylay_client.resources.resource** | [**get**](docs/ResourceApi.md#get) | **GET** /resources/v1/resources/{resourceId} | Get Resource
+**waylay_client.resources.resource** | [**list_changes**](docs/ResourceApi.md#list_changes) | **GET** /resources/v1/resources/{resourceId}/changes | List Resource Changes
+**waylay_client.resources.resource** | [**list_children**](docs/ResourceApi.md#list_children) | **GET** /resources/v1/resources/{resourceId}/children | List Resource Children
+**waylay_client.resources.resource** | [**list_referrers**](docs/ResourceApi.md#list_referrers) | **GET** /resources/v1/resources/{resourceId}/referrers | List Referring Resources
+**waylay_client.resources.resource** | [**list**](docs/ResourceApi.md#list) | **GET** /resources/v1/resources | Query Resources
+**waylay_client.resources.resource** | [**patch**](docs/ResourceApi.md#patch) | **PATCH** /resources/v1/resources/{resourceId} | Create Or Update Resource Partially
+**waylay_client.resources.resource** | [**replace**](docs/ResourceApi.md#replace) | **PUT** /resources/v1/resources/{resourceId} | Update Resource
+ | | |
+**waylay_client.resources.resource_constraint** | [**create**](docs/ResourceConstraintApi.md#create) | **POST** /resources/v1/resourceconstraints | Create Resource Constraint
+**waylay_client.resources.resource_constraint** | [**delete**](docs/ResourceConstraintApi.md#delete) | **DELETE** /resources/v1/resourceconstraints/{resourceConstraintId} | Remove Resource Constraint
+**waylay_client.resources.resource_constraint** | [**get**](docs/ResourceConstraintApi.md#get) | **GET** /resources/v1/resourceconstraints/{resourceConstraintId} | Get Resource Constraint
+**waylay_client.resources.resource_constraint** | [**list**](docs/ResourceConstraintApi.md#list) | **GET** /resources/v1/resourceconstraints | List Resource Constraints
+**waylay_client.resources.resource_constraint** | [**replace**](docs/ResourceConstraintApi.md#replace) | **PUT** /resources/v1/resourceconstraints/{resourceConstraintId} | Update Resource Constraint
+ | | |
+**waylay_client.resources.resource_type** | [**create**](docs/ResourceTypeApi.md#create) | **POST** /resources/v1/resourcetypes | Create Resource Type
+**waylay_client.resources.resource_type** | [**delete**](docs/ResourceTypeApi.md#delete) | **DELETE** /resources/v1/resourcetypes/{resourceTypeId} | Remove Resource Type
+**waylay_client.resources.resource_type** | [**get**](docs/ResourceTypeApi.md#get) | **GET** /resources/v1/resourcetypes/{resourceTypeId} | Get Resource Type
+**waylay_client.resources.resource_type** | [**list_changes**](docs/ResourceTypeApi.md#list_changes) | **GET** /resources/v1/resourcetypes/{resourceTypeId}/changes | List Resource Type Changes
+**waylay_client.resources.resource_type** | [**list_constraints**](docs/ResourceTypeApi.md#list_constraints) | **GET** /resources/v1/resourcetypes/{resourceTypeId}/constraints | Get Resource Type Constraints
+**waylay_client.resources.resource_type** | [**list**](docs/ResourceTypeApi.md#list) | **GET** /resources/v1/resourcetypes | List Resource Types
+**waylay_client.resources.resource_type** | [**patch**](docs/ResourceTypeApi.md#patch) | **PATCH** /resources/v1/resourcetypes/{resourceTypeId} | Create Or Update Resource Type
+**waylay_client.resources.resource_type** | [**replace**](docs/ResourceTypeApi.md#replace) | **PUT** /resources/v1/resourcetypes/{resourceTypeId} | Update Resource Type
+**waylay_client.resources.resource_type** | [**revalidate**](docs/ResourceTypeApi.md#revalidate) | **POST** /resources/v1/resourcetypes/{resourceTypeId}/revalidate | Revalidate Resource Type
 
 
 ## Documentation For Models
 
- - [ArrayMustContainInner](docs/ArrayMustContainInner.md)
+ - [ArrayContainValue](docs/ArrayContainValue.md)
  - [ArrayValueConstraint](docs/ArrayValueConstraint.md)
  - [ArrayValueConstraintType](docs/ArrayValueConstraintType.md)
  - [AttributeItem](docs/AttributeItem.md)
  - [BatchOperationEnqueued](docs/BatchOperationEnqueued.md)
  - [BatchOperationResult](docs/BatchOperationResult.md)
+ - [BatchOperationResults](docs/BatchOperationResults.md)
  - [BatchOperationStatusResponse](docs/BatchOperationStatusResponse.md)
  - [BatchResourceDeleteOperation](docs/BatchResourceDeleteOperation.md)
  - [BatchResourceDeleteOperationAction](docs/BatchResourceDeleteOperationAction.md)
@@ -109,6 +112,11 @@ Class | Method | HTTP request | Description
  - [BatchResourceDeleteOperationEntity](docs/BatchResourceDeleteOperationEntity.md)
  - [BatchResourceDeleteOperationQuery](docs/BatchResourceDeleteOperationQuery.md)
  - [BatchResourceOperation](docs/BatchResourceOperation.md)
+ - [BatchResourcePatchOperation](docs/BatchResourcePatchOperation.md)
+ - [BatchResourcePatchOperationAction](docs/BatchResourcePatchOperationAction.md)
+ - [BatchResourcePatchOperationActionParameters](docs/BatchResourcePatchOperationActionParameters.md)
+ - [BatchResourcePatchOperationEntity](docs/BatchResourcePatchOperationEntity.md)
+ - [BatchResourcePatchOperationQuery](docs/BatchResourcePatchOperationQuery.md)
  - [BatchResourceTypeDeleteOperation](docs/BatchResourceTypeDeleteOperation.md)
  - [BatchResourceTypeDeleteOperationEntity](docs/BatchResourceTypeDeleteOperationEntity.md)
  - [BatchResourceTypeDeleteOperationQuery](docs/BatchResourceTypeDeleteOperationQuery.md)
@@ -117,9 +125,10 @@ Class | Method | HTTP request | Description
  - [BatchRunningResourceOperationOperationEntity](docs/BatchRunningResourceOperationOperationEntity.md)
  - [BooleanValueConstraint](docs/BooleanValueConstraint.md)
  - [BooleanValueConstraintType](docs/BooleanValueConstraintType.md)
- - [CascadeDeleteValuesInner](docs/CascadeDeleteValuesInner.md)
+ - [CascadeDeleteOption](docs/CascadeDeleteOption.md)
  - [ChangedEvent](docs/ChangedEvent.md)
  - [ChangedEventType](docs/ChangedEventType.md)
+ - [ChildrenResourceLink](docs/ChildrenResourceLink.md)
  - [CloudMetadataEvent](docs/CloudMetadataEvent.md)
  - [CloudMetadataEventData](docs/CloudMetadataEventData.md)
  - [CloudMetadataEventDataSource](docs/CloudMetadataEventDataSource.md)
@@ -142,23 +151,21 @@ Class | Method | HTTP request | Description
  - [HALLink](docs/HALLink.md)
  - [HALPageLinks](docs/HALPageLinks.md)
  - [HALResourceEntity](docs/HALResourceEntity.md)
- - [HALResourceEntityAllOfEmbedded](docs/HALResourceEntityAllOfEmbedded.md)
- - [HALResourceEntityAllOfLinks](docs/HALResourceEntityAllOfLinks.md)
- - [HALResourceEntityAllOfLinksChildren](docs/HALResourceEntityAllOfLinksChildren.md)
- - [HALResourceEntityAllOfLinksParent](docs/HALResourceEntityAllOfLinksParent.md)
- - [HALResourceEntityAllOfLinksResourceType](docs/HALResourceEntityAllOfLinksResourceType.md)
  - [HALResourceListing](docs/HALResourceListing.md)
- - [HALResourceListingAllOfEmbedded](docs/HALResourceListingAllOfEmbedded.md)
  - [HALResourceTypeEntity](docs/HALResourceTypeEntity.md)
  - [HALSelfLinks](docs/HALSelfLinks.md)
  - [HALSelfLinksLinks](docs/HALSelfLinksLinks.md)
  - [HALSelfLinksLinksSelf](docs/HALSelfLinksLinksSelf.md)
  - [HALSelfLinksLinksValue](docs/HALSelfLinksLinksValue.md)
- - [ListConstraints200Response](docs/ListConstraints200Response.md)
  - [ListResourcesOrderParameter](docs/ListResourcesOrderParameter.md)
  - [MetadataEntity](docs/MetadataEntity.md)
  - [MetadataEntityLocation](docs/MetadataEntityLocation.md)
  - [MetadataEvent](docs/MetadataEvent.md)
+ - [MetricTypeCount](docs/MetricTypeCount.md)
+ - [MetricTypeCounter](docs/MetricTypeCounter.md)
+ - [MetricTypeGauge](docs/MetricTypeGauge.md)
+ - [MetricTypeRate](docs/MetricTypeRate.md)
+ - [MetricTypeTimestamp](docs/MetricTypeTimestamp.md)
  - [NdJsonResponseStream](docs/NdJsonResponseStream.md)
  - [NumericEnumValueConstraint](docs/NumericEnumValueConstraint.md)
  - [NumericEnumValueConstraintType](docs/NumericEnumValueConstraintType.md)
@@ -167,13 +174,13 @@ Class | Method | HTTP request | Description
  - [ObjectValueConstraint](docs/ObjectValueConstraint.md)
  - [ObjectValueConstraintType](docs/ObjectValueConstraintType.md)
  - [OperationResultObject](docs/OperationResultObject.md)
- - [OperationResultObjectResults](docs/OperationResultObjectResults.md)
  - [PaginationLinks](docs/PaginationLinks.md)
  - [PaginationLinksNext](docs/PaginationLinksNext.md)
  - [PaginationLinksPrev](docs/PaginationLinksPrev.md)
  - [PaginationLinksSelf](docs/PaginationLinksSelf.md)
  - [PagingCount](docs/PagingCount.md)
  - [PagingResult](docs/PagingResult.md)
+ - [ParentResourceLink](docs/ParentResourceLink.md)
  - [PatchResourceEntity](docs/PatchResourceEntity.md)
  - [PatchResourceTypeEntity](docs/PatchResourceTypeEntity.md)
  - [ResourceChange](docs/ResourceChange.md)
@@ -184,33 +191,33 @@ Class | Method | HTTP request | Description
  - [ResourceConstraintWithIdEntity](docs/ResourceConstraintWithIdEntity.md)
  - [ResourceCreationResponse](docs/ResourceCreationResponse.md)
  - [ResourceEntity](docs/ResourceEntity.md)
+ - [ResourceHALEmbedded](docs/ResourceHALEmbedded.md)
+ - [ResourceHALLinks](docs/ResourceHALLinks.md)
  - [ResourceId](docs/ResourceId.md)
  - [ResourceListing](docs/ResourceListing.md)
+ - [ResourceListingHALEmbedded](docs/ResourceListingHALEmbedded.md)
  - [ResourceMetadataEvent](docs/ResourceMetadataEvent.md)
- - [ResourceMetadataEventAllOfObjectType](docs/ResourceMetadataEventAllOfObjectType.md)
+ - [ResourceMetadataEventResource](docs/ResourceMetadataEventResource.md)
  - [ResourceMetric](docs/ResourceMetric.md)
  - [ResourceMetricMetricType](docs/ResourceMetricMetricType.md)
- - [ResourceMetricMetricTypeOneOf](docs/ResourceMetricMetricTypeOneOf.md)
- - [ResourceMetricMetricTypeOneOf1](docs/ResourceMetricMetricTypeOneOf1.md)
- - [ResourceMetricMetricTypeOneOf2](docs/ResourceMetricMetricTypeOneOf2.md)
- - [ResourceMetricMetricTypeOneOf3](docs/ResourceMetricMetricTypeOneOf3.md)
- - [ResourceMetricMetricTypeOneOf4](docs/ResourceMetricMetricTypeOneOf4.md)
  - [ResourceRefValueConstraint](docs/ResourceRefValueConstraint.md)
  - [ResourceRefValueConstraintType](docs/ResourceRefValueConstraintType.md)
  - [ResourceReference](docs/ResourceReference.md)
  - [ResourceSensor](docs/ResourceSensor.md)
  - [ResourceSensorSensor](docs/ResourceSensorSensor.md)
  - [ResourceTypeChange](docs/ResourceTypeChange.md)
+ - [ResourceTypeConstraintsListing](docs/ResourceTypeConstraintsListing.md)
  - [ResourceTypeCreationResponse](docs/ResourceTypeCreationResponse.md)
  - [ResourceTypeEntity](docs/ResourceTypeEntity.md)
  - [ResourceTypeId](docs/ResourceTypeId.md)
+ - [ResourceTypeLink](docs/ResourceTypeLink.md)
  - [ResourceTypeListing](docs/ResourceTypeListing.md)
  - [ResourceTypeWithConstraints](docs/ResourceTypeWithConstraints.md)
  - [ResourceTypeWithIdEntity](docs/ResourceTypeWithIdEntity.md)
  - [ResourceTypesChangesPagedResponse](docs/ResourceTypesChangesPagedResponse.md)
  - [ResourceWithIdEntity](docs/ResourceWithIdEntity.md)
  - [ResourcetypeMetadataEvent](docs/ResourcetypeMetadataEvent.md)
- - [ResourcetypeMetadataEventAllOfObjectType](docs/ResourcetypeMetadataEventAllOfObjectType.md)
+ - [ResourcetypeMetadataEventResourcetype](docs/ResourcetypeMetadataEventResourcetype.md)
  - [SSEventStream](docs/SSEventStream.md)
  - [SchemaValidationError](docs/SchemaValidationError.md)
  - [StringEnumValueConstraint](docs/StringEnumValueConstraint.md)

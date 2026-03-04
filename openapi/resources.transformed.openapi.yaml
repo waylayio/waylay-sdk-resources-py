@@ -1015,14 +1015,7 @@ paths:
                   - name
             application/vnd.waylay.paged+json:
               schema:
-                type: object
-                allOf:
-                  - properties:
-                      values:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
-                  - $ref: '#/components/schemas/PagingResult'
+                $ref: '#/components/schemas/ResourceTypeConstraintsListing'
         '404':
           $ref: '#/components/responses/ResourceTypeNotFoundResponse'
       security:
@@ -1479,11 +1472,7 @@ components:
     CascadeDeleteValues:
       type: array
       items:
-        type: string
-        enum:
-          - alarms
-          - measurements
-          - tasks
+        $ref: '#/components/schemas/CascadeDeleteOption'
     ResourceCreationResponse:
       type: object
       properties:
@@ -1908,42 +1897,15 @@ components:
         - $ref: '#/components/schemas/HALSelfLinks'
         - properties:
             _links:
-              type: object
-              properties:
-                parent:
-                  allOf:
-                    - $ref: '#/components/schemas/HALIdLink'
-                    - description: Link to the parent resource
-                      example:
-                        href: >-
-                          /resources/v1/resources/658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
-                        id: 658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
-                children:
-                  allOf:
-                    - $ref: '#/components/schemas/HALLink'
-                    - description: Link to fetch the children of the resource
-                      example:
-                        href: >-
-                          /resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1/children
-                resourceType:
-                  allOf:
-                    - $ref: '#/components/schemas/HALIdLink'
-                    - description: Link to the resourceType for the resource
-                      example:
-                        href: >-
-                          /resources/v1/resourcetypes/17b8b6ea-0573-4381-8088-8692f7938165
-                        id: 17b8b6ea-0573-4381-8088-8692f7938165
+              $ref: '#/components/schemas/ResourceHALLinks'
             _embedded:
-              type: object
-              properties:
-                resourceType:
-                  $ref: '#/components/schemas/HALResourceTypeEntity'
+              $ref: '#/components/schemas/ResourceHALEmbedded'
         - $ref: '#/components/schemas/ResourceWithIdEntity'
     ResourceChange:
       type: object
       properties:
         time:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         resourceId:
           $ref: '#/components/schemas/ResourceId'
         userId:
@@ -2040,15 +2002,7 @@ components:
         - $ref: '#/components/schemas/HALPageLinks'
         - properties:
             _embedded:
-              type: object
-              properties:
-                values:
-                  type: array
-                  description: _Resource_ entities in HAL format
-                  items:
-                    $ref: '#/components/schemas/HALResourceEntity'
-              required:
-                - values
+              $ref: '#/components/schemas/ResourceListingHALEmbedded'
       required:
         - count
         - total
@@ -2075,7 +2029,7 @@ components:
       type: object
       properties:
         time:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         resourceTypeId:
           $ref: '#/components/schemas/ResourceTypeId'
         userId:
@@ -2169,29 +2123,15 @@ components:
         metricType:
           type: string
           oneOf:
-            - enum:
-                - rate
-              description: A number per second (implies that unit ends on ‘/s’)
-            - enum:
-                - count
-              description: A number per a given interval (such as a statsd flushInterval)
-            - enum:
-                - gauge
-              description: Values at each point in time
-            - enum:
-                - counter
-              description: >-
-                Keeps increasing over time (but might wrap/reset at some point)
-                i.e. a gauge with the added notion of “i usually want to derive
-                this to see the rate”
-            - enum:
-                - timestamp
-              description: >-
-                Value represents a unix timestamp. so basically a gauge or
-                counter but we know we can also render the “age” at each point.
+            - $ref: '#/components/schemas/MetricTypeRate'
+            - $ref: '#/components/schemas/MetricTypeCount'
+            - $ref: '#/components/schemas/MetricTypeGauge'
+            - $ref: '#/components/schemas/MetricTypeCounter'
+            - $ref: '#/components/schemas/MetricTypeTimestamp'
           example: counter
           default: gauge
           description: How measurements should be treated as a time series.
+          x-typeDefaultIgnore: true
         unit:
           type: string
           description: >-
@@ -2247,7 +2187,7 @@ components:
 
         not counting leap seconds.
       example: 1663269720694
-    SO8601Timestamp:
+    ISO8601Timestamp:
       type: string
       format: date-time
       example: '2011-09-06T12:03:27.845Z'
@@ -2540,10 +2480,7 @@ components:
           type: array
           title: Array Must Contain
           items:
-            oneOf:
-              - type: boolean
-              - type: number
-              - type: string
+            $ref: '#/components/schemas/ArrayContainValue'
           description: >-
             Only supported if the `elementType` is `boolean`, `numeric` or
             `string`.
@@ -2564,6 +2501,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/BatchResourceDeleteOperation'
         - $ref: '#/components/schemas/BatchResourceTypeDeleteOperation'
+        - $ref: '#/components/schemas/BatchResourcePatchOperation'
     BatchResourceDeleteOperation:
       type: object
       properties:
@@ -2623,6 +2561,44 @@ components:
         - entity
         - action
         - query
+    BatchResourcePatchOperation:
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Type of entities to patch or insert
+          enum:
+            - resource
+        action:
+          type: string
+          enum:
+            - patchOrInsert
+        query:
+          $ref: '#/components/schemas/BatchResourcePatchOperationQuery'
+        actionParameters:
+          $ref: '#/components/schemas/BatchResourcePatchOperationActionParameters'
+      required:
+        - entity
+        - action
+        - query
+    BatchResourcePatchOperationQuery:
+      type: object
+      properties:
+        resources:
+          type: array
+          description: Array of resource objects to patch or insert
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PatchResourceEntity'
+      required:
+        - resources
+    BatchResourcePatchOperationActionParameters:
+      type: object
+      properties:
+        updateProtected:
+          type: boolean
+          description: Whether to allow updating protected entities
+          default: false
     BatchRunningResourceOperation:
       type: object
       properties:
@@ -2631,7 +2607,7 @@ components:
         user:
           $ref: '#/components/schemas/UserId'
         queueTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         operation:
           description: Queued operation summary
           type: object
@@ -2694,18 +2670,9 @@ components:
       type: object
       properties:
         finishedTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         results:
-          type: object
-          description: Operation results
-          properties:
-            success:
-              $ref: '#/components/schemas/SuccessOperationResult'
-            failure:
-              $ref: '#/components/schemas/FailureOperationResult'
-          required:
-            - success
-            - failure
+          $ref: '#/components/schemas/BatchOperationResults'
       required:
         - finishedTime
         - results
@@ -2741,7 +2708,7 @@ components:
         objectType:
           type: string
         timestamp:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
       required:
         - type
         - objectType
@@ -2787,8 +2754,7 @@ components:
         - $ref: '#/components/schemas/GenericMetadataEvent'
         - properties:
             objectType:
-              enum:
-                - resource
+              $ref: '#/components/schemas/ResourceMetadataEventResource'
             resource:
               $ref: '#/components/schemas/ResourceEntity'
           required:
@@ -2807,8 +2773,7 @@ components:
             - $ref: '#/components/schemas/ChangedEvent'
         - properties:
             objectType:
-              enum:
-                - resourcetype
+              $ref: '#/components/schemas/ResourcetypeMetadataEventResourcetype'
             resourcetype:
               $ref: '#/components/schemas/ResourceTypeEntity'
           required:
@@ -2844,7 +2809,7 @@ components:
         data:
           $ref: '#/components/schemas/MetadataEvent'
         time:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
     CloudMetadataEvent:
       allOf:
         - $ref: ./cloudevents.schema.yaml#/definitions/cloudevent_json
@@ -2856,6 +2821,113 @@ components:
             - type
             - subject
             - time
+    ResourceTypeConstraintsListing:
+      type: object
+      allOf:
+        - properties:
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResourceConstraintWithIdEntity'
+        - $ref: '#/components/schemas/PagingResult'
+    CascadeDeleteOption:
+      type: string
+      enum:
+        - alarms
+        - measurements
+        - tasks
+    ParentResourceLink:
+      allOf:
+        - $ref: '#/components/schemas/HALIdLink'
+        - description: Link to the parent resource
+          example:
+            href: /resources/v1/resources/658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
+            id: 658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
+    ChildrenResourceLink:
+      allOf:
+        - $ref: '#/components/schemas/HALLink'
+        - description: Link to fetch the children of the resource
+          example:
+            href: >-
+              /resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1/children
+    ResourceTypeLink:
+      allOf:
+        - $ref: '#/components/schemas/HALIdLink'
+        - description: Link to the resourceType for the resource
+          example:
+            href: /resources/v1/resourcetypes/17b8b6ea-0573-4381-8088-8692f7938165
+            id: 17b8b6ea-0573-4381-8088-8692f7938165
+    ResourceHALLinks:
+      type: object
+      properties:
+        parent:
+          $ref: '#/components/schemas/ParentResourceLink'
+        children:
+          $ref: '#/components/schemas/ChildrenResourceLink'
+        resourceType:
+          $ref: '#/components/schemas/ResourceTypeLink'
+    ResourceHALEmbedded:
+      type: object
+      properties:
+        resourceType:
+          $ref: '#/components/schemas/HALResourceTypeEntity'
+    ResourceListingHALEmbedded:
+      type: object
+      properties:
+        values:
+          type: array
+          description: _Resource_ entities in HAL format
+          items:
+            $ref: '#/components/schemas/HALResourceEntity'
+      required:
+        - values
+    MetricTypeRate:
+      enum:
+        - rate
+      description: A number per second (implies that unit ends on ‘/s’)
+    MetricTypeCount:
+      enum:
+        - count
+      description: A number per a given interval (such as a statsd flushInterval)
+    MetricTypeGauge:
+      enum:
+        - gauge
+      description: Values at each point in time
+    MetricTypeCounter:
+      enum:
+        - counter
+      description: >-
+        Keeps increasing over time (but might wrap/reset at some point) i.e. a
+        gauge with the added notion of “i usually want to derive this to see the
+        rate”
+    MetricTypeTimestamp:
+      enum:
+        - timestamp
+      description: >-
+        Value represents a unix timestamp. so basically a gauge or counter but
+        we know we can also render the “age” at each point.
+    ArrayContainValue:
+      oneOf:
+        - type: boolean
+        - type: number
+        - type: string
+    BatchOperationResults:
+      type: object
+      description: Operation results
+      properties:
+        success:
+          $ref: '#/components/schemas/SuccessOperationResult'
+        failure:
+          $ref: '#/components/schemas/FailureOperationResult'
+      required:
+        - success
+        - failure
+    ResourceMetadataEventResource:
+      enum:
+        - resource
+    ResourcetypeMetadataEventResourcetype:
+      enum:
+        - resourcetype
   parameters:
     ResourceId:
       name: resourceId
@@ -3086,6 +3158,13 @@ components:
             oneOf:
               - $ref: '#/components/schemas/MetadataEvent'
               - $ref: '#/components/schemas/CloudMetadataEvent'
+            example:
+              type: create
+              objectType: resource
+              timestamp: '2024-03-02T10:15:30.000Z'
+              resource:
+                id: 289dd1a3-35a7-44fa-8596-9aee3ad0b36f
+                name: sensor-device-001
         text/event-stream:
           schema:
             title: SSEventStream

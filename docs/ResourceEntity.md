@@ -2,6 +2,11 @@
 
 Representation of a Waylay Resource
 
+**Source:** `waylay.services.resources.models.resource_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -24,23 +29,43 @@ Name | Type | Description | Notes
 **templates** | [**List[TaskConfiguration]**](TaskConfiguration.md) | Templates for the resource. Used to override diagnostic templates inherited from Resource Type. | [optional] 
 **tags** | **List[str]** | Custom classifiers for this _Resource_. | [optional] 
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.resource_entity import ResourceEntity
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceEntity from a JSON string
-resource_entity_instance = ResourceEntity.from_json(json)
-# print the JSON string representation of the object
-print ResourceEntity.to_json()
+resource_entity = ResourceEntity(
+    provider=...,
+    provider_id=...,
+    customer=...,
+    firmware=...,
+    location=...,
+    metrics=...,
+    sensors=...,
+    id=...,
+    resource_type_id=...,
+    parent_id=...,
+    name=...,
+    alias=...,
+    last_message_timestamp=...,
+    owner=...,
+    icon=...,
+    templates=...,
+    tags=...,
+)
 
-# convert the object into a dict
-resource_entity_dict = resource_entity_instance.to_dict()
-# create an instance of ResourceEntity from a dict
-resource_entity_form_dict = resource_entity.from_dict(resource_entity_dict)
+# Create from JSON
+resource_entity = ResourceEntity.from_json(
+    '{ "provider": ..., "providerId": ..., "customer": ..., "firmware": ..., "location": ..., "metrics": ..., "sensors": ..., "id": ..., "resourceTypeId": ..., "parentId": ..., "name": ..., "alias": ..., "lastMessageTimestamp": ..., "owner": ..., "icon": ..., "templates": ..., "tags": ... }'
+)
+
+# Export to dictionary
+resource_entity_dict = resource_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

@@ -2,6 +2,11 @@
 
 Specifies that a value must be a number.
 
+**Source:** `waylay.services.resources.models.numeric_value_constraint`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,23 +15,27 @@ Name | Type | Description | Notes
 **minimum** | **float** | Specifies the minimum value the attribute can have | [optional] 
 **maximum** | **float** | Specifies the maximum value the attribute can have | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.numeric_value_constraint import NumericValueConstraint
+from waylay.services.resources.models.numeric_value_constraint import (
+    NumericValueConstraint,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of NumericValueConstraint from a JSON string
-numeric_value_constraint_instance = NumericValueConstraint.from_json(json)
-# print the JSON string representation of the object
-print NumericValueConstraint.to_json()
+numeric_value_constraint = NumericValueConstraint(type=..., minimum=..., maximum=...)
 
-# convert the object into a dict
-numeric_value_constraint_dict = numeric_value_constraint_instance.to_dict()
-# create an instance of NumericValueConstraint from a dict
-numeric_value_constraint_form_dict = numeric_value_constraint.from_dict(numeric_value_constraint_dict)
+# Create from JSON
+numeric_value_constraint = NumericValueConstraint.from_json(
+    '{ "type": ..., "minimum": ..., "maximum": ... }'
+)
+
+# Export to dictionary
+numeric_value_constraint_dict = numeric_value_constraint.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

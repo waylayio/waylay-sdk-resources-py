@@ -1,6 +1,11 @@
 # PatchResourceEntity
 
 
+**Source:** `waylay.services.resources.models.patch_resource_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -23,23 +28,43 @@ Name | Type | Description | Notes
 **metrics** | **object** |  | [optional] 
 **sensors** | **object** |  | [optional] 
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.patch_resource_entity import PatchResourceEntity
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of PatchResourceEntity from a JSON string
-patch_resource_entity_instance = PatchResourceEntity.from_json(json)
-# print the JSON string representation of the object
-print PatchResourceEntity.to_json()
+patch_resource_entity = PatchResourceEntity(
+    id=...,
+    resource_type_id=...,
+    parent_id=...,
+    name=...,
+    alias=...,
+    last_message_timestamp=...,
+    owner=...,
+    icon=...,
+    templates=...,
+    tags=...,
+    provider=...,
+    provider_id=...,
+    customer=...,
+    firmware=...,
+    location=...,
+    metrics=...,
+    sensors=...,
+)
 
-# convert the object into a dict
-patch_resource_entity_dict = patch_resource_entity_instance.to_dict()
-# create an instance of PatchResourceEntity from a dict
-patch_resource_entity_form_dict = patch_resource_entity.from_dict(patch_resource_entity_dict)
+# Create from JSON
+patch_resource_entity = PatchResourceEntity.from_json(
+    '{ "id": ..., "resourceTypeId": ..., "parentId": ..., "name": ..., "alias": ..., "lastMessageTimestamp": ..., "owner": ..., "icon": ..., "templates": ..., "tags": ..., "provider": ..., "providerId": ..., "customer": ..., "firmware": ..., "location": ..., "metrics": ..., "sensors": ... }'
+)
+
+# Export to dictionary
+patch_resource_entity_dict = patch_resource_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

@@ -2,28 +2,34 @@
 
 How measurements should be treated as a time series.
 
-## Properties
+**Source:** `waylay.services.resources.models.resource_metric_metric_type`
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
+
+
+## Union Type (One Of)
+
+This type allows one of the following:
+
+Type | Description
+------------ | -------------
+[**MetricTypeRate**](MetricTypeRate.md) | -
+[**MetricTypeCount**](MetricTypeCount.md) | -
+[**MetricTypeGauge**](MetricTypeGauge.md) | -
+[**MetricTypeCounter**](MetricTypeCounter.md) | -
+[**MetricTypeTimestamp**](MetricTypeTimestamp.md) | -
 
 ## Example
 
 ```python
-from waylay.services.resources.models.resource_metric_metric_type import ResourceMetricMetricType
+from waylay.services.resources.models.resource_metric_metric_type import (
+    ResourceMetricMetricType,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceMetricMetricType from a JSON string
-resource_metric_metric_type_instance = ResourceMetricMetricType.from_json(json)
-# print the JSON string representation of the object
-print ResourceMetricMetricType.to_json()
-
-# convert the object into a dict
-resource_metric_metric_type_dict = resource_metric_metric_type_instance.to_dict()
-# create an instance of ResourceMetricMetricType from a dict
-resource_metric_metric_type_form_dict = resource_metric_metric_type.from_dict(resource_metric_metric_type_dict)
+# Use any of the accepted types (see table above)
+my_resource_metric_metric_type: ResourceMetricMetricType = ...
 ```
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

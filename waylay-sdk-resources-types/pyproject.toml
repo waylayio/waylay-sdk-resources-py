@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "waylay-sdk-resources-types"
-version = "8.5.0rc20260304"
+version = "8.5.0.20260305"
 description = "Waylay Resources Types "
 authors = [
     { name = "Waylay", email = "info@waylay.io"}
@@ -13,7 +13,7 @@ keywords = ["Waylay Resources" , "Types"]
 requires-python = ">= 3.10"
 dependencies = [
     "waylay-sdk-core ~= 1.0",
-    "waylay-sdk-resources == 8.5.0rc20260304",
+    "waylay-sdk-resources == 8.5.0.20260305",
 ]
 readme = "README.md"
 license={file = "LICENSE.txt"}

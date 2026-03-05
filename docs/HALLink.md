@@ -1,29 +1,34 @@
 # HALLink
 
 
+**Source:** `waylay.services.resources.models.hal_link`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **href** | **str** | (Relative) URL of the entity. | 
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.hal_link import HALLink
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of HALLink from a JSON string
-hal_link_instance = HALLink.from_json(json)
-# print the JSON string representation of the object
-print HALLink.to_json()
+hal_link = HALLink(href=...)
 
-# convert the object into a dict
-hal_link_dict = hal_link_instance.to_dict()
-# create an instance of HALLink from a dict
-hal_link_form_dict = hal_link.from_dict(hal_link_dict)
+# Create from JSON
+hal_link = HALLink.from_json('{ "href": ... }')
+
+# Export to dictionary
+hal_link_dict = hal_link.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

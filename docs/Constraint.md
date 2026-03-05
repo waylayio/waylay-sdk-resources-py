@@ -2,6 +2,11 @@
 
 Constraint on the attributes of a Resource
 
+**Source:** `waylay.services.resources.models.constraint`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -11,23 +16,25 @@ Name | Type | Description | Notes
 **tags** | **List[str]** |  | [optional] 
 **attributes** | [**List[AttributeItem]**](AttributeItem.md) | List of attribute descriptions | 
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.constraint import Constraint
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of Constraint from a JSON string
-constraint_instance = Constraint.from_json(json)
-# print the JSON string representation of the object
-print Constraint.to_json()
+constraint = Constraint(name=..., description=..., tags=..., attributes=...)
 
-# convert the object into a dict
-constraint_dict = constraint_instance.to_dict()
-# create an instance of Constraint from a dict
-constraint_form_dict = constraint.from_dict(constraint_dict)
+# Create from JSON
+constraint = Constraint.from_json(
+    '{ "name": ..., "description": ..., "tags": ..., "attributes": ... }'
+)
+
+# Export to dictionary
+constraint_dict = constraint.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

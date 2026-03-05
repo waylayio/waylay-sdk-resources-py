@@ -1,6 +1,11 @@
 # CloudMetadataEventData
 
 
+**Source:** `waylay.services.resources.models.cloud_metadata_event_data`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -12,23 +17,29 @@ Name | Type | Description | Notes
 **data** | [**MetadataEvent**](MetadataEvent.md) |  | [optional] 
 **time** | **datetime** |  | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.cloud_metadata_event_data import CloudMetadataEventData
+from waylay.services.resources.models.cloud_metadata_event_data import (
+    CloudMetadataEventData,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of CloudMetadataEventData from a JSON string
-cloud_metadata_event_data_instance = CloudMetadataEventData.from_json(json)
-# print the JSON string representation of the object
-print CloudMetadataEventData.to_json()
+cloud_metadata_event_data = CloudMetadataEventData(
+    id=..., source=..., subject=..., type=..., data=..., time=...
+)
 
-# convert the object into a dict
-cloud_metadata_event_data_dict = cloud_metadata_event_data_instance.to_dict()
-# create an instance of CloudMetadataEventData from a dict
-cloud_metadata_event_data_form_dict = cloud_metadata_event_data.from_dict(cloud_metadata_event_data_dict)
+# Create from JSON
+cloud_metadata_event_data = CloudMetadataEventData.from_json(
+    '{ "id": ..., "source": ..., "subject": ..., "type": ..., "data": ..., "time": ... }'
+)
+
+# Export to dictionary
+cloud_metadata_event_data_dict = cloud_metadata_event_data.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

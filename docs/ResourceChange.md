@@ -1,6 +1,11 @@
 # ResourceChange
 
 
+**Source:** `waylay.services.resources.models.resource_change`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -11,23 +16,27 @@ Name | Type | Description | Notes
 **change** | [**ResourceChangeChange**](ResourceChangeChange.md) |  | 
 **resource** | [**ResourceWithIdEntity**](ResourceWithIdEntity.md) |  | [optional] 
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.resource_change import ResourceChange
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceChange from a JSON string
-resource_change_instance = ResourceChange.from_json(json)
-# print the JSON string representation of the object
-print ResourceChange.to_json()
+resource_change = ResourceChange(
+    time=..., resource_id=..., user_id=..., change=..., resource=...
+)
 
-# convert the object into a dict
-resource_change_dict = resource_change_instance.to_dict()
-# create an instance of ResourceChange from a dict
-resource_change_form_dict = resource_change.from_dict(resource_change_dict)
+# Create from JSON
+resource_change = ResourceChange.from_json(
+    '{ "time": ..., "resourceId": ..., "userId": ..., "change": ..., "resource": ... }'
+)
+
+# Export to dictionary
+resource_change_dict = resource_change.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

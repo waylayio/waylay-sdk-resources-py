@@ -26,8 +26,6 @@ Create a new _Resource Type_.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -36,17 +34,21 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.resource_type_creation_response import ResourceTypeCreationResponse
-from waylay.services.resources.models.resource_type_with_constraints import ResourceTypeWithConstraints
+from waylay.services.resources.models.resource_type_creation_response import (
+    ResourceTypeCreationResponse,
+)
+from waylay.services.resources.models.resource_type_with_constraints import (
+    ResourceTypeWithConstraints,
+)
+
 try:
     # Create Resource Type
     # calls `POST /resources/v1/resourcetypes`
     api_response = await waylay_client.resources.resource_type.create(
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.resources.ResourceTypeWithConstraints() # ResourceTypeWithConstraints | 
+        json=waylay.services.resources.ResourceTypeWithConstraints(),  # ResourceTypeWithConstraints |
     )
-    print("The response of resources.resource_type.create:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.create: %s\n" % e)
 ```
@@ -98,8 +100,6 @@ Removes an existing _Resource Type_.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -112,7 +112,7 @@ try:
     # Remove Resource Type
     # calls `DELETE /resources/v1/resourcetypes/{resourceTypeId}`
     await waylay_client.resources.resource_type.delete(
-        waylay.services.resources.ResourceTypeId(), # resource_type_id | path param "resourceTypeId"
+        waylay.services.resources.ResourceTypeId(),  # resource_type_id | path param "resourceTypeId"
     )
 except ApiError as e:
     print("Exception when calling resources.resource_type.delete: %s\n" % e)
@@ -167,8 +167,6 @@ Retrieves a representation of the _Resource Type_.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -177,18 +175,19 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.resource_type_with_id_entity import ResourceTypeWithIdEntity
+from waylay.services.resources.models.resource_type_with_id_entity import (
+    ResourceTypeWithIdEntity,
+)
+
 try:
     # Get Resource Type
     # calls `GET /resources/v1/resourcetypes/{resourceTypeId}`
     api_response = await waylay_client.resources.resource_type.get(
-        waylay.services.resources.ResourceTypeId(), # resource_type_id | path param "resourceTypeId"
+        waylay.services.resources.ResourceTypeId(),  # resource_type_id | path param "resourceTypeId"
         # query parameters:
-        query = {
-        },
+        query={},
     )
-    print("The response of resources.resource_type.get:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.get: %s\n" % e)
 ```
@@ -203,8 +202,8 @@ Name     | Type  | API binding   | Description   | Notes
 -------- | ----- | ------------- | ------------- | -------------
 **resource_type_id** | **ResourceTypeId** | path parameter `"resourceTypeId"` | _Resource Type_ id | 
 **query** | [QueryParamTypes](Operation.md#req_arg_query) \| **None** | URL query parameter |  | 
-**query['field']** (dict) <br> **query.var_field** (Query) | [**List[str]**](str.md) | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
-**query['fields']** (dict) <br> **query.fields** (Query) | [**List[str]**](str.md) | query parameter `"fields"` | Select which attributes to render for each matching _Resource_ (comma-separated). | [optional] 
+**query['field']** (dict) <br> **query.var_field** (Query) | **List[str]** | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
+**query['fields']** (dict) <br> **query.fields** (Query) | **List[str]** | query parameter `"fields"` | Select which attributes to render for each matching _Resource_ (comma-separated). | [optional] 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type
@@ -243,8 +242,6 @@ Lists the change history of a _Resource Type_.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -254,17 +251,16 @@ waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_type_change import ResourceTypeChange
+
 try:
     # List Resource Type Changes
     # calls `GET /resources/v1/resourcetypes/{resourceTypeId}/changes`
     api_response = await waylay_client.resources.resource_type.list_changes(
-        waylay.services.resources.ResourceTypeId(), # resource_type_id | path param "resourceTypeId"
+        waylay.services.resources.ResourceTypeId(),  # resource_type_id | path param "resourceTypeId"
         # query parameters:
-        query = {
-        },
+        query={},
     )
-    print("The response of resources.resource_type.list_changes:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.list_changes: %s\n" % e)
 ```
@@ -318,8 +314,6 @@ Retrieves the resource constraints that are applicable for the _Resource Type_. 
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -328,15 +322,17 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
+from waylay.services.resources.models.resource_constraint_with_id_entity import (
+    ResourceConstraintWithIdEntity,
+)
+
 try:
     # Get Resource Type Constraints
     # calls `GET /resources/v1/resourcetypes/{resourceTypeId}/constraints`
     api_response = await waylay_client.resources.resource_type.list_constraints(
-        waylay.services.resources.ResourceTypeId(), # resource_type_id | path param "resourceTypeId"
+        waylay.services.resources.ResourceTypeId(),  # resource_type_id | path param "resourceTypeId"
     )
-    print("The response of resources.resource_type.list_constraints:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.list_constraints: %s\n" % e)
 ```
@@ -387,8 +383,6 @@ List _Resource Types_.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -399,17 +393,17 @@ waylay_client = WaylayClient.from_profile()
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.resource_type_id import ResourceTypeId
 from waylay.services.resources.models.resource_type_listing import ResourceTypeListing
+
 try:
     # List Resource Types
     # calls `GET /resources/v1/resourcetypes`
     api_response = await waylay_client.resources.resource_type.list(
         # query parameters:
-        query = {
-            'template': 'MonitoringTemplate_3443'
+        query={
+            "template": "MonitoringTemplate_3443",
         },
     )
-    print("The response of resources.resource_type.list:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.list: %s\n" % e)
 ```
@@ -425,8 +419,8 @@ Name     | Type  | API binding   | Description   | Notes
 **query** | [QueryParamTypes](Operation.md#req_arg_query) \| **None** | URL query parameter |  | 
 **query['skip']** (dict) <br> **query.skip** (Query) | **int** | query parameter `"skip"` | (Paging) items to skip in the listing | [optional] [default 0]
 **query['limit']** (dict) <br> **query.limit** (Query) | **int** | query parameter `"limit"` | (Paging) maximal number of items returned | [optional] [default 100]
-**query['field']** (dict) <br> **query.var_field** (Query) | [**List[str]**](str.md) | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
-**query['fields']** (dict) <br> **query.fields** (Query) | [**List[str]**](str.md) | query parameter `"fields"` | Select which attributes to render for each matching _Resource_ (comma-separated). | [optional] 
+**query['field']** (dict) <br> **query.var_field** (Query) | **List[str]** | query parameter `"field"` | Select which attributes to render for each matching _Resource_ (repeated). | [optional] 
+**query['fields']** (dict) <br> **query.fields** (Query) | **List[str]** | query parameter `"fields"` | Select which attributes to render for each matching _Resource_ (comma-separated). | [optional] 
 **query['filter']** (dict) <br> **query.filter** (Query) | **str** | query parameter `"filter"` | (Filter) fuzzy search on multiple fields. | [optional] 
 **query['query']** (dict) <br> **query.query** (Query) | **str** | query parameter `"query"` | Search string using a query language consisting of &gt; &#x60;&lt;metadata key&gt;:&lt;operation&gt;(&lt;arguments&gt;)&#x60;  Supported operations are - &#x60;eq&#x60;: equals - exact match - &#x60;in&#x60;: in - exact match - arguments are a (comma-separated) list of values - &#x60;lt&#x60;: smaller then - &#x60;lte&#x60;: smaller then or equal - &#x60;gt&#x60;: greater then - &#x60;gte&#x60;: greater then or equal - &#x60;ref&#x60;: references - argument should be uri /resources/&lt;resourceId&gt; - &#x60;exists&#x60;: check if the _Resource_ has the specified metadata key - no argument allowed - &#x60;like&#x60;: wildcard search - argument should contain * and/or ?  For more info see [Waylay Docs](/#/api/resources/?id&#x3D;metadata-query-language) | [optional] 
 **query['id']** (dict) <br> **query.id** (Query) | [**List[ResourceTypeId]**](ResourceTypeId.md) | query parameter `"id"` |  | [optional] 
@@ -468,8 +462,6 @@ Add or modify attributes of an existing _Resource Type_. Remove attributes by in
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -478,18 +470,22 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.patch_resource_type_entity import PatchResourceTypeEntity
-from waylay.services.resources.models.resource_type_creation_response import ResourceTypeCreationResponse
+from waylay.services.resources.models.patch_resource_type_entity import (
+    PatchResourceTypeEntity,
+)
+from waylay.services.resources.models.resource_type_creation_response import (
+    ResourceTypeCreationResponse,
+)
+
 try:
     # Create Or Update Resource Type
     # calls `PATCH /resources/v1/resourcetypes/{resourceTypeId}`
     api_response = await waylay_client.resources.resource_type.patch(
-        waylay.services.resources.ResourceTypeId(), # resource_type_id | path param "resourceTypeId"
+        waylay.services.resources.ResourceTypeId(),  # resource_type_id | path param "resourceTypeId"
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.resources.PatchResourceTypeEntity() # PatchResourceTypeEntity | 
+        json=waylay.services.resources.PatchResourceTypeEntity(),  # PatchResourceTypeEntity |
     )
-    print("The response of resources.resource_type.patch:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.patch: %s\n" % e)
 ```
@@ -543,8 +539,6 @@ Replaces a _Resource Types_ with a new representation.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -553,18 +547,22 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.resource_type_with_constraints import ResourceTypeWithConstraints
-from waylay.services.resources.models.resource_type_with_id_entity import ResourceTypeWithIdEntity
+from waylay.services.resources.models.resource_type_with_constraints import (
+    ResourceTypeWithConstraints,
+)
+from waylay.services.resources.models.resource_type_with_id_entity import (
+    ResourceTypeWithIdEntity,
+)
+
 try:
     # Update Resource Type
     # calls `PUT /resources/v1/resourcetypes/{resourceTypeId}`
     api_response = await waylay_client.resources.resource_type.replace(
-        waylay.services.resources.ResourceTypeId(), # resource_type_id | path param "resourceTypeId"
+        waylay.services.resources.ResourceTypeId(),  # resource_type_id | path param "resourceTypeId"
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.resources.ResourceTypeWithConstraints() # ResourceTypeWithConstraints | 
+        json=waylay.services.resources.ResourceTypeWithConstraints(),  # ResourceTypeWithConstraints |
     )
-    print("The response of resources.resource_type.replace:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.replace: %s\n" % e)
 ```
@@ -618,8 +616,6 @@ Initiates revalidation of the _Resource Constraints_ of this _Resource Type_ on 
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -628,15 +624,17 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.resource_type_with_id_entity import ResourceTypeWithIdEntity
+from waylay.services.resources.models.resource_type_with_id_entity import (
+    ResourceTypeWithIdEntity,
+)
+
 try:
     # Revalidate Resource Type
     # calls `POST /resources/v1/resourcetypes/{resourceTypeId}/revalidate`
     api_response = await waylay_client.resources.resource_type.revalidate(
-        waylay.services.resources.ResourceTypeId(), # resource_type_id | path param "resourceTypeId"
+        waylay.services.resources.ResourceTypeId(),  # resource_type_id | path param "resourceTypeId"
     )
-    print("The response of resources.resource_type.revalidate:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_type.revalidate: %s\n" % e)
 ```

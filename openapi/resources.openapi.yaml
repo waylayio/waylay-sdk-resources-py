@@ -789,6 +789,7 @@ paths:
             application/vnd.waylay.paged+json:
               schema:
                 type: object
+                x-classname: ResourceTypeConstraintsListing
                 allOf:
                 - properties:
                     values:
@@ -1152,6 +1153,7 @@ components:
       title: Cascade delete values
       items:
         type: string
+        x-classname: CascadeDeleteOption
         enum:
         - alarms
         - measurements
@@ -1584,8 +1586,10 @@ components:
       - properties:
           _links:
             type: object
+            x-classname: ResourceHALLinks
             properties:
               parent:
+                x-classname: ParentResourceLink
                 allOf:
                 - $ref: '#/components/schemas/HALIdLink'
                 - description: Link to the parent resource
@@ -1593,12 +1597,14 @@ components:
                     href: /resources/v1/resources/658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
                     id: 658c4fb3-d25a-4bfa-aeca-3fb0009e9a8a
               children:
+                x-classname: ChildrenResourceLink
                 allOf:
                 - $ref: '#/components/schemas/HALLink'
                 - description: Link to fetch the children of the resource
                   example:
                     href: /resources/v1/resources/d3d823f5-f214-4de8-7c0-f2c8c4db5ee1/children
               resourceType:
+                x-classname: ResourceTypeLink
                 allOf:
                 - $ref: '#/components/schemas/HALIdLink'
                 - description: Link to the resourceType for the resource
@@ -1607,6 +1613,7 @@ components:
                     id: 17b8b6ea-0573-4381-8088-8692f7938165
           _embedded:
             type: object
+            x-classname: ResourceHALEmbedded
             properties:
               resourceType:
                 $ref: '#/components/schemas/HALResourceTypeEntity'
@@ -1718,6 +1725,7 @@ components:
       - properties:
           _embedded:
             type: object
+            x-classname: ResourceListingHALEmbedded
             properties:
               values:
                 type: array
@@ -1849,21 +1857,26 @@ components:
           oneOf:
           - enum:
             - rate
+            x-classname: MetricTypeRate
             description: "A number per second (implies that unit ends on \u2018/s\u2019\
               )"
           - enum:
             - count
+            x-classname: MetricTypeCount
             description: A number per a given interval (such as a statsd flushInterval)
           - enum:
             - gauge
+            x-classname: MetricTypeGauge
             description: Values at each point in time
           - enum:
             - counter
+            x-classname: MetricTypeCounter
             description: "Keeps increasing over time (but might wrap/reset at some\
               \ point) i.e. a gauge with the added notion of \u201Ci usually want\
               \ to derive this to see the rate\u201D"
           - enum:
             - timestamp
+            x-classname: MetricTypeTimestamp
             description: "Value represents a unix timestamp. so basically a gauge\
               \ or counter but we know we can also render the \u201Cage\u201D at each\
               \ point."
@@ -2234,6 +2247,7 @@ components:
           type: array
           title: Array Must Contain
           items:
+            x-classname: ArrayContainValue
             oneOf:
             - type: boolean
             - type: number
@@ -2260,6 +2274,7 @@ components:
       oneOf:
       - $ref: '#/components/schemas/BatchResourceDeleteOperation'
       - $ref: '#/components/schemas/BatchResourceTypeDeleteOperation'
+      - $ref: '#/components/schemas/BatchResourcePatchOperation'
     BatchResourceDeleteOperation:
       title: Delete multiple resources in batch
       type: object
@@ -2321,6 +2336,45 @@ components:
       - entity
       - action
       - query
+    BatchResourcePatchOperation:
+      title: Patch or insert multiple resources in batch
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Type of entities to patch or insert
+          enum:
+          - resource
+        action:
+          type: string
+          enum:
+          - patchOrInsert
+        query:
+          $ref: '#/components/schemas/BatchResourcePatchOperationQuery'
+        actionParameters:
+          $ref: '#/components/schemas/BatchResourcePatchOperationActionParameters'
+      required:
+      - entity
+      - action
+      - query
+    BatchResourcePatchOperationQuery:
+      type: object
+      properties:
+        resources:
+          type: array
+          description: Array of resource objects to patch or insert
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PatchResourceEntity'
+      required:
+      - resources
+    BatchResourcePatchOperationActionParameters:
+      type: object
+      properties:
+        updateProtected:
+          type: boolean
+          description: Whether to allow updating protected entities
+          default: false
     BatchRunningResourceOperation:
       type: object
       title: Results of a running Batch Operation
@@ -2394,6 +2448,7 @@ components:
           $ref: '#/components/schemas/ISO8601Timestamp'
         results:
           type: object
+          x-classname: BatchOperationResults
           description: Operation results
           properties:
             success:
@@ -2781,6 +2836,13 @@ components:
             oneOf:
             - $ref: '#/components/schemas/MetadataEvent'
             - $ref: '#/components/schemas/CloudMetadataEvent'
+            example:
+              type: create
+              objectType: resource
+              timestamp: '2024-03-02T10:15:30.000Z'
+              resource:
+                id: 289dd1a3-35a7-44fa-8596-9aee3ad0b36f
+                name: sensor-device-001
         text/event-stream:
           schema:
             title: SSEventStream

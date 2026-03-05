@@ -1,6 +1,11 @@
 # ResourceSensorSensor
 
 
+**Source:** `waylay.services.resources.models.resource_sensor_sensor`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -9,23 +14,25 @@ Name | Type | Description | Notes
 **version** | **str** | The sensor version | [optional] 
 **properties** | **object** | Default sensor property configuration. | [optional] 
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.resource_sensor_sensor import ResourceSensorSensor
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceSensorSensor from a JSON string
-resource_sensor_sensor_instance = ResourceSensorSensor.from_json(json)
-# print the JSON string representation of the object
-print ResourceSensorSensor.to_json()
+resource_sensor_sensor = ResourceSensorSensor(name=..., version=..., properties=...)
 
-# convert the object into a dict
-resource_sensor_sensor_dict = resource_sensor_sensor_instance.to_dict()
-# create an instance of ResourceSensorSensor from a dict
-resource_sensor_sensor_form_dict = resource_sensor_sensor.from_dict(resource_sensor_sensor_dict)
+# Create from JSON
+resource_sensor_sensor = ResourceSensorSensor.from_json(
+    '{ "name": ..., "version": ..., "properties": ... }'
+)
+
+# Export to dictionary
+resource_sensor_sensor_dict = resource_sensor_sensor.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

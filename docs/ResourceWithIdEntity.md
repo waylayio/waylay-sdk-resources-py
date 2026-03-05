@@ -1,6 +1,11 @@
 # ResourceWithIdEntity
 
 
+**Source:** `waylay.services.resources.models.resource_with_id_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -23,23 +28,45 @@ Name | Type | Description | Notes
 **metrics** | [**List[ResourceMetric]**](ResourceMetric.md) | A documentation of possible measurements that are to be expected on _Waylay Events_ associated with this _Resource_. | [optional] 
 **sensors** | [**List[ResourceSensor]**](ResourceSensor.md) | Set of sensors that are applicable for a given _Resource_. Please note that there is no explicit action taken by the Waylay platform on this meta key. The idea behind this abstraction is to assist integrations where an architect of the digital twin can specify which sensors from waylay library are applicable for a given _Resource_ (or _Resource Type_). | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.resource_with_id_entity import ResourceWithIdEntity
+from waylay.services.resources.models.resource_with_id_entity import (
+    ResourceWithIdEntity,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceWithIdEntity from a JSON string
-resource_with_id_entity_instance = ResourceWithIdEntity.from_json(json)
-# print the JSON string representation of the object
-print ResourceWithIdEntity.to_json()
+resource_with_id_entity = ResourceWithIdEntity(
+    id=...,
+    resource_type_id=...,
+    parent_id=...,
+    name=...,
+    alias=...,
+    last_message_timestamp=...,
+    owner=...,
+    icon=...,
+    templates=...,
+    tags=...,
+    provider=...,
+    provider_id=...,
+    customer=...,
+    firmware=...,
+    location=...,
+    metrics=...,
+    sensors=...,
+)
 
-# convert the object into a dict
-resource_with_id_entity_dict = resource_with_id_entity_instance.to_dict()
-# create an instance of ResourceWithIdEntity from a dict
-resource_with_id_entity_form_dict = resource_with_id_entity.from_dict(resource_with_id_entity_dict)
+# Create from JSON
+resource_with_id_entity = ResourceWithIdEntity.from_json(
+    '{ "id": ..., "resourceTypeId": ..., "parentId": ..., "name": ..., "alias": ..., "lastMessageTimestamp": ..., "owner": ..., "icon": ..., "templates": ..., "tags": ..., "provider": ..., "providerId": ..., "customer": ..., "firmware": ..., "location": ..., "metrics": ..., "sensors": ... }'
+)
+
+# Export to dictionary
+resource_with_id_entity_dict = resource_with_id_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

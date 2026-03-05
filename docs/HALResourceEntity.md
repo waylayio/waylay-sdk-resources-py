@@ -2,11 +2,16 @@
 
 HAL Representation of a Waylay _Resource_
 
+**Source:** `waylay.services.resources.models.hal_resource_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**links** | [**HALResourceEntityAllOfLinks**](HALResourceEntityAllOfLinks.md) |  | 
+**links** | [**ResourceHALLinks**](ResourceHALLinks.md) |  | 
 **id** | [**ResourceId**](ResourceId.md) |  | 
 **resource_type_id** | [**ResourceTypeId**](ResourceTypeId.md) | Id of the linked _Resource Type_ | [optional] 
 **parent_id** | [**ResourceId**](ResourceId.md) | Id of the parent _Resource_ | [optional] 
@@ -24,25 +29,47 @@ Name | Type | Description | Notes
 **location** | [**MetadataEntityLocation**](MetadataEntityLocation.md) |  | [optional] 
 **metrics** | [**List[ResourceMetric]**](ResourceMetric.md) | A documentation of possible measurements that are to be expected on _Waylay Events_ associated with this _Resource_. | [optional] 
 **sensors** | [**List[ResourceSensor]**](ResourceSensor.md) | Set of sensors that are applicable for a given _Resource_. Please note that there is no explicit action taken by the Waylay platform on this meta key. The idea behind this abstraction is to assist integrations where an architect of the digital twin can specify which sensors from waylay library are applicable for a given _Resource_ (or _Resource Type_). | [optional] 
-**embedded** | [**HALResourceEntityAllOfEmbedded**](HALResourceEntityAllOfEmbedded.md) |  | [optional] 
+**embedded** | [**ResourceHALEmbedded**](ResourceHALEmbedded.md) |  | [optional] 
+
 
 ## Example
 
 ```python
 from waylay.services.resources.models.hal_resource_entity import HALResourceEntity
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of HALResourceEntity from a JSON string
-hal_resource_entity_instance = HALResourceEntity.from_json(json)
-# print the JSON string representation of the object
-print HALResourceEntity.to_json()
+hal_resource_entity = HALResourceEntity(
+    links=...,
+    id=...,
+    resource_type_id=...,
+    parent_id=...,
+    name=...,
+    alias=...,
+    last_message_timestamp=...,
+    owner=...,
+    icon=...,
+    templates=...,
+    tags=...,
+    provider=...,
+    provider_id=...,
+    customer=...,
+    firmware=...,
+    location=...,
+    metrics=...,
+    sensors=...,
+    embedded=...,
+)
 
-# convert the object into a dict
-hal_resource_entity_dict = hal_resource_entity_instance.to_dict()
-# create an instance of HALResourceEntity from a dict
-hal_resource_entity_form_dict = hal_resource_entity.from_dict(hal_resource_entity_dict)
+# Create from JSON
+hal_resource_entity = HALResourceEntity.from_json(
+    '{ "_links": ..., "id": ..., "resourceTypeId": ..., "parentId": ..., "name": ..., "alias": ..., "lastMessageTimestamp": ..., "owner": ..., "icon": ..., "templates": ..., "tags": ..., "provider": ..., "providerId": ..., "customer": ..., "firmware": ..., "location": ..., "metrics": ..., "sensors": ..., "_embedded": ... }'
+)
+
+# Export to dictionary
+hal_resource_entity_dict = hal_resource_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

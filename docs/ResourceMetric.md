@@ -2,6 +2,11 @@
 
 Describes a value that is expected to be present in the events sent to Waylay on behalf of this _Resource (Type)_. By default, such values will end up in the time series database, where each time series is identified by the _resource id_ and the _metric name_.  > Note: The Waylay System does not enforce any of the statements made in a _Resource Metric_ when > processing or retrieving data. As long as a user does not explicitly use this metadata to configure > behaviour, a _Resource Metric_ is purely a documentation entity.
 
+**Source:** `waylay.services.resources.models.resource_metric`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -15,23 +20,34 @@ Name | Type | Description | Notes
 **minimum** | **float** | Expected minimum value for this metric. | [optional] 
 **precision** | **float** | The metric value precision. | [optional] 
 
+
 ## Example
 
 ```python
 from waylay.services.resources.models.resource_metric import ResourceMetric
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceMetric from a JSON string
-resource_metric_instance = ResourceMetric.from_json(json)
-# print the JSON string representation of the object
-print ResourceMetric.to_json()
+resource_metric = ResourceMetric(
+    name=...,
+    value_type=...,
+    value_choices=...,
+    metric_type=...,
+    unit=...,
+    maximum=...,
+    minimum=...,
+    precision=...,
+)
 
-# convert the object into a dict
-resource_metric_dict = resource_metric_instance.to_dict()
-# create an instance of ResourceMetric from a dict
-resource_metric_form_dict = resource_metric.from_dict(resource_metric_dict)
+# Create from JSON
+resource_metric = ResourceMetric.from_json(
+    '{ "name": ..., "valueType": ..., "valueChoices": ..., "metricType": ..., "unit": ..., "maximum": ..., "minimum": ..., "precision": ... }'
+)
+
+# Export to dictionary
+resource_metric_dict = resource_metric.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

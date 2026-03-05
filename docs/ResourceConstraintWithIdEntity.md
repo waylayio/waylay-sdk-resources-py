@@ -1,6 +1,11 @@
 # ResourceConstraintWithIdEntity
 
 
+**Source:** `waylay.services.resources.models.resource_constraint_with_id_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -11,23 +16,29 @@ Name | Type | Description | Notes
 **tags** | **List[str]** |  | [optional] 
 **attributes** | [**List[AttributeItem]**](AttributeItem.md) | List of attribute descriptions | 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
+from waylay.services.resources.models.resource_constraint_with_id_entity import (
+    ResourceConstraintWithIdEntity,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceConstraintWithIdEntity from a JSON string
-resource_constraint_with_id_entity_instance = ResourceConstraintWithIdEntity.from_json(json)
-# print the JSON string representation of the object
-print ResourceConstraintWithIdEntity.to_json()
+resource_constraint_with_id_entity = ResourceConstraintWithIdEntity(
+    id=..., name=..., description=..., tags=..., attributes=...
+)
 
-# convert the object into a dict
-resource_constraint_with_id_entity_dict = resource_constraint_with_id_entity_instance.to_dict()
-# create an instance of ResourceConstraintWithIdEntity from a dict
-resource_constraint_with_id_entity_form_dict = resource_constraint_with_id_entity.from_dict(resource_constraint_with_id_entity_dict)
+# Create from JSON
+resource_constraint_with_id_entity = ResourceConstraintWithIdEntity.from_json(
+    '{ "id": ..., "name": ..., "description": ..., "tags": ..., "attributes": ... }'
+)
+
+# Export to dictionary
+resource_constraint_with_id_entity_dict = resource_constraint_with_id_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

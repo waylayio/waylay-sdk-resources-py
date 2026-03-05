@@ -2,6 +2,11 @@
 
 Specifies that a value must be one of the given strings.
 
+**Source:** `waylay.services.resources.models.string_enum_value_constraint`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,23 +15,29 @@ Name | Type | Description | Notes
 **enum_type** | [**StringValueConstraintType**](StringValueConstraintType.md) |  | 
 **items** | **List[str]** |  | 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.string_enum_value_constraint import StringEnumValueConstraint
+from waylay.services.resources.models.string_enum_value_constraint import (
+    StringEnumValueConstraint,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of StringEnumValueConstraint from a JSON string
-string_enum_value_constraint_instance = StringEnumValueConstraint.from_json(json)
-# print the JSON string representation of the object
-print StringEnumValueConstraint.to_json()
+string_enum_value_constraint = StringEnumValueConstraint(
+    type=..., enum_type=..., items=...
+)
 
-# convert the object into a dict
-string_enum_value_constraint_dict = string_enum_value_constraint_instance.to_dict()
-# create an instance of StringEnumValueConstraint from a dict
-string_enum_value_constraint_form_dict = string_enum_value_constraint.from_dict(string_enum_value_constraint_dict)
+# Create from JSON
+string_enum_value_constraint = StringEnumValueConstraint.from_json(
+    '{ "type": ..., "enumType": ..., "items": ... }'
+)
+
+# Export to dictionary
+string_enum_value_constraint_dict = string_enum_value_constraint.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

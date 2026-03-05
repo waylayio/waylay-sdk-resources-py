@@ -22,8 +22,6 @@ Creates a new _Resource Constraint_ from the given representation.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -33,16 +31,18 @@ waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.constraint import Constraint
-from waylay.services.resources.models.resource_constraint_creation_response import ResourceConstraintCreationResponse
+from waylay.services.resources.models.resource_constraint_creation_response import (
+    ResourceConstraintCreationResponse,
+)
+
 try:
     # Create Resource Constraint
     # calls `POST /resources/v1/resourceconstraints`
     api_response = await waylay_client.resources.resource_constraint.create(
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.resources.Constraint() # Constraint | 
+        json=waylay.services.resources.Constraint(),  # Constraint |
     )
-    print("The response of resources.resource_constraint.create:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_constraint.create: %s\n" % e)
 ```
@@ -93,8 +93,6 @@ Removes a _Resource Constraint_. Fails if the _Resource Constraint_ is already a
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -107,7 +105,7 @@ try:
     # Remove Resource Constraint
     # calls `DELETE /resources/v1/resourceconstraints/{resourceConstraintId}`
     await waylay_client.resources.resource_constraint.delete(
-        'resource_constraint_id_example', # resource_constraint_id | path param "resourceConstraintId"
+        "resource_constraint_id_example",  # resource_constraint_id | path param "resourceConstraintId"
     )
 except ApiError as e:
     print("Exception when calling resources.resource_constraint.delete: %s\n" % e)
@@ -160,8 +158,6 @@ Gets the definition or _JSON Schema_ representation of a _Resource Constraint_.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -170,15 +166,17 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
+from waylay.services.resources.models.resource_constraint_with_id_entity import (
+    ResourceConstraintWithIdEntity,
+)
+
 try:
     # Get Resource Constraint
     # calls `GET /resources/v1/resourceconstraints/{resourceConstraintId}`
     api_response = await waylay_client.resources.resource_constraint.get(
-        'resource_constraint_id_example', # resource_constraint_id | path param "resourceConstraintId"
+        "resource_constraint_id_example",  # resource_constraint_id | path param "resourceConstraintId"
     )
-    print("The response of resources.resource_constraint.get:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_constraint.get: %s\n" % e)
 ```
@@ -229,8 +227,6 @@ Lists _Resource Constraints_ that fulfill the given criteria.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -239,17 +235,18 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
-from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
+from waylay.services.resources.models.resource_constraint_with_id_entity import (
+    ResourceConstraintWithIdEntity,
+)
+
 try:
     # List Resource Constraints
     # calls `GET /resources/v1/resourceconstraints`
     api_response = await waylay_client.resources.resource_constraint.list(
         # query parameters:
-        query = {
-        },
+        query={},
     )
-    print("The response of resources.resource_constraint.list:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_constraint.list: %s\n" % e)
 ```
@@ -303,8 +300,6 @@ Replaces the full definition of a _Resource Constraint_. Fails if the _Resource 
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -314,17 +309,19 @@ waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-resources-types` is installed
 from waylay.services.resources.models.constraint import Constraint
-from waylay.services.resources.models.resource_constraint_with_id_entity import ResourceConstraintWithIdEntity
+from waylay.services.resources.models.resource_constraint_with_id_entity import (
+    ResourceConstraintWithIdEntity,
+)
+
 try:
     # Update Resource Constraint
     # calls `PUT /resources/v1/resourceconstraints/{resourceConstraintId}`
     api_response = await waylay_client.resources.resource_constraint.replace(
-        'resource_constraint_id_example', # resource_constraint_id | path param "resourceConstraintId"
+        "resource_constraint_id_example",  # resource_constraint_id | path param "resourceConstraintId"
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.resources.Constraint() # Constraint | 
+        json=waylay.services.resources.Constraint(),  # Constraint |
     )
-    print("The response of resources.resource_constraint.replace:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling resources.resource_constraint.replace: %s\n" % e)
 ```

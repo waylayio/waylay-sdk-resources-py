@@ -1,6 +1,11 @@
 # PatchResourceTypeEntity
 
 
+**Source:** `waylay.services.resources.models.patch_resource_type_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -18,23 +23,40 @@ Name | Type | Description | Notes
 **sensors** | **object** |  | [optional] 
 **constraints** | **List[str]** | Validation constraint to be applied to each _Resource_ that has its &#x60;resourceTypeId&#x60; attribute set to the &#x60;id&#x60; of this _Resource Type_. | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.patch_resource_type_entity import PatchResourceTypeEntity
+from waylay.services.resources.models.patch_resource_type_entity import (
+    PatchResourceTypeEntity,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of PatchResourceTypeEntity from a JSON string
-patch_resource_type_entity_instance = PatchResourceTypeEntity.from_json(json)
-# print the JSON string representation of the object
-print PatchResourceTypeEntity.to_json()
+patch_resource_type_entity = PatchResourceTypeEntity(
+    id=...,
+    name=...,
+    icon=...,
+    templates=...,
+    provider=...,
+    provider_id=...,
+    customer=...,
+    firmware=...,
+    location=...,
+    metrics=...,
+    sensors=...,
+    constraints=...,
+)
 
-# convert the object into a dict
-patch_resource_type_entity_dict = patch_resource_type_entity_instance.to_dict()
-# create an instance of PatchResourceTypeEntity from a dict
-patch_resource_type_entity_form_dict = patch_resource_type_entity.from_dict(patch_resource_type_entity_dict)
+# Create from JSON
+patch_resource_type_entity = PatchResourceTypeEntity.from_json(
+    '{ "id": ..., "name": ..., "icon": ..., "templates": ..., "provider": ..., "providerId": ..., "customer": ..., "firmware": ..., "location": ..., "metrics": ..., "sensors": ..., "$constraints": ... }'
+)
+
+# Export to dictionary
+patch_resource_type_entity_dict = patch_resource_type_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

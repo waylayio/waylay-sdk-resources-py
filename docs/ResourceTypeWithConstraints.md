@@ -1,6 +1,11 @@
 # ResourceTypeWithConstraints
 
 
+**Source:** `waylay.services.resources.models.resource_type_with_constraints`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -18,23 +23,40 @@ Name | Type | Description | Notes
 **sensors** | [**List[ResourceSensor]**](ResourceSensor.md) | Set of sensors that are applicable for a given _Resource_. Please note that there is no explicit action taken by the Waylay platform on this meta key. The idea behind this abstraction is to assist integrations where an architect of the digital twin can specify which sensors from waylay library are applicable for a given _Resource_ (or _Resource Type_). | [optional] 
 **constraints** | **List[str]** | Validation constraint to be applied to each _Resource_ that has its &#x60;resourceTypeId&#x60; attribute set to the &#x60;id&#x60; of this _Resource Type_. | [optional] 
 
+
 ## Example
 
 ```python
-from waylay.services.resources.models.resource_type_with_constraints import ResourceTypeWithConstraints
+from waylay.services.resources.models.resource_type_with_constraints import (
+    ResourceTypeWithConstraints,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of ResourceTypeWithConstraints from a JSON string
-resource_type_with_constraints_instance = ResourceTypeWithConstraints.from_json(json)
-# print the JSON string representation of the object
-print ResourceTypeWithConstraints.to_json()
+resource_type_with_constraints = ResourceTypeWithConstraints(
+    id=...,
+    name=...,
+    icon=...,
+    templates=...,
+    provider=...,
+    provider_id=...,
+    customer=...,
+    firmware=...,
+    location=...,
+    metrics=...,
+    sensors=...,
+    constraints=...,
+)
 
-# convert the object into a dict
-resource_type_with_constraints_dict = resource_type_with_constraints_instance.to_dict()
-# create an instance of ResourceTypeWithConstraints from a dict
-resource_type_with_constraints_form_dict = resource_type_with_constraints.from_dict(resource_type_with_constraints_dict)
+# Create from JSON
+resource_type_with_constraints = ResourceTypeWithConstraints.from_json(
+    '{ "id": ..., "name": ..., "icon": ..., "templates": ..., "provider": ..., "providerId": ..., "customer": ..., "firmware": ..., "location": ..., "metrics": ..., "sensors": ..., "$constraints": ... }'
+)
+
+# Export to dictionary
+resource_type_with_constraints_dict = resource_type_with_constraints.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 
